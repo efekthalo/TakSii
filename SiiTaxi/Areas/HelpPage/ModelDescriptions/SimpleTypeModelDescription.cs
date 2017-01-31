@@ -1,6 +1,0 @@
-namespace SiiTaxi.Areas.HelpPage.ModelDescriptions
-{
-    public class SimpleTypeModelDescription : ModelDescription
-    {
-    }
-}
