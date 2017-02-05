@@ -8,8 +8,12 @@ namespace SiiTaxi
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                "~/Scripts/jquery-{version}.js",
+                "~/Scripts/jquery-3.1.1.min.js",
                 "~/Scripts/jquery-ui.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/datepicker").Include(
+                "~/Scripts/moment-with-locales.js",
+                "~/Scripts/bootstrap-datetimepicker.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                 "~/Scripts/jquery.unobtrusive*",
@@ -38,6 +42,8 @@ namespace SiiTaxi
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                  "~/Content/bootstrap.css",
+                 "~/Content/bootstrap-theme.min.css",
+                 "~/Content/bootstrap-datetimepicker.min.css",
                  "~/Content/jquery-ui.css",
                  "~/Content/Site.css"));
         }

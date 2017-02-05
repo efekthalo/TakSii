@@ -7,32 +7,36 @@
     <title>@ViewBag.Title - TakSii</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
      @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
 
-    <div class="container-fluid">
-        <div class="header clearfix">
-            <nav>
-                <ul class="nav nav-pills float-right">
-                    <li class="nav-item">
-                        @Html.ActionLink("Przejazdy", "Index", "Taxi", null, new { @class = "nav-link" })
-                    </li>
-                    <li class="nav-item">
-                        @Html.ActionLink("Nowy przejazd", "New", "Taxi", null, new { @class = "nav-link" })
-                    </li>
-                    <li class="nav-item">
-                        @Html.ActionLink("Admin", "Index", "Admin", null, new { @class = "nav-link" })
-                    </li>
-                    @Html.Partial("_LoginPartial")
-                </ul>
-            </nav>
-            <h3 class="text-muted">@Html.ActionLink("TakSii", "Index", "Home")</h3>
-        </div>
+    <div class="container">
+ 
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Rozwiń</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("TakSii", "Index", "Home", null, new { @class = "navbar-brand" })
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>@Html.ActionLink("Przejazdy", "Index", "Taxi", null, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Nowy przejazd", "New", "Taxi", null, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Admin", "Index", "Admin", null, new { @class = "nav-link" })</li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
 
         <section>
-            <div class=" row justify-content-center">
-                <div class='col-8'>
+            <div class=" row">
+                <div class='col-md-10'>
                     @RenderBody()
                     </div>
                 </div>
@@ -46,6 +50,7 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/datepicker")
     @RenderSection("Scripts", required: false)
 </body>
 </html>
