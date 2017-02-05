@@ -1,0 +1,34 @@
+﻿@{
+    ViewBag.Title = "Przejazdy";
+}
+
+
+        <h2>Przejazdy</h2>
+        <div>
+            <table class="table">
+                <thead>
+                    <tr class="thead-inverse">
+                        <th>#</th>
+                        <th>Z</th>
+                        <th>Do</th>
+                        <th>Data</th>
+                        <th>Godzina</th>
+                        <th>Pasażerowie</th>
+                        <th>Akcja</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Przyklad Z</td>
+                        <td>Przykład Do</td>
+                        <td>Data</td>
+                        <td>Godzina</td>
+                        <td>Liczba pasazerow / miejsc w taxi</td>
+                        <td><button type="button" class="btn btn-small btn-success" onclick="location.href='@Url.Action("Include", "Taxi")';return false;">Dołącz</button></td>
+                    </tr>
+
+                </tbody>
+            </table>
+   
+</div>

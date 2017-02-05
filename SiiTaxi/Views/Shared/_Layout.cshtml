@@ -1,39 +1,46 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <title>@ViewBag.Title - SiiTaxi</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>@ViewBag.Title - TakSii</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    @Styles.Render("~/Content/css")
+     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("SiiTaxi", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Przejazdy na dziś", "Index", "Home", new { area = "" }, null)</li>
-                    <li>@Html.ActionLink("Admin", "Index", "Admin", new { area = "" }, null)</li>
+
+    <div class="container-fluid">
+        <div class="header clearfix">
+            <nav>
+                <ul class="nav nav-pills float-right">
+                    <li class="nav-item">
+                        @Html.ActionLink("Przejazdy", "Index", "Taxi", null, new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Nowy przejazd", "New", "Taxi", null, new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Admin", "Index", "Admin", null, new { @class = "nav-link" })
+                    </li>
+                    @Html.Partial("_LoginPartial")
                 </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
+            </nav>
+            <h3 class="text-muted">@Html.ActionLink("TakSii", "Index", "Home")</h3>
         </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        @RenderSection("SPAViews", required: false)
-        <hr />
+
+        <section>
+            <div class=" row justify-content-center">
+                <div class='col-8'>
+                    @RenderBody()
+                    </div>
+                </div>
+        </section>
         <footer>
-            <p>&copy; @DateTime.Now.Year - SiiTaxi</p>
+            <div class="text-center">
+                <p class="col-md-12">Sii Gdańsk &copy; @DateTime.Now.Year </p>
+            </div>
         </footer>
     </div>
 
