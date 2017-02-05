@@ -1,9 +1,27 @@
 ﻿@using SiiTaxi.Models;
+@model SiiTaxi.Models.TaxiViewModel
 @{
     ViewBag.Title = "Przejazdy";
 }
-
+<head>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
 <h2>Przejazdy</h2>
+<div class="editor-field">
+    @Html.EditorFor(model => Model.DateInput)
+    @Html.ValidationMessageFor(model => Model.DateInput)
+</div>
+<script>
+    $("#DateInput").datepicker({
+        onSelect: function (dateText) {
+            var param = this.value
+            var url = '@Url.Action("Index", "Taxi", new { date = "__param__" })';
+            location.href = url.replace('__param__', encodeURIComponent(param)); return false;
+        }
+    })
+</script>
 <div>
     <table class="table">
         <thead>
@@ -17,7 +35,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (Taxi objUser in Model)
+            @foreach (Taxi objUser in Model.Taxis)
             {
                 <tr>
                     <th scope="row">@objUser.TaxiId.ToString()</th>
