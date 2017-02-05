@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "Dołącz do przejazdu";
+}
+        <h3>Dołącz do przejazdu</h3>
+        <div>
+            <div>
+                <label>Miejsce początkowe: </label> Jakieś tam
+            </div>
+            <div>
+                <label>Miejsce docelowe: </label> inee
+            </div>
+            <div>
+                <label>Data: </label> dodac date
+            </div>
+            <div>
+                <div>
+                    <label>Godzina: </label> dodac godzine
+                </div>
+                <div>
+                    <label>Wpisz swoj email: </label>
+                    <input placeholder="Email" />
+                </div>
+                <p>
+                    <button class="btn btn-primary">Dołącz</button>
+                    <button class="btn btn-danger" onclick="location.href='@Url.Action("Index", "Taxi")'">Anuluj</button>
+                </p>
+            </div>
+</div>

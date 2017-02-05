@@ -5,7 +5,6 @@ using System.Web.Mvc;
 
 namespace SiiTaxi.Controllers
 {
-    [Authorize]
     public class HomeController : Controller
     {
         public ActionResult Index()
@@ -13,4 +12,5 @@ namespace SiiTaxi.Controllers
             return View();
         }
     }
+
 }
