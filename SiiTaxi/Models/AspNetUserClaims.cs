@@ -12,15 +12,13 @@ namespace SiiTaxi.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Taxi
+    public partial class AspNetUserClaims
     {
-        public int TaxiId { get; set; }
-        public string From { get; set; }
-        public string To { get; set; }
-        public int Owner { get; set; }
-        public System.DateTime Time { get; set; }
+        public int Id { get; set; }
+        public string UserId { get; set; }
+        public string ClaimType { get; set; }
+        public string ClaimValue { get; set; }
     
-        public virtual People OwnerFK { get; set; }
-        public virtual People Other { get; set; }
+        public virtual AspNetUsers AspNetUsers { get; set; }
     }
 }

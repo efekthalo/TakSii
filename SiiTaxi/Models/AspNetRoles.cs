@@ -12,23 +12,18 @@ namespace SiiTaxi.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class People
+    public partial class AspNetRoles
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public People()
+        public AspNetRoles()
         {
-            this.Taxi = new HashSet<Taxi>();
-            this.Other = new HashSet<Taxi>();
+            this.AspNetUsers = new HashSet<AspNetUsers>();
         }
     
-        public int PeopleId { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
-        public string Email { get; set; }
-        public string AltEmail { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Taxi> Taxi { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Taxi> Other { get; set; }
+        public virtual ICollection<AspNetUsers> AspNetUsers { get; set; }
     }
 }
