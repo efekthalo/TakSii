@@ -81,14 +81,28 @@
 
     var dodatkoweOsoby = 0;
     var maxOsob = 3;
+    var disabled = false;
 
     var dodajOsobe = function () {
-        dodatkoweOsoby++;
-        $('#dodatkoweOsoby').append("<div class=\"input-group dodatkowaOsoba\">" +
-                    "<input type=\"text\" class=\"form-control\" placeholder=\"Dodatkowa osoba " + dodatkoweOsoby + "\"><span class=\"input-group-addon btn btn-danger deleteDiv\">Usuń</span></div>")
+        if (!disabled) {
+            dodatkoweOsoby++;
+            $('#dodatkoweOsoby').append("<div class=\"input-group dodatkowaOsoba\">" +
+                        "<input type=\"text\" class=\"form-control\" placeholder=\"Imię i nazwisko dodatkowej osoby\"></div>")
+
+            $('#dodatkoweOsoby>.dodatkowaOsoba:last').append("<span class=\"input-group-addon btn btn-danger deleteDiv\">Usuń</span>").on("click", function () {
+                $(this).remove();
+                dodatkoweOsoby--;
+                if (dodatkoweOsoby < maxOsob) {
+                    disabled = false;
+                    console.log("LOL");
+                    $('#osobyButton').removeClass('disabled');
+                }
+            });
+        }
 
         if (dodatkoweOsoby >= maxOsob) {
             $('#osobyButton').addClass('disabled');
+            disabled = true;
 
 
         }
