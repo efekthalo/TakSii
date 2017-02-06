@@ -1,0 +1,74 @@
+﻿@model SiiTaxi.Models.Taxi
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Taxi</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.From)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.From)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.To)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.To)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OwnerID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OwnerID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ApproverID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApproverID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ownerConfirmed)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ownerConfirmed)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.approverConfirmed)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.approverConfirmed)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.TaxiID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

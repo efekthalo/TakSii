@@ -1,5 +1,4 @@
-﻿@using SiiTaxi.Models;
-@model SiiTaxi.Models.TaxiViewModel
+﻿@model IEnumerable<SiiTaxi.Models.Taxi>
 @{
     ViewBag.Title = "Przejazdy";
 }
@@ -32,15 +31,15 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (Taxi objUser in Model.Taxis)
-            {
+            @foreach (var item in Model)
+                {
                 <tr>
-                    <th scope="row">@objUser.TaxiId.ToString()</th>
-                    <td>@objUser.From.ToString()</td>
-                    <td>@objUser.To.ToString()</td>
-                    <td>@objUser.Time.ToString("HH:mm")</td>
-                    <td></td>
-                    <td><button type="button" class="btn btn-small btn-success" onclick="location.href='@Url.Action("Include", "Taxi", new { id = @objUser.TaxiId})';return false;">Dołącz</button></td>
+                    <th scope="row">@Html.DisplayFor(modelItem => item.TaxiID)</th>
+                    <td>@Html.DisplayFor(modelItem => item.From)</td>
+                    <td>@Html.DisplayFor(modelItem => item.To)</td>
+                    <td>@item.Date.ToString("HH:mm")</td>
+                    <td>@item.Passengers.Count</td>
+                    <td><button type="button" class="btn btn-small btn-success" onclick="location.href='@Url.Action("Include", "Taxi", new { id = @Html.DisplayFor(modelItem => item.TaxiID)})';return false;">Dołącz</button></td>
                 </tr>
                                                                                                    }
         </tbody>

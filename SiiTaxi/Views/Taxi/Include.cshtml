@@ -1,20 +1,21 @@
-﻿@{
+﻿@model SiiTaxi.Models.Taxi
+@{
     ViewBag.Title = "Dołącz do przejazdu";
 }
         <h3>Dołącz do przejazdu</h3>
         <div>
             <div>
-                <label>Miejsce początkowe: </label> Jakieś tam
+                <label>Miejsce początkowe: </label> @Html.DisplayFor(model => model.From)
             </div>
             <div>
-                <label>Miejsce docelowe: </label> inee
+                <label>Miejsce docelowe: </label> @Html.DisplayFor(model => model.To)
             </div>
             <div>
-                <label>Data: </label> dodac date
+                <label>Data: </label> @Model.Date.ToString("dd/MM/yyyy")
             </div>
             <div>
                 <div>
-                    <label>Godzina: </label> dodac godzine
+                    <label>Godzina: </label> @Model.Date.ToString("HH:mm")
                 </div>
                 <div>
                     <label>Wpisz swoj email: </label>
