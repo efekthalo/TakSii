@@ -1,0 +1,49 @@
+﻿@{
+    ViewBag.Title = "Administracja";
+}
+<h2>Administracja</h2>
+<ul class="nav nav-pills">
+    <li role="presentation">@Html.ActionLink("Home", "Index", "Admin")</li>
+    <li role="presentation" class="active">@Html.ActionLink("Taxi", "Taxi", "Admin")</li>
+    <li role="presentation">@Html.ActionLink("Approvers", "Approvers", "Admin")</li>
+</ul>
+
+<div>
+    <table class="table">
+        <thead>
+            <tr class="thead-inverse">
+                <th>#</th>
+                <th>Start</th>
+                <th>Cel</th>
+                <th>Godzina</th>
+                <th>Pasażerowie</th>
+                <th>PO</th>
+                <th>PA</th>
+                <th>Kod Taxi</th>
+                <th>Akcja</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <th scope="row">1</th>
+                <td>Gdansk</td>
+                <td>Gdynia</td>
+                <td>13:20</td>
+                <td>
+                    <ul>
+                        <li>Adam Kowalski <span class="badge">owner</span></li>
+                        <li>Lukasz Nowak</li>
+                        <li>Karolina Nowak</li>
+
+                    </ul></td>
+
+                <td style="text-align: center;"><span class="glyphicon glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+                <td style="text-align: center;"><span class="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span></td>
+                <td><input type="text" class="form-control" id="code"></td>
+                <td><button type="button" class="btn btn-small btn-success" onclick="location.href='@Url.Action("Include", "Taxi", new { id = "id" })';return false;">Wyslij kod</button></td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
