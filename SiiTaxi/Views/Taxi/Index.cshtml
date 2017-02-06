@@ -38,22 +38,26 @@
                     <th scope="row">@objUser.TaxiId.ToString()</th>
                     <td>@objUser.From.ToString()</td>
                     <td>@objUser.To.ToString()</td>
-                    <td>@objUser.Time.ToString()</td>
+                    <td>@objUser.Time.ToString("HH:mm")</td>
                     <td></td>
-                    <td><button type="button" class="btn btn-small btn-success" onclick="location.href='@Url.Action("Include", "Taxi")';return false;">Dołącz</button></td>
+                    <td><button type="button" class="btn btn-small btn-success" onclick="location.href='@Url.Action("Include", "Taxi", new { id = @objUser.TaxiId})';return false;">Dołącz</button></td>
                 </tr>
-            }
+                                                                                                   }
         </tbody>
     </table>
 </div>
 
 @section scripts {
-<script>
+    <script>
 
     $(function () {
+        var date = getParameterByName("date", window.location.href);
+
+        var choosenDate = date ? new Date(date) : new Date();
+
         $('#datetimepicker10').datetimepicker({
             locale: 'pl',
-            defaultDate: new Date('@DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss")'),
+            defaultDate: choosenDate,
             viewMode: 'days',
             format: 'DD/MM/YYYY'
         }).on("dp.change", function (e) {
@@ -64,5 +68,17 @@
         });
     })
 
-</script>
-  }
+    function getParameterByName(name, url) {
+        if (!url) {
+            url = window.location.href;
+        }
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    </script>
+}
