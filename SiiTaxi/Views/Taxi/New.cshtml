@@ -89,8 +89,10 @@
             $('#dodatkoweOsoby').append("<div class=\"input-group dodatkowaOsoba\">" +
                         "<input type=\"text\" class=\"form-control\" placeholder=\"Imię i nazwisko dodatkowej osoby\"></div>")
 
-            $('#dodatkoweOsoby>.dodatkowaOsoba:last').append("<span class=\"input-group-addon btn btn-danger deleteDiv\">Usuń</span>").on("click", function () {
-                $(this).remove();
+            $('#dodatkoweOsoby>.dodatkowaOsoba:last').append("<span class=\"input-group-addon btn btn-danger deleteDiv\">Usuń</span>")
+
+            $(".deleteDiv").on("click", function () {
+                $(this).parent().remove();
                 dodatkoweOsoby--;
                 if (dodatkoweOsoby < maxOsob) {
                     disabled = false;
