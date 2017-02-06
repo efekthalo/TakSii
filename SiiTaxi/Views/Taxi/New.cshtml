@@ -3,9 +3,9 @@
 }
 
         <h2>Nowy przejazd</h2>
-        <form>
+        <form method="post" action="@Url.Action("New", "Taxi")">
             <div class="form-group">
-                <label for="ownerName">Zgłaszający</label>
+                <label for="ownerName">Zgłaszający:</label>
                 <input type="text" class="form-control" id="ownerName" name="ownerName" placeholder="Imię i nazwisko">
                 <input type="tel" class="form-control" id="ownerphone" name="ownerphone" placeholder="Numer telefonu">
                 <input type="email" class="form-control" id="owner" name="owner" aria-describedby="emailHelp" placeholder="E-mail">
@@ -14,7 +14,7 @@
 
 
             <div class="form-group">
-                <label for="datetimepicker10">Wybierz datę oraz godzinę</label>
+                <label for="datetimepicker10">Data i godzina przejazdu:</label>
                 <div class='input-group date' id='datetimepicker10'>
                     <input type='text' class="form-control" />
                     <span class="input-group-addon">
@@ -25,9 +25,9 @@
             </div>
 
                 <div class="form-group">
-                    <label for="przejazdFrom">Miejsce początkowe</label>
+                    <label for="przejazdFrom">Miejsce początkowe:</label>
                     <input type="text" class="form-control" id="przejazdFrom" name="przejazdFrom">
-                    <label for="przejazdTo">Miejsce docelowe</label>
+                    <label for="przejazdTo">Miejsce docelowe:</label>
                     <input type="text" class="form-control" id="przejazdTo" name="przejazdTo">
                 </div>
 
@@ -39,18 +39,23 @@
                         <option>Approver 3</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <button class="btn btn-primary">Dodaj osoby</button>
-                    <div class="form-check form-check-inline">
+            <div class="form-check form-check-inline">
                         <label class="form-check-label">
                             <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1"> Duża Taxówka
                         </label>
+                <br>
+                <br>
                     </div>
-                </div>
                 <div class="form-group">
-                    <label for="dodatkowaOsoba"> Dodatkowa osoba: </label>
-                    <input type="text" class="form-control" id="dodatkowaOsoba">
+                    <label>Dodatkowe osoby:</label>
                 </div>
+            <div class="form-group">
+                <span class="btn btn-success" id="osobyButton" onclick="dodajOsobe()">Dodaj osobę</span>
+            </div>
+            <div id="dodatkoweOsoby">
+
+            </div>
+            <br>
                 <button type="submit" class="btn btn-default">Zamów</button>
 </form>
 
@@ -62,12 +67,38 @@
                                 defaultDate: new Date('@DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss")'),
                                 viewMode: 'days',
                                 format: 'DD/MM/YYYY HH:mm'
-                            })
+                            });
 
+                           
 
-
+                            $(".deleteDiv").click(function (event) {
+                                event.preventDefault();
+                                $(this).parents('.dodatkowaOsoba').remove();
+                            });
 
 
                         })
+
+    var dodatkoweOsoby = 0;
+    var maxOsob = 3;
+
+    var dodajOsobe = function () {
+        dodatkoweOsoby++;
+        $('#dodatkoweOsoby').append("<div class=\"input-group dodatkowaOsoba\">" +
+                    "<input type=\"text\" class=\"form-control\" placeholder=\"Dodatkowa osoba " + dodatkoweOsoby + "\"><span class=\"input-group-addon btn btn-danger deleteDiv\">Usuń</span></div>")
+
+        if (dodatkoweOsoby >= maxOsob) {
+            $('#osobyButton').addClass('disabled');
+
+
+        }
+
+    };
+
+
+
+
+
 </script>
+    
 }
