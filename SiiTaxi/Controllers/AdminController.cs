@@ -12,5 +12,15 @@ namespace SiiTaxi.Controllers
         {
             return View();
         }
+
+        public ActionResult Taxi()
+        {
+            return View();
+        }
+
+        public ActionResult Approvers()
+        {
+            return View();
+        }
     }
 }

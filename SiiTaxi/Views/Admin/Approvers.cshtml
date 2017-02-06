@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "Administracja";
+}
+<h2>Administracja</h2>
+<ul class="nav nav-pills">
+    <li role="presentation">@Html.ActionLink("Home", "Index", "Admin")</li>
+    <li role="presentation">@Html.ActionLink("Taxi", "Taxi", "Admin")</li>
+    <li role="presentation" class="active">@Html.ActionLink("Approvers", "Approvers", "Admin")</li>
+</ul>
+
+<div>
+    <table class="table">
+        <thead>
+            <tr class="thead-inverse">
+                <th>#</th>
+                <th>Imię i nazwisko</th>
+                <th>E-mail</th>
+                <th>Telefon</th>
+                <th>Akcja</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <th scope="row">1</th>
+                <td>Paweł</td>
+                <td>Kowalski</td>
+                <td>p.kowalski@email.pl</td>
+                <td>0700100200</td>
+                <td><button type="button" class="btn btn-small btn-success" onclick="location.href='@Url.Action("Include", "Taxi", new { id = "td" })';return false;">Edytuj</button>
+                    <button type="button" class="btn btn-small btn-danger" onclick="location.href='@Url.Action("Include", "Taxi", new { id = "td" })';return false;">Usuń</button></td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+
