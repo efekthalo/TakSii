@@ -220,7 +220,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MeController.cs" />
-    <Compile Include="Controllers\TaxisController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -337,11 +336,6 @@
     <None Include="Project_Readme.html" />
     <Content Include="Views\Admin\Taxi.cshtml" />
     <Content Include="Views\Admin\Approvers.cshtml" />
-    <Content Include="Views\Taxis\Create.cshtml" />
-    <Content Include="Views\Taxis\Delete.cshtml" />
-    <Content Include="Views\Taxis\Details.cshtml" />
-    <Content Include="Views\Taxis\Edit.cshtml" />
-    <Content Include="Views\Taxis\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
