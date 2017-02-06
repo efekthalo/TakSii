@@ -9,26 +9,23 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <h2>Przejazdy</h2>
-<div class="editor-field">
-    @Html.EditorFor(model => Model.DateInput)
-    @Html.ValidationMessageFor(model => Model.DateInput)
+<div class="form-group">
+    <label for="datetimepicker10">Wybierz dzień:</label>
+    <div class='input-group date' id='datetimepicker10'>
+        <input type='text' class="form-control" />
+        <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar">
+            </span>
+        </span>
+    </div>
 </div>
-<script>
-    $("#DateInput").datepicker({
-        onSelect: function (dateText) {
-            var param = this.value
-            var url = '@Url.Action("Index", "Taxi", new { date = "__param__" })';
-            location.href = url.replace('__param__', encodeURIComponent(param)); return false;
-        }
-    })
-</script>
 <div>
     <table class="table">
         <thead>
             <tr class="thead-inverse">
                 <th>#</th>
-                <th>Z</th>
-                <th>Do</th>
+                <th>Start</th>
+                <th>Cel</th>
                 <th>Godzina</th>
                 <th>Pasażerowie</th>
                 <th>Akcja</th>
@@ -49,3 +46,23 @@
         </tbody>
     </table>
 </div>
+
+@section scripts {
+<script>
+
+    $(function () {
+        $('#datetimepicker10').datetimepicker({
+            locale: 'pl',
+            defaultDate: new Date('@DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss")'),
+            viewMode: 'days',
+            format: 'DD/MM/YYYY'
+        }).on("dp.change", function (e) {
+            var date = e.date.toDate().toISOString();
+            var url = '@Url.Action("Index", "Taxi", new { date= "__param__" })';
+            location.href = url.replace('__param__', encodeURIComponent(date));
+            return false;
+        });
+    })
+
+</script>
+  }
