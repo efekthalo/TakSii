@@ -6,6 +6,7 @@
     <li role="presentation">@Html.ActionLink("Home", "Index", "Admin")</li>
     <li role="presentation">@Html.ActionLink("Taxi", "Taxi", "Admin")</li>
     <li role="presentation" class="active">@Html.ActionLink("Approvers", "Approvers", "Admin")</li>
+    <li role="presentation">@Html.ActionLink("Zarządzaj kontem", "Index", "Manage")</li>
 </ul>
 
 <div>
@@ -23,8 +24,7 @@
 
             <tr>
                 <th scope="row">1</th>
-                <td>Paweł</td>
-                <td>Kowalski</td>
+                <td>Paweł Kowalski</td>
                 <td>p.kowalski@email.pl</td>
                 <td>0700100200</td>
                 <td><button type="button" class="btn btn-small btn-success" onclick="location.href='@Url.Action("Include", "Taxi", new { id = "td" })';return false;">Edytuj</button>
