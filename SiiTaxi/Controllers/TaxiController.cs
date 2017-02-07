@@ -1,6 +1,7 @@
 ﻿using SiiTaxi.Models;
 using System;
 using System.Web.Mvc;
+using SiiTaxi.ViewModels;
 
 namespace SiiTaxi.Controllers
 {
@@ -11,10 +12,18 @@ namespace SiiTaxi.Controllers
         //    return View(new TaxiViewModel(DateTime.Now));
         //}
 
+        [HttpGet]
         public ActionResult New()
         {
             return View();
         }
+
+        [HttpPost]
+        public ActionResult New(TaxiOrderViewModel taxiOrderViewModel)
+        {
+            return RedirectToAction("Index", "Taxi");
+        }
+
 
         public ActionResult Include()
         {
