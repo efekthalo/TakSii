@@ -7,16 +7,17 @@
     <div class="form-group">
         <label for="ownerName">Zgłaszający:</label>
         <input type="text" class="form-control" id="ownerName" name="ownerName" placeholder="Imię i nazwisko">
-        <input type="tel" class="form-control" id="ownerphone" name="ownerphone" placeholder="Numer telefonu">
-        <input type="email" class="form-control" id="owner" name="owner" aria-describedby="emailHelp" placeholder="E-mail">
+        <input type="tel" class="form-control" id="ownerPhone" name="ownerPhone" placeholder="Numer telefonu">
+        <input type="email" class="form-control" id="ownerEmail" name="ownerEmail" aria-describedby="emailHelp" placeholder="E-mail">
         <small id="emailHelp" class="form-text text-muted">Podaj swój e-mail w Sii.</small>
+        <input type="email" class="form-control" id="ownerAltEmail" name="ownerAltEmail" aria-describedby="emailHelp" placeholder="Alternatywny E-mail">
     </div>
 
 
     <div class="form-group">
         <label for="datetimepicker10">Data i godzina przejazdu:</label>
         <div class='input-group date' id='datetimepicker10'>
-            <input type='text' class="form-control" />
+            <input type='text' class="form-control" id="time" name="time"/>
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-calendar">
                 </span>
@@ -87,7 +88,7 @@
             if (!disabled) {
                 dodatkoweOsoby++;
                 $('#dodatkoweOsoby').append("<div class=\"input-group dodatkowaOsoba\">" +
-                            "<input type=\"text\" class=\"form-control\" placeholder=\"Imię i nazwisko dodatkowej osoby\"></div>")
+                            "<input type=\"text\" name=\"adds\" class=\"form-control\" placeholder=\"Imię i nazwisko dodatkowej osoby\"></div>")
 
                 $('#dodatkoweOsoby>.dodatkowaOsoba:last').append("<span class=\"input-group-addon btn btn-danger deleteDiv\">Usuń</span>")
 

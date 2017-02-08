@@ -18,7 +18,6 @@ namespace SiiTaxi.Models
         public SiiTaxiEntities()
             : base("name=SiiTaxiEntities")
         {
-			Database.SetInitializer(new CreateDatabaseIfNotExists<SiiTaxiEntities>());
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -33,5 +32,6 @@ namespace SiiTaxi.Models
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<People> People { get; set; }
         public virtual DbSet<Taxi> Taxi { get; set; }
+        public virtual DbSet<TaxiPeople> TaxiPeople { get; set; }
     }
 }

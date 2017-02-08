@@ -17,8 +17,8 @@ namespace SiiTaxi.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public People()
         {
+            this.TaxiPeople = new HashSet<TaxiPeople>();
             this.Taxi = new HashSet<Taxi>();
-            this.Other = new HashSet<Taxi>();
         }
     
         public int PeopleId { get; set; }
@@ -27,8 +27,8 @@ namespace SiiTaxi.Models
         public string AltEmail { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Taxi> Taxi { get; set; }
+        public virtual ICollection<TaxiPeople> TaxiPeople { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Taxi> Other { get; set; }
+        public virtual ICollection<Taxi> Taxi { get; set; }
     }
 }

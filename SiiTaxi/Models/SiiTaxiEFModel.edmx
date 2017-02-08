@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SiiTaxi.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SiiTaxi.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -87,10 +87,11 @@
         </EntityType>
         <EntityType Name="TaxiPeople">
           <Key>
-            <PropertyRef Name="TaxiId" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="TaxiId" Type="int" Nullable="false" />
-          <Property Name="PeopleId" Type="int" Nullable="false" />
+          <Property Name="TaxiId" Type="int" />
+          <Property Name="PeopleId" Type="int" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
@@ -149,8 +150,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Table_ToTable">
-          <End Role="Taxi" Type="Self.Taxi" Multiplicity="1" />
-          <End Role="TaxiPeople" Type="Self.TaxiPeople" Multiplicity="0..1" />
+          <End Role="Taxi" Type="Self.Taxi" Multiplicity="0..1" />
+          <End Role="TaxiPeople" Type="Self.TaxiPeople" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Taxi">
               <PropertyRef Name="TaxiId" />
@@ -161,7 +162,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Table_ToTable2">
-          <End Role="People" Type="Self.People" Multiplicity="1" />
+          <End Role="People" Type="Self.People" Multiplicity="0..1" />
           <End Role="TaxiPeople" Type="Self.TaxiPeople" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="People">
@@ -223,8 +224,7 @@
             <End Role="Taxi" EntitySet="Taxi" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SiiTaxi" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -287,29 +287,6 @@
           <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
           <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
         </EntityType>
-        <EntityType Name="People">
-          <Key>
-            <PropertyRef Name="PeopleId" />
-          </Key>
-          <Property Name="PeopleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="AltEmail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Taxi" Relationship="Self.FK_Taxi_ToTable" FromRole="People" ToRole="Taxi" />
-          <NavigationProperty Name="Other" Relationship="Self.TaxiPeople" FromRole="People" ToRole="Taxi" />
-        </EntityType>
-        <EntityType Name="Taxi">
-          <Key>
-            <PropertyRef Name="TaxiId" />
-          </Key>
-          <Property Name="TaxiId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="From" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="To" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Owner" Type="Int32" Nullable="false" />
-          <Property Name="Time" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="OwnerFK" Relationship="Self.FK_Taxi_ToTable" FromRole="Taxi" ToRole="People" />
-          <NavigationProperty Name="Other" Relationship="Self.TaxiPeople" FromRole="Taxi" ToRole="People" />
-        </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -338,9 +315,92 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="AspNetUserRoles">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="*" />
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="SiiTaxiEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <EntitySet Name="People" EntityType="SiiTaxi.People" />
+          <EntitySet Name="Taxi" EntityType="SiiTaxi.Taxi" />
+          <EntitySet Name="TaxiPeople" EntityType="SiiTaxi.TaxiPeople" />
+          <AssociationSet Name="FK_Table_ToTable2" Association="SiiTaxi.FK_Table_ToTable2">
+            <End Role="People" EntitySet="People" />
+            <End Role="TaxiPeople" EntitySet="TaxiPeople" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Taxi_ToTable" Association="SiiTaxi.FK_Taxi_ToTable">
+            <End Role="People" EntitySet="People" />
+            <End Role="Taxi" EntitySet="Taxi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_ToTable" Association="SiiTaxi.FK_Table_ToTable">
+            <End Role="Taxi" EntitySet="Taxi" />
+            <End Role="TaxiPeople" EntitySet="TaxiPeople" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="People">
+          <Key>
+            <PropertyRef Name="PeopleId" />
+          </Key>
+          <Property Name="PeopleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AltEmail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TaxiPeople" Relationship="SiiTaxi.FK_Table_ToTable2" FromRole="People" ToRole="TaxiPeople" />
+          <NavigationProperty Name="Taxi" Relationship="SiiTaxi.FK_Taxi_ToTable" FromRole="People" ToRole="Taxi" />
+        </EntityType>
+        <EntityType Name="Taxi">
+          <Key>
+            <PropertyRef Name="TaxiId" />
+          </Key>
+          <Property Name="TaxiId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="From" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="To" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Owner" Type="Int32" Nullable="false" />
+          <Property Name="Time" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="People" Relationship="SiiTaxi.FK_Taxi_ToTable" FromRole="Taxi" ToRole="People" />
+          <NavigationProperty Name="TaxiPeople" Relationship="SiiTaxi.FK_Table_ToTable" FromRole="Taxi" ToRole="TaxiPeople" />
+        </EntityType>
+        <EntityType Name="TaxiPeople">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="TaxiId" Type="Int32" />
+          <Property Name="PeopleId" Type="Int32" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="People" Relationship="SiiTaxi.FK_Table_ToTable2" FromRole="TaxiPeople" ToRole="People" />
+          <NavigationProperty Name="Taxi" Relationship="SiiTaxi.FK_Table_ToTable" FromRole="TaxiPeople" ToRole="Taxi" />
+        </EntityType>
+        <Association Name="FK_Table_ToTable2">
+          <End Type="SiiTaxi.People" Role="People" Multiplicity="0..1" />
+          <End Type="SiiTaxi.TaxiPeople" Role="TaxiPeople" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="People">
+              <PropertyRef Name="PeopleId" />
+            </Principal>
+            <Dependent Role="TaxiPeople">
+              <PropertyRef Name="PeopleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Taxi_ToTable">
-          <End Role="People" Type="Self.People" Multiplicity="1" />
-          <End Role="Taxi" Type="Self.Taxi" Multiplicity="*" />
+          <End Type="SiiTaxi.People" Role="People" Multiplicity="1" />
+          <End Type="SiiTaxi.Taxi" Role="Taxi" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="People">
               <PropertyRef Name="PeopleId" />
@@ -350,44 +410,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="AspNetUserRoles">
-          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="*" />
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
+        <Association Name="FK_Table_ToTable">
+          <End Type="SiiTaxi.Taxi" Role="Taxi" Multiplicity="0..1" />
+          <End Type="SiiTaxi.TaxiPeople" Role="TaxiPeople" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Taxi">
+              <PropertyRef Name="TaxiId" />
+            </Principal>
+            <Dependent Role="TaxiPeople">
+              <PropertyRef Name="TaxiId" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
-        <Association Name="TaxiPeople">
-          <End Role="Taxi" Type="Self.Taxi" Multiplicity="*" />
-          <End Role="People" Type="Self.People" Multiplicity="0..1" />
-        </Association>
-        <EntityContainer Name="SiiTaxiEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
-          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" />
-          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" />
-          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" />
-          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" />
-          <EntitySet Name="People" EntityType="Self.People" />
-          <EntitySet Name="Taxi" EntityType="Self.Taxi" />
-          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
-          </AssociationSet>
-          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Taxi_ToTable" Association="Self.FK_Taxi_ToTable">
-            <End Role="People" EntitySet="People" />
-            <End Role="Taxi" EntitySet="Taxi" />
-          </AssociationSet>
-          <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
-            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-          </AssociationSet>
-          <AssociationSet Name="TaxiPeople" Association="Self.TaxiPeople">
-            <End Role="Taxi" EntitySet="Taxi" />
-            <End Role="People" EntitySet="People" />
-          </AssociationSet>
-        </EntityContainer>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -448,27 +483,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="People">
-            <EntityTypeMapping TypeName="SiiTaxi.People">
-              <MappingFragment StoreEntitySet="People">
-                <ScalarProperty Name="PeopleId" ColumnName="PeopleId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="AltEmail" ColumnName="AltEmail" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Taxi">
-            <EntityTypeMapping TypeName="SiiTaxi.Taxi">
-              <MappingFragment StoreEntitySet="Taxi">
-                <ScalarProperty Name="TaxiId" ColumnName="TaxiId" />
-                <ScalarProperty Name="From" ColumnName="From" />
-                <ScalarProperty Name="To" ColumnName="To" />
-                <ScalarProperty Name="Owner" ColumnName="Owner" />
-                <ScalarProperty Name="Time" ColumnName="Time" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <AssociationSetMapping Name="AspNetUserRoles" TypeName="SiiTaxi.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
             <EndProperty Name="AspNetRoles">
               <ScalarProperty Name="Id" ColumnName="RoleId" />
@@ -477,15 +491,37 @@
               <ScalarProperty Name="Id" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
-          <AssociationSetMapping Name="TaxiPeople" TypeName="SiiTaxi.TaxiPeople" StoreEntitySet="TaxiPeople">
-            <EndProperty Name="Taxi">
-              <ScalarProperty Name="TaxiId" ColumnName="TaxiId" />
-            </EndProperty>
-            <EndProperty Name="People">
-              <ScalarProperty Name="PeopleId" ColumnName="PeopleId" />
-            </EndProperty>
-          </AssociationSetMapping>
-        </EntityContainerMapping>
+          <EntitySetMapping Name="People">
+            <EntityTypeMapping TypeName="SiiTaxi.People">
+              <MappingFragment StoreEntitySet="People">
+                <ScalarProperty Name="AltEmail" ColumnName="AltEmail" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PeopleId" ColumnName="PeopleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Taxi">
+            <EntityTypeMapping TypeName="SiiTaxi.Taxi">
+              <MappingFragment StoreEntitySet="Taxi">
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="To" ColumnName="To" />
+                <ScalarProperty Name="From" ColumnName="From" />
+                <ScalarProperty Name="TaxiId" ColumnName="TaxiId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TaxiPeople">
+            <EntityTypeMapping TypeName="SiiTaxi.TaxiPeople">
+              <MappingFragment StoreEntitySet="TaxiPeople">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PeopleId" ColumnName="PeopleId" />
+                <ScalarProperty Name="TaxiId" ColumnName="TaxiId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

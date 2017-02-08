@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Web;
 
 namespace SiiTaxi.Models
 {
@@ -40,12 +38,12 @@ namespace SiiTaxi.Models
             return list == null ? new List<Taxi>().AsQueryable() : list;
         }
 
-        protected Taxi GetEntityByKey(string key)
+        public Taxi GetEntityByKey(int key)
         {
             return _context.Taxi.Find(key);
         }
 
-        protected Taxi UpdateEntity(string key, Taxi update)
+        public Taxi UpdateEntity(int key, Taxi update)
         {
             var entity = GetEntityByKey(key);
             if (entity == null)
@@ -60,7 +58,7 @@ namespace SiiTaxi.Models
             return update;
         }
 
-        public void Delete(string key)
+        public void Delete(int key)
         {
             var customer = _context.Taxi.Find(key);
             _context.Taxi.Remove(customer);

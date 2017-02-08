@@ -1,32 +1,42 @@
 ﻿using SiiTaxi.Models;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace SiiTaxi.Controllers
 {
     public class TaxiController : Controller
     {
-        //public ActionResult Index()
-        //{
-        //    return View(new TaxiViewModel(DateTime.Now));
-        //}
         [HttpPost]
-        public ActionResult New(string ownerName)
+        public ActionResult New(string ownerName, string time, string ownerEmail, string OwnerAltEmail, string przejazdFrom, string przejazdTo, List<string> adds, TaxiViewModel taxiModel, PeopleViewModel peopleModel)
         {
+            DateTime parsedTime;
+            DateTime.TryParse(time, out parsedTime);
 
+            People owner = peopleModel.UpdatePeople(ownerName, ownerEmail, OwnerAltEmail);
+            
             Taxi taxi = new Taxi
             {
-                From = ModelState["ownerName"].Value,
-                Other = ModelState["ownerName"].Value,
-                Owner = ModelState["ownerName"].Value,
-                Time = ModelState["ownerName"].Value,
-                To = ModelState["ownerName"].Value
+                From = przejazdFrom,
+                Owner = owner.PeopleId,
+                Time = parsedTime,
+                To = przejazdTo
             };
 
-            var x = ModelState["ownerName"].Value;
+            taxiModel.UpdateEntity(-1, taxi);
+
+            foreach (var add in adds)
+            {
+                taxi.TaxiPeople.Add(new TaxiPeople { TaxiId = taxi.TaxiId, PeopleId = peopleModel.UpdatePeople(add, "", "").PeopleId });
+            }
+
+            taxiModel.UpdateEntity(-1, taxi);
+
             return View();
         }
 
+        [HttpGet]
         public ActionResult New()
         {
             return View();
