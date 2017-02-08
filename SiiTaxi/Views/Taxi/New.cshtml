@@ -1,7 +1,9 @@
 ﻿@{
     ViewBag.Title = "Nowy przejazd";
 }
-
+@section recaptcha {
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    }
         <h2>Nowy przejazd</h2>
         <form method="post" action="@Url.Action("New", "Taxi")">
             <div class="form-group">
@@ -56,6 +58,7 @@
 
             </div>
             <br>
+            <div class="g-recaptcha" data-sitekey="6LeaHxQUAAAAABEvGCO1MJTWJxE-0LxWCyGS3Jcc"></div>
                 <button type="submit" class="btn btn-default">Zamów</button>
 </form>
 
