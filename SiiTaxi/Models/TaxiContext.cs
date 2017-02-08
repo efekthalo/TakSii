@@ -9,6 +9,6 @@ namespace SiiTaxi.Models
     public class TaxiContext : DbContext
     {
         public DbSet<Taxi> Taxis { get; set; }
-            public DbSet<Person> People { get; set; }
+        public DbSet<Person> People { get; set; }
     }
 }

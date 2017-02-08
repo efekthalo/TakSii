@@ -7,13 +7,13 @@ namespace SiiTaxi.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class next : IMigrationMetadata
+    public sealed partial class alpha : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(next));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(alpha));
         
         string IMigrationMetadata.Id
         {
-            get { return "201702082120032_next"; }
+            get { return "201702082152259_alpha"; }
         }
         
         string IMigrationMetadata.Source

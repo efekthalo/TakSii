@@ -31,8 +31,8 @@ namespace SiiTaxi.Migrations
             //    );
             //
 
-            var jednaLista = new List<Person> { new Models.Person { Name = "Pierwszy pasa¿er" } , new Models.Person { Name = "Drugi pasa¿er" } };
-            var drugaLista = new List<Person> { new Models.Person { Name = "inny pasa¿er" }, new Models.Person { Name = "Drugi inny pasa¿er" } };
+            var jednaLista = new List<Person> { new Person { Name = "Pierwszy pasa¿er" } , new Person { Name = "Drugi pasa¿er" } };
+            var drugaLista = new List<Person> { new Person { Name = "inny pasa¿er" }, new Person { Name = "Drugi inny pasa¿er" } };
 
 
 
@@ -50,21 +50,21 @@ namespace SiiTaxi.Migrations
 
             context.Taxis.AddOrUpdate(x => x.TaxiID,
                 new Taxi("Intel", "Sii", DateTime.ParseExact("2017-02-08 14:40:52,531", "yyyy-MM-dd HH:mm:ss,fff",
-                                       System.Globalization.CultureInfo.InvariantCulture), 1, 2) { Passengers = jednaLista},
+                                       System.Globalization.CultureInfo.InvariantCulture)) { Passengers = jednaLista},
                 new Taxi("Wrzeszcz", "Sopot", DateTime.ParseExact("2017-02-07 12:40:52,531", "yyyy-MM-dd HH:mm:ss,fff",
-                                       System.Globalization.CultureInfo.InvariantCulture), 3, 4) { Passengers = drugaLista },
+                                       System.Globalization.CultureInfo.InvariantCulture)) { Passengers = drugaLista },
                 new Taxi("Sopot", "Oliwa", DateTime.ParseExact("2017-02-07 10:40:52,531", "yyyy-MM-dd HH:mm:ss,fff",
-                                       System.Globalization.CultureInfo.InvariantCulture), 3, 2),
+                                       System.Globalization.CultureInfo.InvariantCulture)),
                 new Taxi("Sii", "Lotnisko", DateTime.ParseExact("2017-02-09 15:40:52,531", "yyyy-MM-dd HH:mm:ss,fff",
-                                       System.Globalization.CultureInfo.InvariantCulture), 1, 5),
+                                       System.Globalization.CultureInfo.InvariantCulture)),
                 new Taxi("Gdañsk", "Sopot", DateTime.ParseExact("2017-02-08 17:50:52,531", "yyyy-MM-dd HH:mm:ss,fff",
-                                       System.Globalization.CultureInfo.InvariantCulture), 4, 2),
+                                       System.Globalization.CultureInfo.InvariantCulture)),
                 new Taxi("Gdynia", "Hel", DateTime.ParseExact("2017-02-08 07:20:52,531", "yyyy-MM-dd HH:mm:ss,fff",
-                                       System.Globalization.CultureInfo.InvariantCulture), 5, 1),
+                                       System.Globalization.CultureInfo.InvariantCulture)),
                 new Taxi("Przymorze", "Osowa", DateTime.ParseExact("2017-02-08 16:10:52,531", "yyyy-MM-dd HH:mm:ss,fff",
-                                       System.Globalization.CultureInfo.InvariantCulture), 4, 3),
+                                       System.Globalization.CultureInfo.InvariantCulture)),
                 new Taxi("Intel", "Lotnisko", DateTime.ParseExact("2017-02-08 14:40:52,531", "yyyy-MM-dd HH:mm:ss,fff",
-                                       System.Globalization.CultureInfo.InvariantCulture), 2, 1)
+                                       System.Globalization.CultureInfo.InvariantCulture))
                 );
         }
     }

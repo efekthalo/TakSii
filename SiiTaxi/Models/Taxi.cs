@@ -9,12 +9,10 @@ namespace SiiTaxi.Models
     {
         public Taxi() {}
 
-        public Taxi(string from, string to, DateTime date, int ownerId, int approverId) {
+        public Taxi(string from, string to, DateTime date) {
             this.From = from;
             this.To = to;
             this.Date = date;
-            this.OwnerID = ownerId;
-            this.ApproverID = approverId;
         }
 
         public int TaxiID { get; set; }
@@ -22,14 +20,12 @@ namespace SiiTaxi.Models
         public string To { get; set; }
         public DateTime Date { get; set; }
 
-        public int OwnerID { get; set; }
-        public virtual Person Owner { get; set; }
-
-        public int ApproverID { get; set; }
-        public virtual Person Approver { get; set; }
+        public Person Owner { get; set; }
+        public Person Approver { get; set; }
 
         public bool ownerConfirmed { get; set; }
         public bool approverConfirmed { get; set; }
+        public bool bigTaxi { get; set; }
 
         public virtual List<Person> Passengers { get; set; }
     }

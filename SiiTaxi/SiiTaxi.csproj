@@ -223,13 +223,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201702061846454_Initial.cs" />
-    <Compile Include="Migrations\201702061846454_Initial.Designer.cs">
-      <DependentUpon>201702061846454_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201702082142106_new.cs" />
+    <Compile Include="Migrations\201702082142106_new.Designer.cs">
+      <DependentUpon>201702082142106_new.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201702082120032_next.cs" />
-    <Compile Include="Migrations\201702082120032_next.Designer.cs">
-      <DependentUpon>201702082120032_next.cs</DependentUpon>
+    <Compile Include="Migrations\201702082152259_alpha.cs" />
+    <Compile Include="Migrations\201702082152259_alpha.Designer.cs">
+      <DependentUpon>201702082152259_alpha.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -345,11 +345,11 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201702061846454_Initial.resx">
-      <DependentUpon>201702061846454_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201702082142106_new.resx">
+      <DependentUpon>201702082142106_new.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702082120032_next.resx">
-      <DependentUpon>201702082120032_next.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201702082152259_alpha.resx">
+      <DependentUpon>201702082152259_alpha.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
