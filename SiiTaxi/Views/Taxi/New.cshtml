@@ -2,118 +2,118 @@
     ViewBag.Title = "Nowy przejazd";
 }
 
-        <h2>Nowy przejazd</h2>
-        <form method="post" action="@Url.Action("New", "Taxi")">
-            <div class="form-group">
-                <label for="ownerName">Zgłaszający:</label>
-                <input type="text" class="form-control" id="ownerName" name="ownerName" placeholder="Imię i nazwisko">
-                <input type="tel" class="form-control" id="ownerphone" name="ownerphone" placeholder="Numer telefonu">
-                <input type="email" class="form-control" id="owner" name="owner" aria-describedby="emailHelp" placeholder="E-mail">
-                <small id="emailHelp" class="form-text text-muted">Podaj swój e-mail w Sii.</small>
-            </div>
+<h2>Nowy przejazd</h2>
+<form method="post" action="@Url.Action("New", "Taxi")">
+    <div class="form-group">
+        <label for="ownerName">Zgłaszający:</label>
+        <input type="text" class="form-control" id="ownerName" name="ownerName" placeholder="Imię i nazwisko">
+        <input type="tel" class="form-control" id="ownerphone" name="ownerphone" placeholder="Numer telefonu">
+        <input type="email" class="form-control" id="owner" name="owner" aria-describedby="emailHelp" placeholder="E-mail">
+        <small id="emailHelp" class="form-text text-muted">Podaj swój e-mail w Sii.</small>
+    </div>
 
 
-            <div class="form-group">
-                <label for="datetimepicker10">Data i godzina przejazdu:</label>
-                <div class='input-group date' id='datetimepicker10'>
-                    <input type='text' class="form-control" />
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar">
-                        </span>
-                    </span>
-                </div>
-            </div>
+    <div class="form-group">
+        <label for="datetimepicker10">Data i godzina przejazdu:</label>
+        <div class='input-group date' id='datetimepicker10'>
+            <input type='text' class="form-control" />
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar">
+                </span>
+            </span>
+        </div>
+    </div>
 
-                <div class="form-group">
-                    <label for="przejazdFrom">Miejsce początkowe:</label>
-                    <input type="text" class="form-control" id="przejazdFrom" name="przejazdFrom">
-                    <label for="przejazdTo">Miejsce docelowe:</label>
-                    <input type="text" class="form-control" id="przejazdTo" name="przejazdTo">
-                </div>
+    <div class="form-group">
+        <label for="przejazdFrom">Miejsce początkowe:</label>
+        <input type="text" class="form-control" id="przejazdFrom" name="przejazdFrom">
+        <label for="przejazdTo">Miejsce docelowe:</label>
+        <input type="text" class="form-control" id="przejazdTo" name="przejazdTo">
+    </div>
 
-                <div class="form-group">
-                    <label for="exampleSelect1">Wybierz approvera:</label>
-                    <select class="form-control" id="exampleSelect1">
-                        <option>Approver 1</option>
-                        <option>Approver 2</option>
-                        <option>Approver 3</option>
-                    </select>
-                </div>
-            <div class="form-check form-check-inline">
-                        <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1"> Duża Taxówka
-                        </label>
-                <br>
-                <br>
-                    </div>
-                <div class="form-group">
-                    <label>Dodatkowe osoby:</label>
-                </div>
-            <div class="form-group">
-                <span class="btn btn-success" id="osobyButton" onclick="dodajOsobe()">Dodaj osobę</span>
-            </div>
-            <div id="dodatkoweOsoby">
+    <div class="form-group">
+        <label for="exampleSelect1">Wybierz approvera:</label>
+        <select class="form-control" id="exampleSelect1">
+            <option>Approver 1</option>
+            <option>Approver 2</option>
+            <option>Approver 3</option>
+        </select>
+    </div>
+    <div class="form-check form-check-inline">
+        <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1"> Duża Taxówka
+        </label>
+        <br>
+        <br>
+    </div>
+    <div class="form-group">
+        <label>Dodatkowe osoby:</label>
+    </div>
+    <div class="form-group">
+        <span class="btn btn-success" id="osobyButton" onclick="dodajOsobe()">Dodaj osobę</span>
+    </div>
+    <div id="dodatkoweOsoby">
 
-            </div>
-            <br>
-                <button type="submit" class="btn btn-default">Zamów</button>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-default">Zamów</button>
 </form>
 
 @section scripts {
-<script type="text/javascript">
-                        $(function () {
-                            $('#datetimepicker10').datetimepicker({
-                                locale: 'pl',
-                                defaultDate: new Date('@DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss")'),
-                                viewMode: 'days',
-                                format: 'DD/MM/YYYY HH:mm'
-                            });
-
-                           
-
-                            $(".deleteDiv").click(function (event) {
-                                event.preventDefault();
-                                $(this).parents('.dodatkowaOsoba').remove();
-                            });
-
-
-                        })
-
-    var dodatkoweOsoby = 0;
-    var maxOsob = 3;
-    var disabled = false;
-
-    var dodajOsobe = function () {
-        if (!disabled) {
-            dodatkoweOsoby++;
-            $('#dodatkoweOsoby').append("<div class=\"input-group dodatkowaOsoba\">" +
-                        "<input type=\"text\" class=\"form-control\" placeholder=\"Imię i nazwisko dodatkowej osoby\"></div>")
-
-            $('#dodatkoweOsoby>.dodatkowaOsoba:last').append("<span class=\"input-group-addon btn btn-danger deleteDiv\">Usuń</span>")
-
-            $(".deleteDiv").on("click", function () {
-                $(this).parent().remove();
-                dodatkoweOsoby--;
-                if (dodatkoweOsoby < maxOsob) {
-                    disabled = false;
-                    $('#osobyButton').removeClass('disabled');
-                }
+    <script type="text/javascript">
+        $(function () {
+            $('#datetimepicker10').datetimepicker({
+                locale: 'pl',
+                defaultDate: new Date('@DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss")'),
+                viewMode: 'days',
+                format: 'DD/MM/YYYY HH:mm'
             });
-        }
-
-        if (dodatkoweOsoby >= maxOsob) {
-            $('#osobyButton').addClass('disabled');
-            disabled = true;
-
-
-        }
-
-    };
 
 
 
+            $(".deleteDiv").click(function (event) {
+                event.preventDefault();
+                $(this).parents('.dodatkowaOsoba').remove();
+            });
 
 
-</script>
-    
+        })
+
+        var dodatkoweOsoby = 0;
+        var maxOsob = 3;
+        var disabled = false;
+
+        var dodajOsobe = function () {
+            if (!disabled) {
+                dodatkoweOsoby++;
+                $('#dodatkoweOsoby').append("<div class=\"input-group dodatkowaOsoba\">" +
+                            "<input type=\"text\" class=\"form-control\" placeholder=\"Imię i nazwisko dodatkowej osoby\"></div>")
+
+                $('#dodatkoweOsoby>.dodatkowaOsoba:last').append("<span class=\"input-group-addon btn btn-danger deleteDiv\">Usuń</span>")
+
+                $(".deleteDiv").on("click", function () {
+                    $(this).parent().remove();
+                    dodatkoweOsoby--;
+                    if (dodatkoweOsoby < maxOsob) {
+                        disabled = false;
+                        $('#osobyButton').removeClass('disabled');
+                    }
+                });
+            }
+
+            if (dodatkoweOsoby >= maxOsob) {
+                $('#osobyButton').addClass('disabled');
+                disabled = true;
+
+
+            }
+
+        };
+
+
+
+
+
+    </script>
+
 }

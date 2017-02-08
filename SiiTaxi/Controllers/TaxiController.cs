@@ -10,6 +10,22 @@ namespace SiiTaxi.Controllers
         //{
         //    return View(new TaxiViewModel(DateTime.Now));
         //}
+        [HttpPost]
+        public ActionResult New(string ownerName)
+        {
+
+            Taxi taxi = new Taxi
+            {
+                From = ModelState["ownerName"].Value,
+                Other = ModelState["ownerName"].Value,
+                Owner = ModelState["ownerName"].Value,
+                Time = ModelState["ownerName"].Value,
+                To = ModelState["ownerName"].Value
+            };
+
+            var x = ModelState["ownerName"].Value;
+            return View();
+        }
 
         public ActionResult New()
         {
