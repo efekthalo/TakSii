@@ -22,8 +22,6 @@ namespace SiiTaxi.Models
         public string Email { get; set; }
         public string EmailAlt { get; set; }
         public string Phone { get; set; }
-
-        public int TaxiID { get; set; }
-        public virtual Taxi Taxi { get; set; }
+        public bool IsApprover { get; set; }
     }
 }
