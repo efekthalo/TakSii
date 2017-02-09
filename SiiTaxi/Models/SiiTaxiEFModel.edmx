@@ -74,6 +74,8 @@
           <Property Name="Name" Type="nvarchar(max)" />
           <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
           <Property Name="AltEmail" Type="nvarchar(max)" />
+          <Property Name="IsApprover" Type="bit" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Taxi">
           <Key>
@@ -363,6 +365,8 @@
           <Property Name="AltEmail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="TaxiPeople" Relationship="SiiTaxi.FK_Table_ToTable2" FromRole="People" ToRole="TaxiPeople" />
           <NavigationProperty Name="Taxi" Relationship="SiiTaxi.FK_Taxi_ToTable" FromRole="People" ToRole="Taxi" />
+          <Property Name="IsApprover" Type="Boolean" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Taxi">
           <Key>
@@ -494,6 +498,8 @@
           <EntitySetMapping Name="People">
             <EntityTypeMapping TypeName="SiiTaxi.People">
               <MappingFragment StoreEntitySet="People">
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="IsApprover" ColumnName="IsApprover" />
                 <ScalarProperty Name="AltEmail" ColumnName="AltEmail" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Name" ColumnName="Name" />

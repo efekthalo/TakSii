@@ -8,12 +8,12 @@ namespace SiiTaxi.Controllers
     public class TaxiController : Controller
     {
         [HttpPost]
-        public ActionResult New(string ownerName, string time, string ownerEmail, string ownerAltEmail, string przejazdFrom, string przejazdTo, List<string> adds, TaxiViewModel taxiModel, PeopleViewModel peopleModel)
+        public ActionResult New(string ownerName, string ownerPhone, string time, string ownerEmail, string ownerAltEmail, string przejazdFrom, string przejazdTo, List<string> adds, TaxiViewModel taxiModel, PeopleViewModel peopleModel)
         {
             DateTime parsedTime;
             DateTime.TryParse(time, out parsedTime);
 
-            People owner = new People { Name = ownerName, Email = ownerEmail, AltEmail = ownerAltEmail };
+            People owner = new People { Name = ownerName, Email = ownerEmail, AltEmail = ownerAltEmail, Phone = ownerPhone };
             owner = peopleModel.UpdatePeopleByEmail(owner);
 
             Taxi taxi = new Taxi

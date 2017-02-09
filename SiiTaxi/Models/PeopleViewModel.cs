@@ -10,10 +10,13 @@ namespace SiiTaxi.Models
 
         public IQueryable<People> People;
 
+        public IQueryable<People> Approvers;
+
         public PeopleViewModel()
         {
             _context = new SiiTaxiEntities();
             People = Get();
+            Approvers = People.Where(x => x.IsApprover);
         }
 
         public IQueryable<People> Get()

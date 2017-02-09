@@ -25,6 +25,8 @@ namespace SiiTaxi.Models
         public string Name { get; set; }
         public string Email { get; set; }
         public string AltEmail { get; set; }
+        public bool IsApprover { get; set; }
+        public string Phone { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TaxiPeople> TaxiPeople { get; set; }
