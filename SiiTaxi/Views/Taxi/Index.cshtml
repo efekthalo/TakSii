@@ -40,7 +40,7 @@
                     <td>@objUser.To.ToString()</td>
                     <td>@objUser.Time.ToString("HH:mm")</td>
                     <td></td>
-                    <td><button type="button" class="btn btn-small btn-success" onclick="location.href='@Url.Action("Include", "Taxi", new { id = @objUser.TaxiId })';return false;">Dołącz</button></td>
+                    <td><button type="button" class="btn btn-small btn-success" onclick="location.href='@Url.Action("Include", "Taxi", new { id = objUser.TaxiId })';return false;">Dołącz</button></td>
                 </tr>
                                                                                                    }
         </tbody>

@@ -1,4 +1,6 @@
-﻿@{
+﻿@using SiiTaxi.Models;
+@model IQueryable<People>
+@{
     ViewBag.Title = "Nowy przejazd";
 }
 
@@ -38,10 +40,10 @@
 
     <div class="form-group">
         <label for="exampleSelect1">Wybierz approvera:</label>
-        <select class="form-control" id="exampleSelect1">
-            <option>Approver 1</option>
-            <option>Approver 2</option>
-            <option>Approver 3</option>
+        <select class="form-control"  name="approver" id="exampleSelect1">
+            @foreach (People approver in Model){
+            <option value="@approver.PeopleId">@approver.Name</option>
+            }
         </select>
     </div>
 
@@ -78,15 +80,6 @@
                 viewMode: 'days',
                 format: 'DD/MM/YYYY HH:mm'
             });
-
-
-
-            $(".deleteDiv").click(function (event) {
-                event.preventDefault();
-                $(this).parents('.dodatkowaOsoba').remove();
-            });
-
-
         })
 
         var dodatkoweOsoby = 0;

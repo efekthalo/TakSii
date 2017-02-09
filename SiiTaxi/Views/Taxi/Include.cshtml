@@ -1,4 +1,6 @@
-﻿@{
+﻿@using SiiTaxi.Models;
+@model SiiTaxi.Models.Taxi
+@{
     ViewBag.Title = "Dołącz do przejazdu";
 }
 @section recaptcha {
@@ -10,20 +12,20 @@
     <div class="panel panel-info">
         <div class="panel-heading">Informacje na temat przejazdu:</div>
         <div class="panel-body">
-            <label>Miejsce początkowe: </label> Jakieś tam
+            <label>Miejsce początkowe: </label> @Model.From
         </div>
         <div class="panel-body">
-            <label>Miejsce docelowe: </label> inee
+            <label>Miejsce docelowe: </label> @Model.To
         </div>
         <div class="panel-body">
-            <label>Data: </label> dodac date
+            <label>Data: </label> @Model.Time.ToString("dd/MM/yyyy")
         </div>
         <div class="panel-body">
-            <label>Godzina: </label> dodac godzine
+            <label>Godzina: </label> @Model.Time.ToString("HH:mm")
         </div>
     </div>
 
-    <form method="post" action="@Url.Action("New", "Taxi")">
+    <form method="post" action="@Url.Action("Include", "Taxi", new { id = Model.TaxiId })">
         <div class="form-group">
             <label for="name">Podaj swoje imię i nazwisko: </label>
             <input class="form-control" id="name" name="name" type="text" placeholder="Imię i nazwisko" />
