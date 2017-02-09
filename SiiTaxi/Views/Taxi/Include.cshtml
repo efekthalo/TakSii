@@ -3,47 +3,45 @@
 }
 @section recaptcha {
     <script src='https://www.google.com/recaptcha/api.js'></script>
-    }
+}
 
+<h3>Dołączanie do przejazdu</h3>
+<div>
+    <div class="panel panel-info">
+        <div class="panel-heading">Informacje na temat przejazdu:</div>
+        <div class="panel-body">
+            <label>Miejsce początkowe: </label> Jakieś tam
+        </div>
+        <div class="panel-body">
+            <label>Miejsce docelowe: </label> inee
+        </div>
+        <div class="panel-body">
+            <label>Data: </label> dodac date
+        </div>
+        <div class="panel-body">
+            <label>Godzina: </label> dodac godzine
+        </div>
+    </div>
 
-        <h3>Dołączanie do przejazdu</h3>
-        <div>
-            <div class="panel panel-info">
-                <div class="panel-heading">Informacje na temat przejazdu:</div>
-                <div class="panel-body">
-                    <label>Miejsce początkowe: </label> Jakieś tam
-                </div>
-                <div class="panel-body">
-                    <label>Miejsce docelowe: </label> inee
-                </div>
-                <div class="panel-body">
-                    <label>Data: </label> dodac date
-                </div>
-                <div class="panel-body">
-                    <label>Godzina: </label> dodac godzine
-                </div>
-            </div>
+    <form method="post" action="@Url.Action("New", "Taxi")">
+        <div class="form-group">
+            <label for="name">Podaj swoje imię i nazwisko: </label>
+            <input class="form-control" id="name" name="name" type="text" placeholder="Imię i nazwisko" />
+        </div>
+        <div class="form-group">
+            <label for="phone">Podaj swój numer telefonu: </label>
+            <input class="form-control" id="phone" name="phone" type="tel" placeholder="Telefon" />
+        </div>
+        <div class="form-group">
+            <label for="email">Wpisz swoj email: </label>
+            <input class="form-control" id="email" type="email" name="email" placeholder="Email" />
+        </div>
+        <br />
+        <div class="g-recaptcha" data-sitekey="6LeaHxQUAAAAABEvGCO1MJTWJxE-0LxWCyGS3Jcc"></div>
 
-            
-                <form method="post" action="@Url.Action("New", "Taxi")">
-                <div class="form-group">
-                    <label for="name">Podaj swoje imię i nazwisko: </label>
-                    <input class="form-control" id="name" name="name" type="text" placeholder="Imię i nazwisko" />
-                </div>
-                <div class="form-group">
-                    <label for="phone" >Podaj swój numer telefonu: </label>
-                    <input class="form-control" id="phone" name="phone" type="tel" placeholder="Telefon" />
-                </div>
-                <div class="form-group">
-                    <label for="email">Wpisz swoj email: </label>
-                    <input class="form-control" id="email" type="email" name="email" placeholder="Email" />
-                </div>
-                <br />
-                <div class="g-recaptcha" data-sitekey="6LeaHxQUAAAAABEvGCO1MJTWJxE-0LxWCyGS3Jcc"></div>
-        
-                   <br/>
-                    <button class="btn btn-primary" type="submit">Dołącz</button> <button class="btn btn-danger" onclick="location.href='@Url.Action("Index", "Taxi")'">Anuluj</button>
-                    </form>
-                    
-            
+        <br />
+        <button class="btn btn-primary" type="submit">Dołącz</button> 
+        <button class="btn btn-danger" onclick="location.href='@Url.Action("Index", "Taxi")'">Anuluj</button>
+    </form>
+
 </div>
