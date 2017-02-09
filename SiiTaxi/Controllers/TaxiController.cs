@@ -13,15 +13,14 @@ namespace SiiTaxi.Controllers
             DateTime parsedTime;
             DateTime.TryParse(time, out parsedTime);
 
-            People owner = new People { Name = ownerName, Email = ownerEmail, AltEmail = ownerAltEmail, Phone = ownerPhone };
-            owner = peopleModel.UpdatePeopleByEmail(owner);
+            var owner = new People { Name = ownerName, Email = ownerEmail, AltEmail = ownerAltEmail, Phone = ownerPhone };
 
             Taxi taxi = new Taxi
             {
                 From = przejazdFrom,
                 To = przejazdTo,
                 Time = parsedTime,
-                People = owner
+                Owner = peopleModel.UpdatePeopleByEmail(owner).PeopleId
             };
 
             taxiModel.UpdateEntity(taxi);
@@ -30,7 +29,7 @@ namespace SiiTaxi.Controllers
             {
                 foreach (var add in adds)
                 {
-                    var other = new People { Name = add, Email = "", AltEmail = "" };
+                    var other = new People { Name = add, Email = "" };
                     taxi.TaxiPeople.Add(new TaxiPeople { TaxiId = taxi.TaxiId, PeopleId = peopleModel.UpdatePeopleByName(other).PeopleId });
                 }
 
