@@ -29,15 +29,15 @@ namespace SiiTaxi.Models
             Taxis = Get(date);
         }
 
-        public TaxiViewModel(int id)
+        public TaxiViewModel(int id, string confirmString)
         {
             _context = new SiiTaxiEntities();
 
             ConfirmTemplate template = new ConfirmTemplate();
-            template.ConfirmationString = "AAAAAAAAAAA";
+            template.ConfirmationString = confirmString;
             var body = template.TransformText();
 
-            Emailer client = new Emailer("adam.guja@gmail.com","adam.guja@gmail.com",body);
+            Emailer client = new Emailer("adam.guja@gmail.com", "adam.guja@gmail.com", body);
             client.SendEmail();
         }
 
