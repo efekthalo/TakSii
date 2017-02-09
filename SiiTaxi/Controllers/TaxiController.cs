@@ -16,9 +16,9 @@ namespace SiiTaxi.Controllers
             return View();
         }
 
-        public ActionResult Include()
+        public ActionResult Include(int id)
         {
-            return View();
+            return View(new TaxiViewModel(id));
         }
 
         public ActionResult Index(DateTime? date = null)
