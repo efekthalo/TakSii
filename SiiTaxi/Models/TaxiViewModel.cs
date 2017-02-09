@@ -43,25 +43,27 @@ namespace SiiTaxi.Models
             return _context.Taxi.Find(key);
         }
 
-        public Taxi UpdateEntity(int key, Taxi update)
+        public Taxi UpdateEntity(Taxi update)
         {
-            var entity = GetEntityByKey(key);
+            var entity = GetEntityByKey(update.TaxiId);
             if (entity == null)
             {
                 _context.Taxi.Add(update);
             }
             else
             {
+                update.TaxiId = entity.TaxiId;
                 entity = update;
             }
+
             _context.SaveChanges();
-            return update;
+            return entity;
         }
 
-        public void Delete(int key)
+        public void Delete(Taxi delete)
         {
-            var customer = _context.Taxi.Find(key);
-            _context.Taxi.Remove(customer);
+            var taxi = GetEntityByKey(delete.TaxiId);
+            _context.Taxi.Remove(taxi);
             _context.SaveChanges();
         }
     }

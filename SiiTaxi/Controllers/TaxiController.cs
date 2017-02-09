@@ -1,7 +1,6 @@
 ﻿using SiiTaxi.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
 
 namespace SiiTaxi.Controllers
@@ -9,29 +8,34 @@ namespace SiiTaxi.Controllers
     public class TaxiController : Controller
     {
         [HttpPost]
-        public ActionResult New(string ownerName, string time, string ownerEmail, string OwnerAltEmail, string przejazdFrom, string przejazdTo, List<string> adds, TaxiViewModel taxiModel, PeopleViewModel peopleModel)
+        public ActionResult New(string ownerName, string time, string ownerEmail, string ownerAltEmail, string przejazdFrom, string przejazdTo, List<string> adds, TaxiViewModel taxiModel, PeopleViewModel peopleModel)
         {
             DateTime parsedTime;
             DateTime.TryParse(time, out parsedTime);
 
-            People owner = peopleModel.UpdatePeople(ownerName, ownerEmail, OwnerAltEmail);
-            
+            People owner = new People { Name = ownerName, Email = ownerEmail, AltEmail = ownerAltEmail };
+            owner = peopleModel.UpdatePeopleByEmail(owner);
+
             Taxi taxi = new Taxi
             {
                 From = przejazdFrom,
-                Owner = owner.PeopleId,
+                To = przejazdTo,
                 Time = parsedTime,
-                To = przejazdTo
+                People = owner
             };
 
-            taxiModel.UpdateEntity(-1, taxi);
+            taxiModel.UpdateEntity(taxi);
 
-            foreach (var add in adds)
+            if (adds != null)
             {
-                taxi.TaxiPeople.Add(new TaxiPeople { TaxiId = taxi.TaxiId, PeopleId = peopleModel.UpdatePeople(add, "", "").PeopleId });
-            }
+                foreach (var add in adds)
+                {
+                    var other = new People { Name = add, Email = "", AltEmail = "" };
+                    taxi.TaxiPeople.Add(new TaxiPeople { TaxiId = taxi.TaxiId, PeopleId = peopleModel.UpdatePeopleByName(other).PeopleId });
+                }
 
-            taxiModel.UpdateEntity(-1, taxi);
+                taxiModel.UpdateEntity(taxi);
+            }
 
             return View();
         }

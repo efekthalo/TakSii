@@ -27,31 +27,36 @@ namespace SiiTaxi.Models
             return _context.People.Find(key);
         }
 
+        public People GetEntityByEmail(string email)
+        {
+            return _context.People.FirstOrDefault(x => x.Email == email);
+        }
+
         public People GetEntityByName(string name)
         {
             return _context.People.FirstOrDefault(x => x.Name == name);
         }
 
-        public People UpdateEntity(int key, People update)
+        public People UpdatePeopleByKey(People update)
         {
-            var entity = GetEntityByKey(key);
-            if (entity == null)
-            {
-                _context.People.Add(update);
-            }
-            else
-            {
-                entity = update;
-            }
-            _context.SaveChanges();
-            return update;
+            var entity = GetEntityByKey(update.PeopleId);
+            return UpdatePeople(entity, update);
         }
 
-        internal People UpdatePeople(string add, string email, string altEmail)
+        internal People UpdatePeopleByEmail(People update)
         {
-            var update = new People { Name = add, Email = email, AltEmail = altEmail };
+            var entity = GetEntityByEmail(update.Email);
+            return UpdatePeople(entity, update);
+        }
 
-            var entity = GetEntityByName(add);
+        internal People UpdatePeopleByName(People update)
+        {
+            var entity = GetEntityByName(update.Name);
+            return UpdatePeople(entity, update);
+        }
+
+        internal People UpdatePeople(People entity, People update)
+        {
             if (entity == null)
             {
                 entity = _context.People.Add(update);
@@ -61,14 +66,15 @@ namespace SiiTaxi.Models
                 update.PeopleId = entity.PeopleId;
                 entity = update;
             }
+
             _context.SaveChanges();
             return entity;
         }
 
         public void Delete(int key)
         {
-            var customer = _context.People.Find(key);
-            _context.People.Remove(customer);
+            var people = _context.People.Find(key);
+            _context.People.Remove(people);
             _context.SaveChanges();
         }
     }
