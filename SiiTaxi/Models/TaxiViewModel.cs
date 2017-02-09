@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SiiTaxi.Email;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -24,6 +25,18 @@ namespace SiiTaxi.Models
             _context = new SiiTaxiEntities();
             DateInput = date;
             Taxis = Get(date);
+        }
+
+        public TaxiViewModel(int id)
+        {
+            _context = new SiiTaxiEntities();
+
+            ConfirmTemplate template = new ConfirmTemplate();
+            template.ConfirmationString = "AAAAAAAAAAA";
+            var body = template.TransformText();
+
+            Emailer client = new Emailer("adam.guja@gmail.com","adam.guja@gmail.com",body);
+            client.SendEmail();
         }
 
         public IQueryable<Taxi> Get()
