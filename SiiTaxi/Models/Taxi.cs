@@ -14,13 +14,20 @@ namespace SiiTaxi.Models
     
     public partial class Taxi
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Taxi()
+        {
+            this.TaxiPeople = new HashSet<TaxiPeople>();
+        }
+    
         public int TaxiId { get; set; }
         public string From { get; set; }
         public string To { get; set; }
         public int Owner { get; set; }
         public System.DateTime Time { get; set; }
     
-        public virtual People OwnerFK { get; set; }
-        public virtual People Other { get; set; }
+        public virtual People People { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TaxiPeople> TaxiPeople { get; set; }
     }
 }
