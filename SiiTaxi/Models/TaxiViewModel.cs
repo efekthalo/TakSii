@@ -1,9 +1,7 @@
 ﻿using SiiTaxi.Email;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Web;
 
 namespace SiiTaxi.Models
 {
@@ -53,30 +51,32 @@ namespace SiiTaxi.Models
             return list == null ? new List<Taxi>().AsQueryable() : list;
         }
 
-        protected Taxi GetEntityByKey(string key)
+        public Taxi GetEntityByKey(int key)
         {
             return _context.Taxi.Find(key);
         }
 
-        protected Taxi UpdateEntity(string key, Taxi update)
+        public Taxi UpdateEntity(Taxi update)
         {
-            var entity = GetEntityByKey(key);
+            var entity = GetEntityByKey(update.TaxiId);
             if (entity == null)
             {
                 _context.Taxi.Add(update);
             }
             else
             {
+                update.TaxiId = entity.TaxiId;
                 entity = update;
             }
+
             _context.SaveChanges();
-            return update;
+            return entity;
         }
 
-        public void Delete(string key)
+        public void Delete(Taxi delete)
         {
-            var customer = _context.Taxi.Find(key);
-            _context.Taxi.Remove(customer);
+            var taxi = GetEntityByKey(delete.TaxiId);
+            _context.Taxi.Remove(taxi);
             _context.SaveChanges();
         }
     }
