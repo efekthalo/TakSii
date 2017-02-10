@@ -1,8 +1,10 @@
 ﻿using SiiTaxi.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using SiiTaxi.Providers;
 
 namespace SiiTaxi.Controllers
 {
@@ -11,8 +13,17 @@ namespace SiiTaxi.Controllers
         [HttpPost]
         public ActionResult New(string ownerName, string ownerPhone, string time, string ownerEmail, string ownerAltEmail, string przejazdFrom, string przejazdTo, List<string> adds, TaxiViewModel taxiModel, PeopleViewModel peopleModel)
         {
+            string EncodedResponse = Request.Form["g-Recaptcha-Response"];
+            bool IsCaptchaValid = (ReCaptcha.Validate(EncodedResponse) == "True" ? true : false);
+
+            if (!IsCaptchaValid)
+            {
+                return RedirectToAction("Index", "Taxi");
+            }
+
+
             DateTime parsedTime;
-            DateTime.TryParse(time, out parsedTime);
+            DateTime.TryParseExact(time, "dd/MM/yyyy HH:mm", CultureInfo.CurrentCulture, DateTimeStyles.None, out parsedTime);
 
             var owner = new People { Name = ownerName, Email = ownerEmail, AltEmail = ownerAltEmail, Phone = ownerPhone };
 
@@ -41,10 +52,9 @@ namespace SiiTaxi.Controllers
         }
 
         [HttpGet]
-        public ActionResult New(PeopleViewModel peopleModel)
+        public ActionResult New()
         {
-            var approvers = peopleModel.Get().Where(x => x.IsApprover == true);
-            return View(approvers);
+            return View(new PeopleViewModel());
         }
 
         public ActionResult Include(int id)
@@ -55,6 +65,15 @@ namespace SiiTaxi.Controllers
         [HttpPost]
         public ActionResult Include(int id, string name, string phone, string email, TaxiViewModel taxiModel, PeopleViewModel peopleModel)
         {
+            string EncodedResponse = Request.Form["g-Recaptcha-Response"];
+            bool IsCaptchaValid = (ReCaptcha.Validate(EncodedResponse) == "True" ? true : false);
+
+            if (!IsCaptchaValid)
+            {
+                return RedirectToAction("Index", "Taxi");
+            }
+
+
             var taxi = new TaxiViewModel().GetEntityByKey(id);
 
             var person = new People()
@@ -65,7 +84,10 @@ namespace SiiTaxi.Controllers
             };
 
             taxi.TaxiPeople.Add(new TaxiPeople { TaxiId = taxi.TaxiId, PeopleId = peopleModel.UpdatePeopleByName(person).PeopleId });
-            return View();
+
+            taxiModel.UpdateEntity(taxi);
+
+            return RedirectToAction("Index", "Taxi");
         }
 
         public ActionResult Index(DateTime? date = null)

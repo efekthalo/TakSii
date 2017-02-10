@@ -6,7 +6,7 @@
 <ul class="nav nav-pills">
     <li role="presentation">@Html.ActionLink("Home", "Index", "Admin")</li>
     <li role="presentation" class="active">@Html.ActionLink("Taxi", "Taxi", "Admin")</li>
-    <li role="presentation">@Html.ActionLink("Approvers", "Approvers", "Admin")</li>
+    <li role="presentation">@Html.ActionLink("Approvers", "Index", "Approvers")</li>
     <li role="presentation">@Html.ActionLink("Zarządzaj kontem", "Index", "Manage")</li>
 </ul>
 
@@ -34,13 +34,13 @@
                     <td>@taxi.To</td>
                     <td>@taxi.Time.ToString("dd/MM/yyyy HH:mm")</td>
                     <td>
-                        <ul>
-                            <li>
+                        <ul class="list-group">
+                            <li class="list-group-item">
                                 @taxi.People.Name<span class="badge">owner</span>
                             </li>
                             @for (var i = 0; i < taxi.TaxiPeople.Count; i++)
                             {
-                                <li>@taxi.TaxiPeople.ElementAt(i).People.Name</li>
+                                <li class="list-group-item">@taxi.TaxiPeople.ElementAt(i).People.Name</li>
                             }
                         </ul>
                     </td>
