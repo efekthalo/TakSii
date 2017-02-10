@@ -1,15 +1,13 @@
-﻿using SiiTaxi.Email;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using SiiTaxi.Email;
 
 namespace SiiTaxi.Models
 {
     public class TaxiViewModel
     {
         private readonly SiiTaxiEntities _context;
-
-        public DateTime DateInput { get; set; }
 
         public IQueryable<Taxi> Taxis;
 
@@ -31,13 +29,15 @@ namespace SiiTaxi.Models
         {
             _context = new SiiTaxiEntities();
 
-            ConfirmTemplate template = new ConfirmTemplate();
+            var template = new ConfirmTemplate();
             template.ConfirmationString = "AAAAAAAAAAA";
             var body = template.TransformText();
 
-            Emailer client = new Emailer("adam.guja@gmail.com","adam.guja@gmail.com",body);
+            var client = new Emailer("adam.guja@gmail.com", "adam.guja@gmail.com", body);
             client.SendEmail();
         }
+
+        public DateTime DateInput { get; set; }
 
         public IQueryable<Taxi> Get()
         {
@@ -47,7 +47,8 @@ namespace SiiTaxi.Models
 
         public IQueryable<Taxi> Get(DateTime date)
         {
-            var list = Get().Where(x => x.Time.Year == date.Year && x.Time.Month == date.Month && x.Time.Day == date.Day);
+            var list =
+                Get().Where(x => (x.Time.Year == date.Year) && (x.Time.Month == date.Month) && (x.Time.Day == date.Day));
             return list == null ? new List<Taxi>().AsQueryable() : list;
         }
 

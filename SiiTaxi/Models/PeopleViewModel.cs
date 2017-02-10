@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace SiiTaxi.Models
@@ -8,9 +7,9 @@ namespace SiiTaxi.Models
     {
         private readonly SiiTaxiEntities _context;
 
-        public IQueryable<People> People;
-
         public IQueryable<People> Approvers;
+
+        public IQueryable<People> People;
 
         public PeopleViewModel()
         {

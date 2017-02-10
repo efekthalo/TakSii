@@ -3,9 +3,9 @@
 }
 
 @section recaptcha {
-    <script src='https://www.google.com/recaptcha/api.js'></script>
-    }
-    
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+}
+
 <h2>Nowy przejazd</h2>
 <form method="post" action="@Url.Action("New", "Taxi")">
     <div class="form-group">
@@ -20,8 +20,8 @@
 
     <div class="form-group">
         <label for="datetimepicker10">Data i godzina przejazdu:</label>
-        <div class='input-group date' id='datetimepicker10'>
-            <input type='text' class="form-control" id="time" name="time"/>
+        <div class="input-group date" id="datetimepicker10">
+            <input type="text" class="form-control" id="time" name="time"/>
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-calendar">
                 </span>
@@ -60,7 +60,7 @@
     <div class="form-group">
         <span class="btn btn-success" id="osobyButton" onclick="dodajOsobe()">Dodaj osobę</span>
     </div>
-    
+
     <div id="dodatkoweOsoby">
 
     </div>
@@ -70,45 +70,48 @@
 </form>
 
 @section scripts {
+
     <script type="text/javascript">
-        $(function () {
-            $('#datetimepicker10').datetimepicker({
-                locale: 'pl',
-                defaultDate: new Date('@DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss")'),
-                viewMode: 'days',
-                format: 'DD/MM/YYYY HH:mm'
-            });
+        $(function() {
+            $('#datetimepicker10')
+                .datetimepicker({
+                    locale: 'pl',
+                    defaultDate: new Date('@DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss")'),
+                    viewMode: 'days',
+                    format: 'DD/MM/YYYY HH:mm'
+                });
 
 
+            $(".deleteDiv")
+                .click(function(event) {
+                    event.preventDefault();
+                    $(this).parents('.dodatkowaOsoba').remove();
+                });
 
-            $(".deleteDiv").click(function (event) {
-                event.preventDefault();
-                $(this).parents('.dodatkowaOsoba').remove();
-            });
 
-
-        })
-
+        });
         var dodatkoweOsoby = 0;
-        var maxOsob = 3;
+        var maxOsob = 2;
         var disabled = false;
 
-        var dodajOsobe = function () {
+        var dodajOsobe = function() {
             if (!disabled) {
                 dodatkoweOsoby++;
-                $('#dodatkoweOsoby').append("<div class=\"input-group dodatkowaOsoba\">" +
-                            "<input type=\"text\" name=\"adds\" class=\"form-control\" placeholder=\"Imię i nazwisko dodatkowej osoby\"></div>")
-
-                $('#dodatkoweOsoby>.dodatkowaOsoba:last').append("<span class=\"input-group-addon btn btn-danger deleteDiv\">Usuń</span>")
-
-                $(".deleteDiv").on("click", function () {
-                    $(this).parent().remove();
-                    dodatkoweOsoby--;
-                    if (dodatkoweOsoby < maxOsob) {
-                        disabled = false;
-                        $('#osobyButton').removeClass('disabled');
-                    }
-                });
+                $('#dodatkoweOsoby')
+                    .append("<div class=\"input-group dodatkowaOsoba\">" +
+                        "<input type=\"text\" name=\"adds\" class=\"form-control\" placeholder=\"Imię i nazwisko dodatkowej osoby\"></div>");
+                $('#dodatkoweOsoby > .dodatkowaOsoba:last')
+                    .append("<span class=\"input-group-addon btn btn-danger deleteDiv\">Usuń</span>");
+                $(".deleteDiv")
+                    .on("click",
+                        function() {
+                            $(this).parent().remove();
+                            dodatkoweOsoby--;
+                            if (dodatkoweOsoby < maxOsob) {
+                                disabled = false;
+                                $('#osobyButton').removeClass('disabled');
+                            }
+                        });
             }
 
             if (dodatkoweOsoby >= maxOsob) {
@@ -119,10 +122,6 @@
             }
 
         };
-
-
-
-
 
     </script>
 

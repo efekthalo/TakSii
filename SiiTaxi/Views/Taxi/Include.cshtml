@@ -2,7 +2,7 @@
     ViewBag.Title = "Dołącz do przejazdu";
 }
 @section recaptcha {
-    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
 }
 
 <h3>Dołączanie do przejazdu</h3>
@@ -26,22 +26,22 @@
     <form method="post" action="@Url.Action("New", "Taxi")">
         <div class="form-group">
             <label for="name">Podaj swoje imię i nazwisko: </label>
-            <input class="form-control" id="name" name="name" type="text" placeholder="Imię i nazwisko" />
+            <input class="form-control" id="name" name="name" type="text" placeholder="Imię i nazwisko"/>
         </div>
         <div class="form-group">
             <label for="phone">Podaj swój numer telefonu: </label>
-            <input class="form-control" id="phone" name="phone" type="tel" placeholder="Telefon" />
+            <input class="form-control" id="phone" name="phone" type="tel" placeholder="Telefon"/>
         </div>
         <div class="form-group">
             <label for="email">Wpisz swoj email: </label>
-            <input class="form-control" id="email" type="email" name="email" placeholder="Email" />
+            <input class="form-control" id="email" type="email" name="email" placeholder="Email"/>
         </div>
-        <br />
+        <br/>
         <div class="g-recaptcha" data-sitekey="6LeaHxQUAAAAABEvGCO1MJTWJxE-0LxWCyGS3Jcc"></div>
 
-        <br />
-        <button class="btn btn-primary" type="submit">Dołącz</button> 
-        <button class="btn btn-danger" onclick="location.href='@Url.Action("Index", "Taxi")'">Anuluj</button>
+        <br/>
+        <button class="btn btn-primary" type="submit">Dołącz</button>
+        <button class="btn btn-danger" onclick="location.href = '@Url.Action("Index", "Taxi")'">Anuluj</button>
     </form>
 
 </div>

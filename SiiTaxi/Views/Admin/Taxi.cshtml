@@ -1,4 +1,5 @@
-﻿@{
+﻿@model SiiTaxi.Models.TaxiViewModel
+@{
     ViewBag.Title = "Administracja";
 }
 <h2>Administracja</h2>
@@ -12,39 +13,49 @@
 <div>
     <table class="table">
         <thead>
-            <tr class="thead-inverse">
-                <th>#</th>
-                <th>Start</th>
-                <th>Cel</th>
-                <th>Godzina</th>
-                <th>Pasażerowie</th>
-                <th>PO</th>
-                <th>PA</th>
-                <th>Kod Taxi</th>
-                <th>Akcja</th>
-            </tr>
+        <tr class="thead-inverse">
+            <th>#</th>
+            <th>Start</th>
+            <th>Cel</th>
+            <th>Data i godzina</th>
+            <th>Pasażerowie</th>
+            <th>PO</th>
+            <th>PA</th>
+            <th>Kod Taxi</th>
+            <th>Akcja</th>
+        </tr>
         </thead>
         <tbody>
-
+        @foreach (var taxi in Model.Taxis)
+        {
             <tr>
-                <th scope="row">1</th>
-                <td>Gdansk</td>
-                <td>Gdynia</td>
-                <td>13:20</td>
+                <th scope="row">@taxi.TaxiId</th>
+                <td>@taxi.From</td>
+                <td>@taxi.To</td>
+                <td>@taxi.Time.ToString("dd/MM/yyyy HH:mm")</td>
                 <td>
                     <ul>
-                        <li>Adam Kowalski <span class="badge">owner</span></li>
-                        <li>Lukasz Nowak</li>
-                        <li>Karolina Nowak</li>
+                        <li>
+                            @taxi.People.Name<span class="badge">owner</span></li>
+                        @for (var i = 0; i < taxi.TaxiPeople.Count; i++)
+                        {
+                            <li>@taxi.TaxiPeople.ElementAt(i).People.Name</li>
+                        }
+                    </ul>
+                </td>
 
-                    </ul></td>
-
-                <td style="text-align: center;"><span class="glyphicon glyphicon glyphicon-ok" aria-hidden="true"></span></td>
-                <td style="text-align: center;"><span class="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span></td>
-                <td><input type="text" class="form-control" id="code"></td>
-                <td><button type="button" class="btn btn-small btn-success" onclick="location.href='@Url.Action("Include", "Taxi", new { id = "id" })';return false;">Wyslij kod</button></td>
+                <td style="text-align: center;">
+                    <span class="glyphicon glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+                <td style="text-align: center;">
+                    <span class="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span></td>
+                <td>
+                    <input type="text" class="form-control" id="code">
+                </td>
+                <td>
+                    <button type="button" class="btn btn-small btn-success" onclick="location.href = '@Url.Action("Include", "Taxi", new {id = "id"})';return false;">Wyslij kod</button>
+                </td>
             </tr>
-
+        }
         </tbody>
     </table>
 </div>
