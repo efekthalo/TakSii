@@ -11,7 +11,7 @@ namespace SiiTaxi.Controllers
     public class TaxiController : Controller
     {
         [HttpPost]
-        public ActionResult New(string ownerName, string ownerPhone, string time, string ownerEmail, string ownerAltEmail, string przejazdFrom, string przejazdTo, List<string> adds, TaxiViewModel taxiModel, PeopleViewModel peopleModel)
+        public ActionResult New(string ownerName, string ownerPhone, string time, string ownerEmail, string ownerAltEmail, string przejazdFrom, string przejazdTo, List<string> adds, int approver, TaxiViewModel taxiModel, PeopleViewModel peopleModel)
         {
             string EncodedResponse = Request.Form["g-Recaptcha-Response"];
             bool IsCaptchaValid = (ReCaptcha.Validate(EncodedResponse) == "True" ? true : false);
@@ -32,7 +32,8 @@ namespace SiiTaxi.Controllers
                 From = przejazdFrom,
                 To = przejazdTo,
                 Time = parsedTime,
-                Owner = peopleModel.UpdatePeopleByEmail(owner).PeopleId
+                Owner = peopleModel.UpdatePeopleByEmail(owner).PeopleId,
+                Approver = approver
             };
 
             taxiModel.UpdateEntity(taxi);

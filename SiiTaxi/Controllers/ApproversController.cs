@@ -23,7 +23,7 @@ namespace SiiTaxi.Controllers
                 IsApprover = true
             };
 
-            peopleModel.UpdatePeopleByName(person);
+            peopleModel.UpdateApproverByEmail(person);
 
             return RedirectToAction("Index", "Approvers");
         }
@@ -47,13 +47,13 @@ namespace SiiTaxi.Controllers
         [HttpPost]
         public ActionResult Update(int id, string name, string email, string emailAlt, string phone, PeopleViewModel peopleModel)
         {
-            var person = peopleModel.GetEntityByKey(id);
-            person.Name = name;
-            person.Email = email;
-            person.AltEmail = emailAlt;
-            person.Phone = phone;
+            var approver = peopleModel.GetEntityByKey(id);
+            approver.Name = name;
+            approver.Email = email;
+            approver.AltEmail = emailAlt;
+            approver.Phone = phone;
 
-            peopleModel.UpdatePeopleByKey(person);
+            peopleModel.UpdateApproverByEmail(approver);
 
             return RedirectToAction("Index", "Approvers");
         }
