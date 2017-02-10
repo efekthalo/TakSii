@@ -50,7 +50,7 @@ namespace SiiTaxi.Models
             var entity = GetEntityByKey(update.TaxiId);
             if (entity == null)
             {
-                string code = "AABBCC";
+                string code = Guid.NewGuid().ToString();
                 update.Confirm = code;
                 entity = _context.Taxi.Add(update);
                 _context.SaveChanges();
