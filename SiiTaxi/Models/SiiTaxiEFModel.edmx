@@ -86,6 +86,9 @@
           <Property Name="To" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Owner" Type="int" Nullable="false" />
           <Property Name="Time" Type="datetime" Nullable="false" />
+          <Property Name="Confirm" Type="nvarchar(max)" />
+          <Property Name="IsConfirmed" Type="bit" Nullable="false" />
+          <Property Name="IsOrdered" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="TaxiPeople">
           <Key>
@@ -379,6 +382,9 @@
           <Property Name="Time" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="People" Relationship="SiiTaxi.FK_Taxi_ToTable" FromRole="Taxi" ToRole="People" />
           <NavigationProperty Name="TaxiPeople" Relationship="SiiTaxi.FK_Table_ToTable" FromRole="Taxi" ToRole="TaxiPeople" />
+          <Property Name="Confirm" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="IsOrdered" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="TaxiPeople">
           <Key>
@@ -510,6 +516,9 @@
           <EntitySetMapping Name="Taxi">
             <EntityTypeMapping TypeName="SiiTaxi.Taxi">
               <MappingFragment StoreEntitySet="Taxi">
+                <ScalarProperty Name="IsOrdered" ColumnName="IsOrdered" />
+                <ScalarProperty Name="IsConfirmed" ColumnName="IsConfirmed" />
+                <ScalarProperty Name="Confirm" ColumnName="Confirm" />
                 <ScalarProperty Name="Time" ColumnName="Time" />
                 <ScalarProperty Name="Owner" ColumnName="Owner" />
                 <ScalarProperty Name="To" ColumnName="To" />

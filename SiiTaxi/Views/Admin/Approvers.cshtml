@@ -1,5 +1,5 @@
 ﻿﻿@using SiiTaxi.Models;
-@model IQueryable<SiiTaxi.Models.People>
+@model SiiTaxi.Models.PeopleViewModel
 @{
     ViewBag.Title = "Administracja";
 }
@@ -23,7 +23,7 @@
         </tr>
         </thead>
         <tbody>
-        @foreach (var approver in Model)
+        @foreach (People approver in Model.Approvers)
         {
             <tr>
                 <th scope="row">@approver.PeopleId</th>

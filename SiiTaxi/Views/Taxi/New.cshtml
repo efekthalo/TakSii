@@ -1,5 +1,5 @@
 ﻿@using SiiTaxi.Models;
-@model IQueryable<People>
+@model SiiTaxi.Models.PeopleViewModel
 @{
     ViewBag.Title = "Nowy przejazd";
 }
@@ -23,7 +23,7 @@
     <div class="form-group">
         <label for="datetimepicker10">Data i godzina przejazdu:</label>
         <div class="input-group date" id="datetimepicker10">
-            <input type="text" class="form-control" id="time" name="time"/>
+            <input type="text" class="form-control" id="time" name="time" />
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-calendar">
                 </span>
@@ -40,9 +40,10 @@
 
     <div class="form-group">
         <label for="exampleSelect1">Wybierz approvera:</label>
-        <select class="form-control"  name="approver" id="exampleSelect1">
-            @foreach (People approver in Model){
-            <option value="@approver.PeopleId">@approver.Name</option>
+        <select class="form-control" name="approver" id="exampleSelect1">
+            @foreach (People approver in Model.Approvers)
+            {
+                <option value="@approver.PeopleId">@approver.Name</option>
             }
         </select>
     </div>
@@ -73,7 +74,7 @@
 
 @section scripts {
     <script type="text/javascript">
-        $(function() {
+        $(function () {
             $('#datetimepicker10')
                 .datetimepicker({
                     locale: 'pl',
@@ -84,16 +85,16 @@
 
 
             $(".deleteDiv")
-                .click(function(event) {
+                .click(function (event) {
                     event.preventDefault();
                     $(this).parents('.dodatkowaOsoba').remove();
                 });
         });
         var dodatkoweOsoby = 0;
-        var maxOsob = 2;
+        var maxOsob = 3;
         var disabled = false;
 
-        var dodajOsobe = function() {
+        var dodajOsobe = function () {
             if (!disabled) {
                 dodatkoweOsoby++;
                 $('#dodatkoweOsoby')
@@ -103,7 +104,7 @@
                     .append("<span class=\"input-group-addon btn btn-danger deleteDiv\">Usuń</span>");
                 $(".deleteDiv")
                     .on("click",
-                        function() {
+                        function () {
                             $(this).parent().remove();
                             dodatkoweOsoby--;
                             if (dodatkoweOsoby < maxOsob) {

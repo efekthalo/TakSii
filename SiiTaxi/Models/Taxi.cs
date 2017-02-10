@@ -25,6 +25,9 @@ namespace SiiTaxi.Models
         public string To { get; set; }
         public int Owner { get; set; }
         public System.DateTime Time { get; set; }
+        public string Confirm { get; set; }
+        public bool IsConfirmed { get; set; }
+        public bool IsOrdered { get; set; }
     
         public virtual People People { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

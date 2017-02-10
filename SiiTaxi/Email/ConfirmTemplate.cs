@@ -43,7 +43,14 @@ namespace SiiTaxi.Email
         Kliknij w poniższy link aby potwierdzić taxi.
     </p>
     <p>
-        http://localhost/Taxi/Confirm");
+        http://localhost/Taxi/Confirm?id=");
+            
+            #line 21 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\ConfirmTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TaxiId));
+            
+            #line default
+            #line hidden
+            this.Write("&code=");
             
             #line 21 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\ConfirmTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ConfirmationString));

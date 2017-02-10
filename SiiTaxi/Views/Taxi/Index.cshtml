@@ -33,8 +33,8 @@
                 <td>@objUser.From</td>
                 <td>@objUser.To</td>
                 <td>@objUser.Time.ToString("HH:mm")</td>
-                <td>@(objUser.TaxiPeople.Count + 1) / 3</td>
-                @if (objUser.TaxiPeople.Count <= 2)
+                <td>@(objUser.TaxiPeople.Count + 1) / 4</td>
+                @if (objUser.TaxiPeople.Count <= 3)
                 {
                     <td>
                         <button type="button" class="btn btn-small btn-success" onclick="location.href = '@Url.Action("Include", "Taxi", new {id = objUser.TaxiId})';return false;">Dołącz</button>
