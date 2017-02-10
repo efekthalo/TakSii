@@ -1,0 +1,81 @@
+﻿﻿@using SiiTaxi.Models;
+@model SiiTaxi.Models.PeopleViewModel
+@{
+    ViewBag.Title = "Administracja";
+}
+<h2>Administracja</h2>
+<ul class="nav nav-pills">
+    <li role="presentation">@Html.ActionLink("Home", "Index", "Admin")</li>
+    <li role="presentation">@Html.ActionLink("Taxi", "Taxi", "Admin")</li>
+    <li role="presentation" class="active">@Html.ActionLink("Approvers", "Index", "Approvers")</li>
+    <li role="presentation">@Html.ActionLink("Zarządzaj kontem", "Index", "Manage")</li>
+</ul>
+
+<div>
+    <br />
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addApprover">Dodaj Approvera</button>
+    <table class="table">
+        <thead>
+            <tr class="thead-inverse">
+                <th>#</th>
+                <th>Imię i nazwisko</th>
+                <th>E-mail</th>
+                <th>E-mail 2</th>
+                <th>Telefon</th>
+                <th>Akcja</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (People approver in Model.Approvers)
+            {
+                <tr>
+                    <th scope="row">@approver.PeopleId</th>
+                    <td>@approver.Name</td>
+                    <td>@approver.Email</td>
+                    <td>@approver.AltEmail</td>
+                    <td>@approver.Phone</td>
+                    <td>
+                        <button type="button" class="btn btn-small btn-default" onclick="location.href = '@Url.Action("Update", "Approvers", new {id = approver.PeopleId})';return false;">Edytuj</button>
+                        <button type="button" class="btn btn-small btn-danger" onclick="location.href = '@Url.Action("Delete", "Approvers", new {id = approver.PeopleId})';return false;">Usuń</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal -->
+<div id="addApprover" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Nowy Approver</h4>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="@Url.Action("Index", "Approvers")">
+                    <div class="form-group">
+                        <label for="name">Podaj imię i nazwisko: </label>
+                        <input class="form-control" id="name" name="name" type="text" placeholder="Imię i nazwisko" />
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Podaj numer telefonu: </label>
+                        <input class="form-control" id="phone" name="phone" type="tel" placeholder="Numer telefonu" />
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Podaj E-mail: </label>
+                        <input class="form-control" id="email" type="email" name="email" placeholder="Email" />
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Podaj alternatywny E-mail: </label>
+                        <input class="form-control" id="emailAlt" type="email" name="emailAlt" placeholder="Alternatywny Email" />
+                    </div>
+                    <br />
+                    <button class="btn btn-primary" type="submit">Dodaj</button><button type="button" class="btn btn-default" data-dismiss="modal">Anuluj</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
