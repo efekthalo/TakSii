@@ -18,7 +18,7 @@
         Kliknij w poniższy link aby potwierdzić taxi.
     </p>
     <p>
-        http://localhost/Taxi/Confirm<#= ConfirmationString #>
+        http://localhost:61339/Taxi/Confirm?id=<#= TaxiId #>&code=<#= ConfirmationString #>
     </p>
 </body>
 </html>

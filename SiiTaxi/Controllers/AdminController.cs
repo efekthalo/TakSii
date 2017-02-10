@@ -1,6 +1,5 @@
 ﻿using System.Web.Mvc;
 using SiiTaxi.Models;
-using System.Linq;
 
 namespace SiiTaxi.Controllers
 {
@@ -19,8 +18,7 @@ namespace SiiTaxi.Controllers
 
         public ActionResult Approvers(PeopleViewModel peopleModel)
         {
-            var approvers = peopleModel.Get().Where(x => x.IsApprover == true);
-            return View(approvers);
+            return View(new PeopleViewModel());
         }
     }
 }

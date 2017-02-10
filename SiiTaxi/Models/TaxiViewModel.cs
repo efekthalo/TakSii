@@ -25,18 +25,6 @@ namespace SiiTaxi.Models
             Taxis = Get(date);
         }
 
-        public TaxiViewModel(int id)
-        {
-            _context = new SiiTaxiEntities();
-
-            var template = new ConfirmTemplate();
-            template.ConfirmationString = "AAAAAAAAAAA";
-            var body = template.TransformText();
-
-            var client = new Emailer("adam.guja@gmail.com", "adam.guja@gmail.com", body);
-            client.SendEmail();
-        }
-
         public DateTime DateInput { get; set; }
 
         public IQueryable<Taxi> Get()
@@ -62,15 +50,26 @@ namespace SiiTaxi.Models
             var entity = GetEntityByKey(update.TaxiId);
             if (entity == null)
             {
-                _context.Taxi.Add(update);
+                string code = "AABBCC";
+                update.Confirm = code;
+                entity = _context.Taxi.Add(update);
+                _context.SaveChanges();
+
+                var template = new ConfirmTemplate();
+                template.ConfirmationString = code;
+                template.TaxiId = entity.TaxiId;
+                var body = template.TransformText();
+
+                var client = new Emailer("taksii.test@gmail.com", _context.People.Find(entity.Owner).Email, body);
+                client.SendEmail();
             }
             else
             {
                 update.TaxiId = entity.TaxiId;
                 entity = update;
+                _context.SaveChanges();
             }
 
-            _context.SaveChanges();
             return entity;
         }
 
@@ -79,6 +78,21 @@ namespace SiiTaxi.Models
             var taxi = GetEntityByKey(delete.TaxiId);
             _context.Taxi.Remove(taxi);
             _context.SaveChanges();
+        }
+
+        internal void ConfirmTaxi(int id, string confirm)
+        {
+            var taxi = GetEntityByKey(id);
+
+            if (taxi.Confirm == confirm)
+            {
+                taxi.IsConfirmed = true;
+                _context.SaveChanges();
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

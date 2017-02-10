@@ -72,5 +72,12 @@ namespace SiiTaxi.Controllers
         {
             return View(new TaxiViewModel(date ?? DateTime.Now));
         }
+
+        public ActionResult Confirm(int id, string code)
+        {
+            var viewModel = new TaxiViewModel();
+            viewModel.ConfirmTaxi(id, code);
+            return View();
+        }
     }
 }

@@ -18,7 +18,7 @@ namespace SiiTaxi.Email
 
         public MailAddress From { get; set; }
         public MailAddress To { get; set; }
-        
+
         public string Body { get; set; }
 
         public void SendEmail()
@@ -28,18 +28,19 @@ namespace SiiTaxi.Email
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             client.UseDefaultCredentials = false;
             client.EnableSsl = true;
-            client.Credentials = new NetworkCredential("adam.guja@gmail.com", "ftflmurmguwfvpas");
+            client.Credentials = new NetworkCredential("taksii.test@gmail.com", "testowehaslo");
             client.Host = "smtp.gmail.com";
 
             var mail = new MailMessage(From, To);
             mail.IsBodyHtml = true;
             mail.Body = Body;
             client.Send(mail);
-        }        
+        }
     }
 
     public partial class ConfirmTemplate
     {
         public string ConfirmationString { get; set; }
+        public int TaxiId { get; internal set; }
     }
 }
