@@ -11,8 +11,6 @@ namespace SiiTaxi.Models
 
         public IQueryable<Taxi> Taxis;
 
-        public IQueryable<Taxi> AdminTaxis;
-
         public TaxiViewModel()
         {
             _context = new SiiTaxiEntities();
