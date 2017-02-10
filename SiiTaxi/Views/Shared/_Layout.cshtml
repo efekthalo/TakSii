@@ -3,55 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+
     <title>@ViewBag.Title - TakSii</title>
-    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-     @Styles.Render("~/Content/css")
-     @Scripts.Render("~/bundles/modernizr")
-     @RenderSection("recaptcha", required: false)
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("recaptcha", false)
 </head>
 <body>
 
-    <div class="container">
- 
-        <nav class="navbar navbar-default navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                        <span class="sr-only">Rozwiń</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    @Html.ActionLink("TakSii", "Index", "Home", null, new { @class = "navbar-brand" })
-                </div>
-                <div id="navbar" class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>@Html.ActionLink("Przejazdy", "Index", "Taxi", null, new { @class = "nav-link" })</li>
-                        <li>@Html.ActionLink("Nowy przejazd", "New", "Taxi", null, new { @class = "nav-link" })</li>
-                        <li>@Html.ActionLink("Admin", "Index", "Admin", null, new { @class = "nav-link" })</li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+<div class="container">
 
-        <section>
-            <div class="row">
-                <div class='col-md-10 col-md-offset-1'>
-                    @RenderBody()
-                    </div>
-                </div>
-        </section>
-        <footer>
-            <div class="text-center">
-                <p class="col-md-12">Sii Gdańsk &copy; @DateTime.Now.Year </p>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Rozwiń</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("TakSii", "Index", "Home", null, new {@class = "navbar-brand"})
             </div>
-        </footer>
-    </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>@Html.ActionLink("Przejazdy", "Index", "Taxi", null, new {@class = "nav-link"})</li>
+                    <li>@Html.ActionLink("Nowy przejazd", "New", "Taxi", null, new {@class = "nav-link"})</li>
+                    <li>@Html.ActionLink("Admin", "Index", "Admin", null, new {@class = "nav-link"})</li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/datepicker")
-    @RenderSection("Scripts", required: false)
+    <section>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                @RenderBody()
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="text-center">
+            <p class="col-md-12">Sii Gdańsk &copy; @DateTime.Now.Year </p>
+        </div>
+    </footer>
+</div>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/bundles/datepicker")
+@RenderSection("Scripts", false)
 </body>
 </html>

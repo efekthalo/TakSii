@@ -1,4 +1,6 @@
 ﻿using System.Web.Mvc;
+using SiiTaxi.Models;
+using System.Linq;
 
 namespace SiiTaxi.Controllers
 {
@@ -12,12 +14,13 @@ namespace SiiTaxi.Controllers
 
         public ActionResult Taxi()
         {
-            return View();
+            return View(new TaxiViewModel());
         }
 
-        public ActionResult Approvers()
+        public ActionResult Approvers(PeopleViewModel peopleModel)
         {
-            return View();
+            var approvers = peopleModel.Get().Where(x => x.IsApprover == true);
+            return View(approvers);
         }
     }
 }

@@ -1,18 +1,12 @@
-﻿@using SiiTaxi.Models;
-@model SiiTaxi.Models.TaxiViewModel
+﻿@model SiiTaxi.Models.TaxiViewModel
 @{
     ViewBag.Title = "Przejazdy";
 }
-<head>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-</head>
 <h2>Przejazdy</h2>
 <div class="form-group">
     <label for="datetimepicker10">Wybierz dzień:</label>
-    <div class='input-group date' id='datetimepicker10'>
-        <input type='text' class="form-control" />
+    <div class="input-group date" id="datetimepicker10">
+        <input type="text" class="form-control"/>
         <span class="input-group-addon">
             <span class="glyphicon glyphicon-calendar">
             </span>
@@ -22,27 +16,39 @@
 <div>
     <table class="table">
         <thead>
-            <tr class="thead-inverse">
-                <th>#</th>
-                <th>Start</th>
-                <th>Cel</th>
-                <th>Godzina</th>
-                <th>Pasażerowie</th>
-                <th>Akcja</th>
-            </tr>
+        <tr class="thead-inverse">
+            <th>#</th>
+            <th>Start</th>
+            <th>Cel</th>
+            <th>Godzina</th>
+            <th>Pasażerowie</th>
+            <th>Akcja</th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (Taxi objUser in Model.Taxis)
-            {
-                <tr>
-                    <th scope="row">@objUser.TaxiId.ToString()</th>
-                    <td>@objUser.From.ToString()</td>
-                    <td>@objUser.To.ToString()</td>
-                    <td>@objUser.Time.ToString("HH:mm")</td>
-                    <td></td>
-                    <td><button type="button" class="btn btn-small btn-success" onclick="location.href='@Url.Action("Include", "Taxi", new { id = objUser.TaxiId })';return false;">Dołącz</button></td>
-                </tr>
-                                                                                                   }
+        @foreach (var objUser in Model.Taxis)
+        {
+            <tr>
+                <th scope="row">@objUser.TaxiId.ToString()</th>
+                <td>@objUser.From</td>
+                <td>@objUser.To</td>
+                <td>@objUser.Time.ToString("HH:mm")</td>
+                <td>@(objUser.TaxiPeople.Count + 1) / 3</td>
+                @if (objUser.TaxiPeople.Count <= 2)
+                {
+                    <td>
+                        <button type="button" class="btn btn-small btn-success" onclick="location.href = '@Url.Action("Include", "Taxi", new {id = objUser.TaxiId})';return false;">Dołącz</button>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <button type="button" class="btn btn-small btn-danger" onclick="location.href = '@Url.Action("Include", "Taxi", new {id = objUser.TaxiId})';return false;" disabled>Pełno</button>
+                    </td>
+                }
+
+            </tr>
+        }
         </tbody>
     </table>
 </div>
@@ -50,35 +56,38 @@
 @section scripts {
     <script>
 
-    $(function () {
-        var date = getParameterByName("date", window.location.href);
+        $(function() {
+            var date = getParameterByName("date", window.location.href);
 
-        var choosenDate = date ? new Date(date) : new Date();
+            var choosenDate = date ? new Date(date) : new Date();
 
-        $('#datetimepicker10').datetimepicker({
-            locale: 'pl',
-            defaultDate: choosenDate,
-            viewMode: 'days',
-            format: 'DD/MM/YYYY'
-        }).on("dp.change", function (e) {
-            var date = e.date.toDate().toISOString();
-            var url = '@Url.Action("Index", "Taxi", new { date= "__param__" })';
-            location.href = url.replace('__param__', encodeURIComponent(date));
-            return false;
+            $('#datetimepicker10')
+                .datetimepicker({
+                    locale: 'pl',
+                    defaultDate: choosenDate,
+                    viewMode: 'days',
+                    format: 'DD/MM/YYYY'
+                })
+                .on("dp.change",
+                    function(e) {
+                        var date = e.date.toDate().toISOString();
+                        var url = '@Url.Action("Index", "Taxi", new {date = "__param__"})';
+                        location.href = url.replace('__param__', encodeURIComponent(date));
+                        return false;
+                    });
         });
-    })
 
-    function getParameterByName(name, url) {
-        if (!url) {
-            url = window.location.href;
+        function getParameterByName(name, url) {
+            if (!url) {
+                url = window.location.href;
+            }
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
         }
-        name = name.replace(/[\[\]]/g, "\\$&");
-        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-            results = regex.exec(url);
-        if (!results) return null;
-        if (!results[2]) return '';
-        return decodeURIComponent(results[2].replace(/\+/g, " "));
-    }
 
     </script>
 }

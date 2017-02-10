@@ -1,5 +1,5 @@
-﻿@using SiiTaxi.Models;
-@model SiiTaxi.Models.PeopleViewModel
+﻿﻿@using SiiTaxi.Models;
+@model IQueryable<SiiTaxi.Models.People>
 @{
     ViewBag.Title = "Administracja";
 }
@@ -14,27 +14,28 @@
 <div>
     <table class="table">
         <thead>
-            <tr class="thead-inverse">
-                <th>#</th>
-                <th>Imię i nazwisko</th>
-                <th>E-mail</th>
-                <th>Telefon</th>
-                <th>Akcja</th>
-            </tr>
+        <tr class="thead-inverse">
+            <th>#</th>
+            <th>Imię i nazwisko</th>
+            <th>E-mail</th>
+            <th>Telefon</th>
+            <th>Akcja</th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (People objUser in Model.Approvers)
-            {
-                <tr>
-                    <th scope="row">@objUser.PeopleId.ToString()</th>
-                    <td>@objUser.Name.ToString()</td>
-                    <td>@objUser.Email.ToString()</td>
-                    <td>
-                        <button type="button" class="btn btn-small btn-success" onclick="location.href='@Url.Action("Include", "Taxi", new { id = "td" })';return false;">Edytuj</button>
-                        <button type="button" class="btn btn-small btn-danger" onclick="location.href='@Url.Action("Include", "Taxi", new { id = "td" })';return false;">Usuń</button>
-                    </td>
-                </tr>
-            }
+        @foreach (var approver in Model)
+        {
+            <tr>
+                <th scope="row">@approver.PeopleId</th>
+                <td>@approver.Name</td>
+                <td>@approver.Email</td>
+                <td>@approver.Phone</td>
+                <td>
+                    <button type="button" class="btn btn-small btn-success" onclick="location.href = '@Url.Action("Approvers", "Admin", new {id = approver.PeopleId})';return false;">Edytuj</button>
+                    <button type="button" class="btn btn-small btn-danger" onclick="location.href = '@Url.Action("Approvers", "Admin", new {id = approver.PeopleId})';return false;">Usuń</button>
+                </td>
+            </tr>
+        }
         </tbody>
     </table>
 </div>
