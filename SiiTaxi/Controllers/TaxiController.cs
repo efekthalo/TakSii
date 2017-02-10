@@ -48,7 +48,7 @@ namespace SiiTaxi.Controllers
                 taxiModel.UpdateEntity(taxi);
             }
 
-            return View();
+            return RedirectToAction("Index","Taxi");
         }
 
         [HttpGet]
