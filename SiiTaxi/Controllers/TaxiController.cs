@@ -1,6 +1,7 @@
 ﻿using SiiTaxi.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace SiiTaxi.Controllers
@@ -40,14 +41,31 @@ namespace SiiTaxi.Controllers
         }
 
         [HttpGet]
-        public ActionResult New()
+        public ActionResult New(PeopleViewModel peopleModel)
         {
-            return View();
+            var approvers = peopleModel.Get().Where(x => x.IsApprover == true);
+            return View(approvers);
         }
 
         public ActionResult Include(int id)
         {
-            return View(new TaxiViewModel(id));
+            return View(new TaxiViewModel().GetEntityByKey(id));
+        }
+
+        [HttpPost]
+        public ActionResult Include(int id, string name, string phone, string email, TaxiViewModel taxiModel, PeopleViewModel peopleModel)
+        {
+            var taxi = new TaxiViewModel().GetEntityByKey(id);
+
+            var person = new People()
+            {
+                Name = name,
+                Phone = phone,
+                Email = email
+            };
+
+            taxi.TaxiPeople.Add(new TaxiPeople { TaxiId = taxi.TaxiId, PeopleId = peopleModel.UpdatePeopleByName(person).PeopleId });
+            return View();
         }
 
         public ActionResult Index(DateTime? date = null)

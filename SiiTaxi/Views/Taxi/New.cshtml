@@ -1,4 +1,6 @@
-﻿@{
+﻿@using SiiTaxi.Models;
+@model IQueryable<People>
+@{
     ViewBag.Title = "Nowy przejazd";
 }
 
@@ -38,10 +40,10 @@
 
     <div class="form-group">
         <label for="exampleSelect1">Wybierz approvera:</label>
-        <select class="form-control" id="exampleSelect1">
-            <option>Approver 1</option>
-            <option>Approver 2</option>
-            <option>Approver 3</option>
+        <select class="form-control"  name="approver" id="exampleSelect1">
+            @foreach (People approver in Model){
+            <option value="@approver.PeopleId">@approver.Name</option>
+            }
         </select>
     </div>
 
@@ -70,7 +72,6 @@
 </form>
 
 @section scripts {
-
     <script type="text/javascript">
         $(function() {
             $('#datetimepicker10')
@@ -87,8 +88,6 @@
                     event.preventDefault();
                     $(this).parents('.dodatkowaOsoba').remove();
                 });
-
-
         });
         var dodatkoweOsoby = 0;
         var maxOsob = 2;
@@ -117,12 +116,7 @@
             if (dodatkoweOsoby >= maxOsob) {
                 $('#osobyButton').addClass('disabled');
                 disabled = true;
-
-
             }
-
         };
-
     </script>
-
 }
