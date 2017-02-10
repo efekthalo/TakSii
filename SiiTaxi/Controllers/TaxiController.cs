@@ -49,7 +49,7 @@ namespace SiiTaxi.Controllers
                 taxiModel.UpdateEntity(taxi);
             }
 
-            return View();
+            return View(new PeopleViewModel());
         }
 
         [HttpGet]
