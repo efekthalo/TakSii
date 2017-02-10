@@ -19,6 +19,7 @@
         <AssociationConnector Association="SiiTaxi.FK_Table_ToTable2" />
         <AssociationConnector Association="SiiTaxi.FK_Taxi_ToTable" />
         <AssociationConnector Association="SiiTaxi.FK_Table_ToTable" />
+        <AssociationConnector Association="SiiTaxi.FK_Taxi_ToTable_1" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

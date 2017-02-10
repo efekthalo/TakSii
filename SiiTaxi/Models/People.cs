@@ -19,6 +19,7 @@ namespace SiiTaxi.Models
         {
             this.TaxiPeople = new HashSet<TaxiPeople>();
             this.Taxi = new HashSet<Taxi>();
+            this.Taxi1 = new HashSet<Taxi>();
         }
     
         public int PeopleId { get; set; }
@@ -32,5 +33,7 @@ namespace SiiTaxi.Models
         public virtual ICollection<TaxiPeople> TaxiPeople { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Taxi> Taxi { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Taxi> Taxi1 { get; set; }
     }
 }

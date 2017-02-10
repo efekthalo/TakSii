@@ -50,7 +50,7 @@ namespace SiiTaxi.Models
             var entity = GetEntityByKey(update.TaxiId);
             if (entity == null)
             {
-                string code = "AABBCC";
+                string code = Guid.NewGuid().ToString();
                 update.Confirm = code;
                 entity = _context.Taxi.Add(update);
                 _context.SaveChanges();
@@ -60,7 +60,7 @@ namespace SiiTaxi.Models
                 template.TaxiId = entity.TaxiId;
                 var body = template.TransformText();
 
-                var client = new Emailer("taksii.test@gmail.com", _context.People.Find(entity.Owner).Email, body);
+                var client = new Emailer("taksii.test@gmail.com", _context.People.Find(entity.Owner).Email, _context.People.Find(entity.Approver).Email, body);
                 client.SendEmail();
             }
             else

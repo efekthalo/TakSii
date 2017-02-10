@@ -89,6 +89,7 @@
           <Property Name="Confirm" Type="nvarchar(max)" />
           <Property Name="IsConfirmed" Type="bit" Nullable="false" />
           <Property Name="IsOrdered" Type="bit" Nullable="false" />
+          <Property Name="Approver" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="TaxiPeople">
           <Key>
@@ -190,6 +191,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Taxi_ToTable_1">
+          <End Role="People" Type="Self.People" Multiplicity="1" />
+          <End Role="Taxi" Type="Self.Taxi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="People">
+              <PropertyRef Name="PeopleId" />
+            </Principal>
+            <Dependent Role="Taxi">
+              <PropertyRef Name="Approver" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="SiiTaxiStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
@@ -225,6 +238,10 @@
             <End Role="TaxiPeople" EntitySet="TaxiPeople" />
           </AssociationSet>
           <AssociationSet Name="FK_Taxi_ToTable" Association="Self.FK_Taxi_ToTable">
+            <End Role="People" EntitySet="People" />
+            <End Role="Taxi" EntitySet="Taxi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Taxi_ToTable_1" Association="Self.FK_Taxi_ToTable_1">
             <End Role="People" EntitySet="People" />
             <End Role="Taxi" EntitySet="Taxi" />
           </AssociationSet>
@@ -357,6 +374,10 @@
             <End Role="Taxi" EntitySet="Taxi" />
             <End Role="TaxiPeople" EntitySet="TaxiPeople" />
           </AssociationSet>
+          <AssociationSet Name="FK_Taxi_ToTable_1" Association="SiiTaxi.FK_Taxi_ToTable_1">
+            <End Role="People" EntitySet="People" />
+            <End Role="Taxi" EntitySet="Taxi" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="People">
           <Key>
@@ -370,6 +391,7 @@
           <NavigationProperty Name="Taxi" Relationship="SiiTaxi.FK_Taxi_ToTable" FromRole="People" ToRole="Taxi" />
           <Property Name="IsApprover" Type="Boolean" Nullable="false" />
           <Property Name="Phone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Taxi1" Relationship="SiiTaxi.FK_Taxi_ToTable_1" FromRole="People" ToRole="Taxi" />
         </EntityType>
         <EntityType Name="Taxi">
           <Key>
@@ -385,6 +407,8 @@
           <Property Name="Confirm" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="IsConfirmed" Type="Boolean" Nullable="false" />
           <Property Name="IsOrdered" Type="Boolean" Nullable="false" />
+          <Property Name="Approver" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="People1" Relationship="SiiTaxi.FK_Taxi_ToTable_1" FromRole="Taxi" ToRole="People" />
         </EntityType>
         <EntityType Name="TaxiPeople">
           <Key>
@@ -429,6 +453,18 @@
             </Principal>
             <Dependent Role="TaxiPeople">
               <PropertyRef Name="TaxiId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Taxi_ToTable_1">
+          <End Type="SiiTaxi.People" Role="People" Multiplicity="1" />
+          <End Type="SiiTaxi.Taxi" Role="Taxi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="People">
+              <PropertyRef Name="PeopleId" />
+            </Principal>
+            <Dependent Role="Taxi">
+              <PropertyRef Name="Approver" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -516,6 +552,7 @@
           <EntitySetMapping Name="Taxi">
             <EntityTypeMapping TypeName="SiiTaxi.Taxi">
               <MappingFragment StoreEntitySet="Taxi">
+                <ScalarProperty Name="Approver" ColumnName="Approver" />
                 <ScalarProperty Name="IsOrdered" ColumnName="IsOrdered" />
                 <ScalarProperty Name="IsConfirmed" ColumnName="IsConfirmed" />
                 <ScalarProperty Name="Confirm" ColumnName="Confirm" />
