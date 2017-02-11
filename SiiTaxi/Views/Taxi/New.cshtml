@@ -9,6 +9,18 @@
 }
 
 <h2>Nowy przejazd</h2>
+@if (TempData["errorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        <strong>Błąd!</strong> @TempData["errorMessage"]
+    </div>
+}
+@if (TempData["successMessage"] != null)
+{
+    <div class="alert alert-success">
+        <strong>Sukces!</strong> @TempData["successMessage"]
+    </div>
+}
 <form method="post" action="@Url.Action("New", "Taxi")">
     <div class="form-group">
         <label for="ownerName">Zgłaszający:</label>
