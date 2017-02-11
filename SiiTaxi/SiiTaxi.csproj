@@ -278,6 +278,8 @@
     <Compile Include="Models\TaxiViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
+    <Compile Include="Providers\Messages.cs" />
+    <Compile Include="Providers\Validators.cs" />
     <Compile Include="Providers\Recaptcha.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />
