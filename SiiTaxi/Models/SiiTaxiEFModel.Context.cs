@@ -18,7 +18,7 @@ namespace SiiTaxi.Models
         public SiiTaxiEntities()
             : base("name=SiiTaxiEntities")
         {
-            Database.SetInitializer(new CreateDatabaseIfNotExists<SiiTaxiEntities>());
+            Database.SetInitializer(new DropCreateDatabaseAlways<SiiTaxiEntities>());
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
