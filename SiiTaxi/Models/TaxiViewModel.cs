@@ -8,18 +8,19 @@ namespace SiiTaxi.Models
     {
         private readonly SiiTaxiEntities _context;
         public IQueryable<Taxi> Taxis;
+
         public DateTime DateInput { get; set; }
 
-        public TaxiViewModel()
+        public TaxiViewModel(SiiTaxiEntities context = null)
         {
-            _context = new SiiTaxiEntities();
+            _context = context == null ? new SiiTaxiEntities() : context;
             DateInput = DateTime.Now.Date;
             Taxis = _context.Taxi;
         }
 
-        public TaxiViewModel(DateTime date)
+        public TaxiViewModel(DateTime date, SiiTaxiEntities context = null)
         {
-            _context = new SiiTaxiEntities();
+            _context = context == null ? new SiiTaxiEntities() : context;
             DateInput = date;
             Taxis = _context.Taxi.Where(x => (x.Time.Year == date.Year) && (x.Time.Month == date.Month) && (x.Time.Day == date.Day));
         }
