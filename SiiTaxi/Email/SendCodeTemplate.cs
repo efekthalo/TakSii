@@ -18,9 +18,9 @@ namespace SiiTaxi.Email
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Users\Tomek\Desktop\SiiTaxi\SiiTaxi\Email\ConfirmTemplate.tt"
+    #line 1 "C:\Users\Tomek\Desktop\SiiTaxi\SiiTaxi\Email\SendCodeTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "14.0.0.0")]
-    public partial class ConfirmTemplate : ConfirmTemplateBase
+    public partial class SendCodeTemplate : SendCodeTemplateBase
     {
 #line hidden
         /// <summary>
@@ -40,24 +40,35 @@ namespace SiiTaxi.Email
         <strong>Witam!</strong>
     </p>
     <p>
-        Kliknij w poniższy link aby potwierdzić taxi.
-    </p>
-    <p>
-        <a href=""http://localhost:61339/Taxi/Confirm?id=");
+        Oto kod do zamówionego przez Ciebie TAXI z ");
             
-            #line 21 "C:\Users\Tomek\Desktop\SiiTaxi\SiiTaxi\Email\ConfirmTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(TaxiId));
+            #line 18 "C:\Users\Tomek\Desktop\SiiTaxi\SiiTaxi\Email\SendCodeTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TaxiFrom));
             
             #line default
             #line hidden
-            this.Write("&code=");
+            this.Write(" do ");
             
-            #line 21 "C:\Users\Tomek\Desktop\SiiTaxi\SiiTaxi\Email\ConfirmTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(ConfirmationString));
+            #line 18 "C:\Users\Tomek\Desktop\SiiTaxi\SiiTaxi\Email\SendCodeTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TaxiTo));
             
             #line default
             #line hidden
-            this.Write("\">Potwierdzam TAXI</a>\r\n    </p>\r\n</body>\r\n</html>\r\n");
+            this.Write(". Data przejazdu: ");
+            
+            #line 18 "C:\Users\Tomek\Desktop\SiiTaxi\SiiTaxi\Email\SendCodeTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TaxiTime));
+            
+            #line default
+            #line hidden
+            this.Write(".\r\n    </p>\r\n    <h1>\r\n        ");
+            
+            #line 21 "C:\Users\Tomek\Desktop\SiiTaxi\SiiTaxi\Email\SendCodeTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TaxiCodeString));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n    </h1>\r\n</body>\r\n</html>\r\n");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -69,7 +80,7 @@ namespace SiiTaxi.Email
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "14.0.0.0")]
-    public class ConfirmTemplateBase
+    public class SendCodeTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;
