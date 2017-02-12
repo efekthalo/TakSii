@@ -1,5 +1,4 @@
-﻿@using SiiTaxi.Models;
-@model SiiTaxi.Models.Taxi
+﻿@model SiiTaxi.Models.Taxi
 @{
     ViewBag.Title = "Dołącz do przejazdu";
 }
@@ -37,7 +36,7 @@
         </div>
     </div>
 
-    <form method="post" action="@Url.Action("Include", "Taxi", new { id = Model.TaxiId })">
+    <form method="post" action="@Url.Action("Include", "Taxi", new {id = Model.TaxiId})">
         <div class="form-group">
             <label for="name">Podaj swoje imię i nazwisko: </label>
             <input class="form-control" id="name" name="name" type="text" placeholder="Imię i nazwisko"/>

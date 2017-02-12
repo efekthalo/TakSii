@@ -1,5 +1,5 @@
 ﻿
-window.common = (function () {
+window.common = (function() {
     var common = {};
 
     common.getFragment = function getFragment() {
@@ -12,7 +12,13 @@ window.common = (function () {
 
     function parseQueryString(queryString) {
         var data = {},
-            pairs, pair, separatorIndex, escapedKey, escapedValue, key, value;
+            pairs,
+            pair,
+            separatorIndex,
+            escapedKey,
+            escapedValue,
+            key,
+            value;
 
         if (queryString === null) {
             return data;

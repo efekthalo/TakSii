@@ -5,30 +5,30 @@
 }
 <h2>Administracja</h2>
 <div>
-@if (TempData["errorMessage"] != null)
-{
-    <div class="alert alert-danger">
-        <strong>Błąd!</strong> @TempData["errorMessage"]
-    </div>
-}
-@if (TempData["successMessage"] != null)
-{
-    <div class="alert alert-success">
-        <strong>Sukces!</strong> @TempData["successMessage"]
-    </div>
-}
-<ul class="nav nav-pills">
-    <li role="presentation">@Html.ActionLink("Home", "Index", "Admin")</li>
-    <li role="presentation">@Html.ActionLink("Taxi", "Taxi", "Admin")</li>
-    <li role="presentation" class="active">@Html.ActionLink("Approvers", "Index", "Approvers")</li>
-    <li role="presentation">@Html.ActionLink("Zarządzaj kontem", "Index", "Manage")</li>
-</ul>
+    @if (TempData["errorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            <strong>Błąd!</strong> @TempData["errorMessage"]
+        </div>
+    }
+    @if (TempData["successMessage"] != null)
+    {
+        <div class="alert alert-success">
+            <strong>Sukces!</strong> @TempData["successMessage"]
+        </div>
+    }
+    <ul class="nav nav-pills">
+        <li role="presentation">@Html.ActionLink("Home", "Index", "Admin")</li>
+        <li role="presentation">@Html.ActionLink("Taxi", "Taxi", "Admin")</li>
+        <li role="presentation" class="active">@Html.ActionLink("Approvers", "Index", "Approvers")</li>
+        <li role="presentation">@Html.ActionLink("Zarządzaj kontem", "Index", "Manage")</li>
+    </ul>
 
-<div>
-    <br />
-    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addApprover">Dodaj Approvera</button>
-    <table class="table">
-        <thead>
+    <div>
+        <br/>
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addApprover">Dodaj Approvera</button>
+        <table class="table">
+            <thead>
             <tr class="thead-inverse">
                 <th>#</th>
                 <th>Imię i nazwisko</th>
@@ -37,8 +37,8 @@
                 <th>Telefon</th>
                 <th>Akcja</th>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             @foreach (People approver in Model.Approvers)
             {
                 <tr>
@@ -53,9 +53,9 @@
                     </td>
                 </tr>
             }
-        </tbody>
-    </table>
-</div>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <!-- Modal -->
@@ -72,21 +72,21 @@
                 <form method="post" action="@Url.Action("Index", "Approvers")">
                     <div class="form-group">
                         <label for="name">Podaj imię i nazwisko: </label>
-                        <input class="form-control" id="name" name="name" type="text" placeholder="Imię i nazwisko" />
+                        <input class="form-control" id="name" name="name" type="text" placeholder="Imię i nazwisko"/>
                     </div>
                     <div class="form-group">
                         <label for="phone">Podaj numer telefonu: </label>
-                        <input class="form-control" id="phone" name="phone" type="tel" placeholder="Numer telefonu" />
+                        <input class="form-control" id="phone" name="phone" type="tel" placeholder="Numer telefonu"/>
                     </div>
                     <div class="form-group">
                         <label for="email">Podaj E-mail: </label>
-                        <input class="form-control" id="email" type="email" name="email" placeholder="Email" />
+                        <input class="form-control" id="email" type="email" name="email" placeholder="Email"/>
                     </div>
                     <div class="form-group">
                         <label for="email">Podaj alternatywny E-mail: </label>
-                        <input class="form-control" id="emailAlt" type="email" name="emailAlt" placeholder="Alternatywny Email" />
+                        <input class="form-control" id="emailAlt" type="email" name="emailAlt" placeholder="Alternatywny Email"/>
                     </div>
-                    <br />
+                    <br/>
                     <button class="btn btn-primary" type="submit">Dodaj</button><button type="button" class="btn btn-default" data-dismiss="modal">Anuluj</button>
                 </form>
             </div>

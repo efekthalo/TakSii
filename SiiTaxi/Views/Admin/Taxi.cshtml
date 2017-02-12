@@ -13,69 +13,69 @@
 <div>
     <table class="table">
         <thead>
-            <tr class="thead-inverse">
-                <th>#</th>
-                <th>Start</th>
-                <th>Cel</th>
-                <th>Data i godzina</th>
-                <th>Pasażerowie</th>
-                <th>PO</th>
-                <th>Z</th>
-                <th>Kod Taxi</th>
-                <th>Akcja</th>
-            </tr>
+        <tr class="thead-inverse">
+            <th>#</th>
+            <th>Start</th>
+            <th>Cel</th>
+            <th>Data i godzina</th>
+            <th>Pasażerowie</th>
+            <th>PO</th>
+            <th>Z</th>
+            <th>Kod Taxi</th>
+            <th>Akcja</th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (var taxi in Model.Taxis)
-            {
-                <tr>
-                    <th scope="row">@taxi.TaxiId</th>
-                    <td>@taxi.From</td>
-                    <td>@taxi.To</td>
-                    <td>@taxi.Time.ToString("dd/MM/yyyy HH:mm")</td>
-                    <td>
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                @taxi.People.Name<span class="badge">owner</span>
-                            </li>
-                            @for (var i = 0; i < taxi.TaxiPeople.Count; i++)
-                            {
-                                <li class="list-group-item">@taxi.TaxiPeople.ElementAt(i).People.Name</li>
-                            }
-                        </ul>
-                    </td>
+        @foreach (var taxi in Model.Taxis)
+        {
+            <tr>
+                <th scope="row">@taxi.TaxiId</th>
+                <td>@taxi.From</td>
+                <td>@taxi.To</td>
+                <td>@taxi.Time.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            @taxi.People.Name<span class="badge">owner</span>
+                        </li>
+                        @for (var i = 0; i < taxi.TaxiPeople.Count; i++)
+                        {
+                            <li class="list-group-item">@taxi.TaxiPeople.ElementAt(i).People.Name</li>
+                        }
+                    </ul>
+                </td>
 
-                    <td style="text-align: center;">
-                        @if (taxi.IsConfirmed)
-                        {
-                            <span class="glyphicon glyphicon glyphicon-ok" aria-hidden="true"></span>
-                        }
-                        else
-                        {
-                            <span class="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span>
-                        }
-                    </td>
-                    <td style="text-align: center;">
-                        @if (taxi.IsOrdered)
-                        {
-                            <span class="glyphicon glyphicon glyphicon-ok" aria-hidden="true"></span>
-                        }
-                        else
-                        {
-                            <span class="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span>
-                        }
-                    </td>
-                    <td>
-                        <input type="text" class="form-control" id="taxicode">
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-small btn-success"
-                                onclick="location.href = '@Url.Action("SendCode", "Admin", new { id = @taxi.TaxiId, taxicode = "SomeCode" })';return false">
-                            Wyslij kod
-                        </button>
-                    </td>
-                </tr>
-            }
+                <td style="text-align: center;">
+                    @if (taxi.IsConfirmed)
+                    {
+                        <span class="glyphicon glyphicon glyphicon-ok" aria-hidden="true"></span>
+                    }
+                    else
+                    {
+                        <span class="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    }
+                </td>
+                <td style="text-align: center;">
+                    @if (taxi.IsOrdered)
+                    {
+                        <span class="glyphicon glyphicon glyphicon-ok" aria-hidden="true"></span>
+                    }
+                    else
+                    {
+                        <span class="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    }
+                </td>
+                <td>
+                    <input type="text" class="form-control" id="taxicode">
+                </td>
+                <td>
+                    <button type="button" class="btn btn-small btn-success"
+                            onclick="location.href = '@Url.Action("SendCode", "Admin", new {id = taxi.TaxiId, taxicode = "SomeCode"})';return false;">
+                        Wyslij kod
+                    </button>
+                </td>
+            </tr>
+        }
         </tbody>
     </table>
 </div>

@@ -14,11 +14,11 @@
     self.returnUrl = self.siteUrl;
 
     // Data access operations
-    self.setAccessToken = function (accessToken) {
+    self.setAccessToken = function(accessToken) {
         sessionStorage.setItem("accessToken", accessToken);
     };
 
-    self.getAccessToken = function () {
+    self.getAccessToken = function() {
         return sessionStorage.getItem("accessToken");
     };
 }
