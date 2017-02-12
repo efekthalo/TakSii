@@ -133,10 +133,39 @@ namespace SiiTaxi.Controllers
             return View(new TaxiViewModel(date ?? DateTime.Now));
         }
 
+        [HttpGet]
+        public ActionResult Confirm(int id, string code)
+        {
+            var taxi = new TaxiViewModel().GetEntityByKey(id);
+            if(taxi != null && taxi.Confirm == code)
+            {
+                if (taxi.IsConfirmed)
+                {
+                    TempData["errorMessage"] = Messages.TaxiConfirmed;
+                    return RedirectToAction("Index", "Taxi");
+                }
+                TempData["code"] = code;
+                return View(taxi);
+            }
+            TempData["errorMessage"] = Messages.TaxiNotExist;
+            return RedirectToAction("Index", "Taxi");
+  
+        }
+
+        [HttpPost]
         public ActionResult Confirm(int id, string code, TaxiViewModel taxiModel)
         {
-            taxiModel.ConfirmTaxi(id, code);
-            return View();
+            try
+            {
+                taxiModel.ConfirmTaxi(id, code);
+            }
+            catch
+            {
+                TempData["errorMessage"] = Messages.ConfirmFailed;
+                return View(new TaxiViewModel().GetEntityByKey(id));
+            }
+            TempData["successMessage"] = Messages.ConfirmSucceed;
+            return RedirectToAction("Index", "Taxi") ;
         }
     }
 }

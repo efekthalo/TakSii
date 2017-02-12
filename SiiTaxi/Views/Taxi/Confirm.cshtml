@@ -1,0 +1,52 @@
+﻿@using SiiTaxi.Models;
+@model SiiTaxi.Models.Taxi
+@{
+    ViewBag.Title = "Potwierdzenie przejazdu";
+}
+@section recaptcha {
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+}
+
+<h3>Potwierdzenie przejazdu</h3>
+@if (TempData["errorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        <strong>Błąd!</strong> @TempData["errorMessage"]
+    </div>
+}
+@if (TempData["successMessage"] != null)
+{
+    <div class="alert alert-success">
+        <strong>Sukces!</strong> @TempData["successMessage"]
+    </div>
+}
+<div>
+    <div class="panel panel-info">
+        <div class="panel-heading">Informacje na temat przejazdu:</div>
+        <div class="panel-body">
+            <label>Owner: </label> @Model.People.Name
+        </div>
+        <div class="panel-body">
+            <label>Approver: </label> @Model.People1.Name 
+        </div>
+        <div class="panel-body">
+            <label>Miejsce początkowe: </label> @Model.From
+        </div>
+        <div class="panel-body">
+            <label>Miejsce docelowe: </label> @Model.To
+        </div>
+        <div class="panel-body">
+            <label>Data: </label> @Model.Time.ToString("dd/MM/yyyy")
+        </div>
+        <div class="panel-body">
+            <label>Godzina: </label> @Model.Time.ToString("HH:mm")
+        </div>
+    </div>
+
+    <form method="post" action="@Url.Action("Confirm", "Taxi", new { id = Model.TaxiId, code=TempData["code"] })">
+        <br/>
+        <button class="btn btn-success" type="submit">Potwierdź</button>
+        <button class="btn btn-danger" onclick="location.href = '@Url.Action("Index", "Taxi")'">Anuluj</button>
+    </form>
+
+</div>

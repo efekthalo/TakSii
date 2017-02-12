@@ -17,5 +17,13 @@
             "Pomyślnie dołączyłeś do przeajzdu. Sprawdź swój E-mail by to potwierdzić.";
 
         public const string NotValidDate = "Podałeś niepoprawną datę przejazdu!";
+
+        public const string ConfirmFailed = "Nie udało się potwierdzić zamówienia!";
+
+        public const string ConfirmSucceed = "Potwierdziłeś swoje zamówienie!";
+
+        public const string TaxiNotExist = "Taxi nie istnieje!";
+
+        public const string TaxiConfirmed = "Taxi zostało już potwierdzone";
     }
 }
