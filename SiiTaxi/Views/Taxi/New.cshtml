@@ -62,7 +62,7 @@
 
     <div class="form-check form-check-inline">
         <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1"> Duża Taxówka
+            <input class="form-check-input" type="checkbox" id="bigTaxiCheckbox" value="bigTaxi"> Duża Taxówka
         </label>
         <br>
         <br>
@@ -94,17 +94,42 @@
                     viewMode: 'days',
                     format: 'DD/MM/YYYY HH:mm'
                 });
-
-
-            $(".deleteDiv")
-                .click(function (event) {
-                    event.preventDefault();
-                    $(this).parents('.dodatkowaOsoba').remove();
-                });
         });
+
+        var maleTaxi = 3;
+        var duzeTaxi = 6;
+
         var dodatkoweOsoby = 0;
-        var maxOsob = 3;
+        var maxOsob = maleTaxi;
         var disabled = false;
+
+        $('#bigTaxiCheckbox').change(function () {
+            if ($(this).is(":checked")) {
+                maxOsob = duzeTaxi;
+                refreshButton();
+                return;
+            }
+            maxOsob = maleTaxi;
+            refreshButton();
+            deleteInputs();
+        });
+
+        var refreshButton = function () {
+            if (dodatkoweOsoby < maxOsob) {
+                disabled = false;
+                $('#osobyButton').removeClass('disabled');
+            }
+            else {
+                disabled = true;
+                $('#osobyButton').addClass('disabled');
+            }
+        }
+        
+        var deleteInputs = function () {
+            if ($('.dodatkowaOsoba').length > maleTaxi) {
+                $('.dodatkowaOsoba:gt('+(maleTaxi-1)+')').remove();
+            }
+        }
 
         var dodajOsobe = function () {
             if (!disabled) {
@@ -115,21 +140,16 @@
                 $('#dodatkoweOsoby > .dodatkowaOsoba:last')
                     .append("<span class=\"input-group-addon btn btn-danger deleteDiv\">Usuń</span>");
                 $(".deleteDiv")
+                    .unbind()
                     .on("click",
                         function () {
                             $(this).parent().remove();
                             dodatkoweOsoby--;
-                            if (dodatkoweOsoby < maxOsob) {
-                                disabled = false;
-                                $('#osobyButton').removeClass('disabled');
-                            }
+                            refreshButton();
                         });
             }
 
-            if (dodatkoweOsoby >= maxOsob) {
-                $('#osobyButton').addClass('disabled');
-                disabled = true;
-            }
+            refreshButton();
         };
     </script>
 }
