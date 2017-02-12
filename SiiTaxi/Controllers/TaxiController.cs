@@ -12,6 +12,7 @@ namespace SiiTaxi.Controllers
         [HttpPost]
         public ActionResult New(string ownerName, string ownerPhone, string time, string ownerEmail, string ownerAltEmail, string przejazdFrom, string przejazdTo, List<string> adds, int approver, TaxiViewModel taxiModel, PeopleViewModel peopleModel, TaxiPeopleViewModel taxiPeopleModel)
         {
+            TempData["formData"] = Request.Form;
             string EncodedResponse = Request.Form["g-Recaptcha-Response"];
             if (!Validators.IsCaptchaValid(EncodedResponse))
             {
