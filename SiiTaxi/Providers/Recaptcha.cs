@@ -1,39 +1,31 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Net;
+using Newtonsoft.Json;
 
 namespace SiiTaxi.Providers
 {
     public class ReCaptcha
     {
+        [JsonProperty("success")]
+        public string Success { get; set; }
+
+        [JsonProperty("error-codes")]
+        public List<string> ErrorCodes { get; set; }
+
         public static string Validate(string EncodedResponse)
         {
-            var client = new System.Net.WebClient();
+            var client = new WebClient();
 
-            string PrivateKey = "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe";
+            var PrivateKey = "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe";
 
-            var GoogleReply = client.DownloadString(string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", PrivateKey, EncodedResponse));
+            var GoogleReply =
+                client.DownloadString(
+                    string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", PrivateKey,
+                        EncodedResponse));
 
-            var captchaResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<ReCaptcha>(GoogleReply);
+            var captchaResponse = JsonConvert.DeserializeObject<ReCaptcha>(GoogleReply);
 
             return captchaResponse.Success;
         }
-
-        [JsonProperty("success")]
-        public string Success
-        {
-            get { return m_Success; }
-            set { m_Success = value; }
-        }
-
-        private string m_Success;
-        [JsonProperty("error-codes")]
-        public List<string> ErrorCodes
-        {
-            get { return m_ErrorCodes; }
-            set { m_ErrorCodes = value; }
-        }
-
-
-        private List<string> m_ErrorCodes;
     }
 }

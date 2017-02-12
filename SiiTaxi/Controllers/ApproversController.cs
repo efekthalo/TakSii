@@ -12,9 +12,10 @@ namespace SiiTaxi.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(string name, string phone, string email, string emailAlt, TaxiViewModel taxiModel, PeopleViewModel peopleModel)
+        public ActionResult Index(string name, string phone, string email, string emailAlt, TaxiViewModel taxiModel,
+            PeopleViewModel peopleModel)
         {
-            var person = new People()
+            var person = new People
             {
                 Name = name,
                 Phone = phone,
@@ -45,7 +46,8 @@ namespace SiiTaxi.Controllers
 
 
         [HttpPost]
-        public ActionResult Update(int id, string name, string email, string emailAlt, string phone, PeopleViewModel peopleModel)
+        public ActionResult Update(int id, string name, string email, string emailAlt, string phone,
+            PeopleViewModel peopleModel)
         {
             var approver = peopleModel.GetEntityByKey(id);
             approver.Name = name;

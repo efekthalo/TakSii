@@ -41,11 +41,11 @@ namespace SiiTaxi
                 "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                 "~/Content/bootstrap.css",
-                 "~/Content/bootstrap-theme.min.css",
-                 "~/Content/bootstrap-datetimepicker.min.css",
-                 "~/Content/jquery-ui.css",
-                 "~/Content/Site.css"));
+                "~/Content/bootstrap.css",
+                "~/Content/bootstrap-theme.min.css",
+                "~/Content/bootstrap-datetimepicker.min.css",
+                "~/Content/jquery-ui.css",
+                "~/Content/Site.css"));
         }
     }
 }

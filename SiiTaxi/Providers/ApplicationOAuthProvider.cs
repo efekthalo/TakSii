@@ -11,9 +11,7 @@ namespace SiiTaxi.Providers
         public ApplicationOAuthProvider(string publicClientId)
         {
             if (publicClientId == null)
-            {
                 throw new ArgumentNullException("publicClientId");
-            }
 
             _publicClientId = publicClientId;
         }
@@ -22,7 +20,7 @@ namespace SiiTaxi.Providers
         {
             if (context.ClientId == _publicClientId)
             {
-                Uri expectedRootUri = new Uri(context.Request.Uri, "/");
+                var expectedRootUri = new Uri(context.Request.Uri, "/");
 
                 if (expectedRootUri.AbsoluteUri == context.RedirectUri)
                 {

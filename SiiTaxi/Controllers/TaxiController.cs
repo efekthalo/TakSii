@@ -1,8 +1,8 @@
-﻿using SiiTaxi.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Web.Mvc;
+using SiiTaxi.Models;
 using SiiTaxi.Providers;
 
 namespace SiiTaxi.Controllers
@@ -10,16 +10,18 @@ namespace SiiTaxi.Controllers
     public class TaxiController : Controller
     {
         [HttpPost]
-        public ActionResult New(string ownerName, string ownerPhone, string time, string ownerEmail, string ownerAltEmail, string przejazdFrom, string przejazdTo, List<string> adds, int approver, TaxiViewModel taxiModel, PeopleViewModel peopleModel, TaxiPeopleViewModel taxiPeopleModel)
+        public ActionResult New(string ownerName, string ownerPhone, string time, string ownerEmail,
+            string ownerAltEmail, string przejazdFrom, string przejazdTo, List<string> adds, int approver,
+            TaxiViewModel taxiModel, PeopleViewModel peopleModel, TaxiPeopleViewModel taxiPeopleModel)
         {
-            string EncodedResponse = Request.Form["g-Recaptcha-Response"];
+            var EncodedResponse = Request.Form["g-Recaptcha-Response"];
             if (!Validators.IsCaptchaValid(EncodedResponse))
             {
                 TempData["errorMessage"] = Messages.NotValidCaptcha;
                 return View(new PeopleViewModel());
             }
 
-            if(!Validators.IsEmailValid(ownerEmail, true))
+            if (!Validators.IsEmailValid(ownerEmail, true))
             {
                 TempData["errorMessage"] = Messages.NotValidCompanyEmail;
                 return View(new PeopleViewModel());
@@ -31,9 +33,10 @@ namespace SiiTaxi.Controllers
             }
 
             DateTime parsedTime;
-            DateTime.TryParseExact(time, "dd/MM/yyyy HH:mm", CultureInfo.CurrentCulture, DateTimeStyles.None, out parsedTime);
+            DateTime.TryParseExact(time, "dd/MM/yyyy HH:mm", CultureInfo.CurrentCulture, DateTimeStyles.None,
+                out parsedTime);
 
-            if(parsedTime < DateTime.Now)
+            if (parsedTime < DateTime.Now)
             {
                 TempData["errorMessage"] = Messages.NotValidDate;
                 return View(new PeopleViewModel());
@@ -47,7 +50,7 @@ namespace SiiTaxi.Controllers
                 Phone = ownerPhone
             };
 
-            Taxi taxi = new Taxi
+            var taxi = new Taxi
             {
                 From = przejazdFrom,
                 To = przejazdTo,
@@ -61,14 +64,16 @@ namespace SiiTaxi.Controllers
                 taxiModel.UpdateEntity(taxi);
 
                 if (adds != null)
-                {
                     foreach (var add in adds)
                     {
-                        var other = new People { Name = add, Email = "" };
-                        var taxiPeople = new TaxiPeople { TaxiId = taxi.TaxiId, PeopleId = peopleModel.UpdatePeopleByName(other).PeopleId };
+                        var other = new People {Name = add, Email = ""};
+                        var taxiPeople = new TaxiPeople
+                        {
+                            TaxiId = taxi.TaxiId,
+                            PeopleId = peopleModel.UpdatePeopleByName(other).PeopleId
+                        };
                         taxiPeopleModel.AddEntity(taxiPeople);
                     }
-                }
             }
             catch
             {
@@ -92,9 +97,10 @@ namespace SiiTaxi.Controllers
         }
 
         [HttpPost]
-        public ActionResult Include(int id, string name, string phone, string email, TaxiViewModel taxiModel, PeopleViewModel peopleModel, TaxiPeopleViewModel taxiPeopleModel)
+        public ActionResult Include(int id, string name, string phone, string email, TaxiViewModel taxiModel,
+            PeopleViewModel peopleModel, TaxiPeopleViewModel taxiPeopleModel)
         {
-            string EncodedResponse = Request.Form["g-Recaptcha-Response"];
+            var EncodedResponse = Request.Form["g-Recaptcha-Response"];
             if (!Validators.IsCaptchaValid(EncodedResponse))
             {
                 TempData["errorMessage"] = Messages.NotValidCaptcha;
@@ -108,8 +114,8 @@ namespace SiiTaxi.Controllers
 
             try
             {
-                var other = new People { Name = name, Email = email, Phone = phone };
-                var taxiPeople = new TaxiPeople { TaxiId = id, PeopleId = peopleModel.UpdatePeopleByName(other).PeopleId };
+                var other = new People {Name = name, Email = email, Phone = phone};
+                var taxiPeople = new TaxiPeople {TaxiId = id, PeopleId = peopleModel.UpdatePeopleByName(other).PeopleId};
                 taxiPeopleModel.AddEntity(taxiPeople);
             }
             catch

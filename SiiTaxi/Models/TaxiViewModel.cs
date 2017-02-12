@@ -8,21 +8,24 @@ namespace SiiTaxi.Models
     {
         private readonly SiiTaxiEntities _context;
         public IQueryable<Taxi> Taxis;
-        public DateTime DateInput { get; set; }
 
-        public TaxiViewModel()
+        public TaxiViewModel(SiiTaxiEntities context = null)
         {
-            _context = new SiiTaxiEntities();
+            _context = context ?? new SiiTaxiEntities();
             DateInput = DateTime.Now.Date;
             Taxis = _context.Taxi;
         }
 
-        public TaxiViewModel(DateTime date)
+        public TaxiViewModel(DateTime date, SiiTaxiEntities context = null)
         {
-            _context = new SiiTaxiEntities();
+            _context = context ?? new SiiTaxiEntities();
             DateInput = date;
-            Taxis = _context.Taxi.Where(x => (x.Time.Year == date.Year) && (x.Time.Month == date.Month) && (x.Time.Day == date.Day));
+            Taxis =
+                _context.Taxi.Where(
+                    x => x.Time.Year == date.Year && x.Time.Month == date.Month && x.Time.Day == date.Day);
         }
+
+        public DateTime DateInput { get; set; }
 
         internal Taxi GetEntityByKey(int key)
         {
@@ -34,17 +37,20 @@ namespace SiiTaxi.Models
             var entity = GetEntityByKey(update.TaxiId);
             if (entity == null)
             {
-                string code = Guid.NewGuid().ToString();
+                var code = Guid.NewGuid().ToString();
                 update.Confirm = code;
                 entity = _context.Taxi.Add(update);
                 _context.SaveChanges();
 
-                var template = new ConfirmTemplate();
-                template.ConfirmationString = code;
-                template.TaxiId = entity.TaxiId;
+                var template = new ConfirmTemplate
+                {
+                    ConfirmationString = code,
+                    TaxiId = entity.TaxiId
+                };
                 var body = template.TransformText();
 
-                var client = new Emailer("taksii.test@gmail.com", _context.People.Find(entity.Owner).Email, _context.People.Find(entity.Approver).Email, body);
+                var client = new Emailer("taksii.test@gmail.com", _context.People.Find(entity.Owner).Email,
+                    _context.People.Find(entity.Approver).Email, body);
                 client.SendEmail();
             }
             else
