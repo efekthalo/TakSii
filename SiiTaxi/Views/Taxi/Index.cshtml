@@ -38,7 +38,7 @@
         </tr>
         </thead>
         <tbody>
-        @foreach (var objUser in Model.Taxis)
+        @foreach (var objUser in Model.Taxis.Where(x => x.IsConfirmed))
         {
             <tr>
                 <th scope="row">@objUser.TaxiId.ToString()</th>
