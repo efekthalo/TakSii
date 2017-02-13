@@ -28,6 +28,10 @@ namespace SiiTaxi.Providers
         public const string TaxiNotExist = "Taxi nie istnieje!";
 
         public const string TaxiConfirmed = "Taxi zostało już potwierdzone";
+
+        public const string SendCodeFailed = "Kod nie został wysłany";
+
+        public const string SendCodeSucceed = "Kod został wysłany";
     }
 
 }
