@@ -11,7 +11,7 @@ namespace SiiTaxi.Models
 
         public PeopleViewModel()
         {
-            _context = new SiiTaxiEntities();
+            Context = new SiiTaxiEntities();
             People = Get<People>();
             Approvers = People.Where(x => x.IsApprover);
         }
@@ -26,7 +26,7 @@ namespace SiiTaxi.Models
         {
             if (entity == null)
             {
-                entity = _context.People.Add(update);
+                entity = Context.People.Add(update);
             }
             else
             {
@@ -37,7 +37,7 @@ namespace SiiTaxi.Models
                 entity.IsApprover = update.IsApprover;
             }
 
-            _context.SaveChanges();
+            Context.SaveChanges();
             return entity;
         }
 

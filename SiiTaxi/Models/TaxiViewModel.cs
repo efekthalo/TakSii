@@ -4,75 +4,70 @@ using SiiTaxi.Email;
 
 namespace SiiTaxi.Models
 {
-    public class TaxiViewModel
+    public sealed class TaxiViewModel : AbstractViewModel
     {
-        private readonly SiiTaxiEntities _context;
         public IQueryable<Taxi> Taxis;
+
         public DateTime DateInput { get; set; }
 
         public TaxiViewModel()
         {
-            _context = new SiiTaxiEntities();
+            Context = new SiiTaxiEntities();
             DateInput = DateTime.Now.Date;
-            Taxis = _context.Taxi;
+            Taxis = Get<Taxi>();
         }
 
         public TaxiViewModel(DateTime date)
         {
-            _context = new SiiTaxiEntities();
+            Context = new SiiTaxiEntities();
             DateInput = date;
-            Taxis = _context.Taxi.Where(x => (x.Time.Year == date.Year) && (x.Time.Month == date.Month) && (x.Time.Day == date.Day));
+            Taxis = Get<Taxi>().Where(x => (x.Time.Year == date.Year) && (x.Time.Month == date.Month) && (x.Time.Day == date.Day));
         }
 
-        internal Taxi GetEntityByKey(int key)
+        public Taxi UpdateEntity(Taxi update)
         {
-            return _context.Taxi.Find(key);
-        }
-
-        internal Taxi UpdateEntity(Taxi update)
-        {
-            var entity = GetEntityByKey(update.TaxiId);
+            var entity = GetEntityBy<Taxi>("TaxiId", update.TaxiId);
             if (entity == null)
             {
-                string code = Guid.NewGuid().ToString();
+                var code = Guid.NewGuid().ToString();
                 update.Confirm = code;
-                entity = _context.Taxi.Add(update);
-                _context.SaveChanges();
+                entity = Context.Taxi.Add(update);
+                Context.SaveChanges();
 
-                var template = new ConfirmTemplate();
-                template.ConfirmationString = code;
-                template.TaxiId = entity.TaxiId;
+                var template = new ConfirmTemplate
+                {
+                    ConfirmationString = code,
+                    TaxiId = entity.TaxiId
+                };
                 var body = template.TransformText();
 
-                var client = new Emailer("taksii.test@gmail.com", _context.People.Find(entity.Owner).Email, _context.People.Find(entity.Approver).Email, body);
-                client.SendEmail();
+                var people = Context.People.Find(entity.Owner);
+                var approver = Context.People.Find(entity.Approver);
+                if (people != null && approver != null)
+                {
+                    var client = new Emailer("taksii.test@gmail.com", people.Email, approver.Email, body);
+                    client.SendEmail();
+                }
             }
             else
             {
                 //update.TaxiId = entity.TaxiId;
                 //entity = update;
-                _context.Entry(entity).CurrentValues.SetValues(update);
-                _context.SaveChanges();
+                Context.Entry(entity).CurrentValues.SetValues(update);
+                Context.SaveChanges();
             }
 
             return entity;
         }
 
-        internal void Delete(Taxi delete)
-        {
-            var taxi = GetEntityByKey(delete.TaxiId);
-            _context.Taxi.Remove(taxi);
-            _context.SaveChanges();
-        }
-
         internal void ConfirmTaxi(int id, string confirm)
         {
-            var taxi = GetEntityByKey(id);
+            var taxi = GetEntityBy<Taxi>("TaxiId", id);
 
             if (taxi.Confirm == confirm)
             {
                 taxi.IsConfirmed = true;
-                _context.SaveChanges();
+                Context.SaveChanges();
             }
             else
             {

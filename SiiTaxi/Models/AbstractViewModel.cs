@@ -7,48 +7,48 @@ namespace SiiTaxi.Models
 {
     public abstract class AbstractViewModel
     {
-        public SiiTaxiEntities _context;
+        internal SiiTaxiEntities Context;
 
-        public IQueryable<T> Get<T>() where T : class
+        public virtual IQueryable<T> Get<T>() where T : class
         {
-            var list = _context.Set<T>();
-            return list == null ? new List<T>().AsQueryable() : list;
+            var list = Context.Set<T>();
+            return list ?? new List<T>().AsQueryable();
         }
 
-        public T GetEntityBy<T>(string propertyToSelectBy, object valueToSelectBy) where T : class
+        public virtual T GetEntityBy<T>(string propertyToSelectBy, object valueToSelectBy) where T : class
         {
-            return _context.Set<T>().Where(string.Format("{0} = {1}", propertyToSelectBy, valueToSelectBy)).FirstOrDefault();
+            return Context.Set<T>().Where($"{propertyToSelectBy} = {valueToSelectBy}").FirstOrDefault();
         }
 
-        public T UpdateEntityBy<T>(string propertyToSelectBy, T update) where T : class
+        public virtual T UpdateEntityBy<T>(string propertyToSelectBy, T update) where T : class
         {
             var entityValue = update.GetType().GetProperty(propertyToSelectBy).GetValue(update, null);
             var entity = GetEntityBy<T>(propertyToSelectBy, entityValue);
             return UpdateEntity(entity, update);
         }
 
-        private T UpdateEntity<T>(T entity, T update) where T : class
+        public virtual T UpdateEntity<T>(T entity, T update) where T : class
         {
             if (entity == null)
             {
-                entity = (T)_context.Set(typeof(T)).Add(update);
+                entity = (T)Context.Set(typeof(T)).Add(update);
             }
             else
             {
-                _context.Entry(entity).CurrentValues.SetValues(update);
+                Context.Entry(entity).CurrentValues.SetValues(update);
             }
 
-            _context.SaveChanges();
+            Context.SaveChanges();
             return entity;
         }
 
-        public void Delete<T>(string propertyToSelectBy, object valueToSelectBy) where T : class
+        public virtual void Delete<T>(string propertyToSelectBy, object valueToSelectBy) where T : class
         {
             var entity = GetEntityBy<T>(propertyToSelectBy, valueToSelectBy);
             if (entity != null)
             {
-                _context.Set<T>().Remove(entity);
-                _context.SaveChanges();
+                Context.Set<T>().Remove(entity);
+                Context.SaveChanges();
             }
             else
             {

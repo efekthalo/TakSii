@@ -15,10 +15,5 @@ namespace SiiTaxi.Controllers
         {
             return View(new TaxiViewModel());
         }
-
-        public ActionResult Approvers(PeopleViewModel peopleModel)
-        {
-            return View(new PeopleViewModel());
-        }
     }
 }

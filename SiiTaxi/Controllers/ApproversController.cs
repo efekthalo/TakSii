@@ -6,13 +6,13 @@ namespace SiiTaxi.Controllers
     [Authorize]
     public class ApproversController : Controller
     {
-        public ActionResult Index()
+        public ActionResult Index(PeopleViewModel peopleModel)
         {
-            return View(new PeopleViewModel());
+            return View(peopleModel);
         }
 
         [HttpPost]
-        public ActionResult Index(string name, string phone, string email, string emailAlt, TaxiViewModel taxiModel, PeopleViewModel peopleModel)
+        public ActionResult Index(string name, string phone, string email, string emailAlt, PeopleViewModel peopleModel)
         {
             var person = new People()
             {
@@ -28,9 +28,9 @@ namespace SiiTaxi.Controllers
             return RedirectToAction("Index", "Approvers");
         }
 
-
         [HttpPost]
-        public ActionResult Delete(int id, PeopleViewModel peopleModel)
+        [ActionName("Delete")]
+        public ActionResult DeletePost(int id, PeopleViewModel peopleModel)
         {
             peopleModel.Delete<People>("PeopleId", id);
 
@@ -38,11 +38,10 @@ namespace SiiTaxi.Controllers
         }
 
         [HttpGet]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int id, PeopleViewModel peopleModel)
         {
-            return View(new PeopleViewModel().GetEntityBy<People>("PeopleId", id));
+            return View(peopleModel.GetEntityBy<People>("PeopleId", id));
         }
-
 
         [HttpPost]
         public ActionResult Update(int id, string name, string email, string emailAlt, string phone, PeopleViewModel peopleModel)
@@ -58,9 +57,9 @@ namespace SiiTaxi.Controllers
             return RedirectToAction("Index", "Approvers");
         }
 
-        public ActionResult Update(int id)
+        public ActionResult Update(int id, PeopleViewModel peopleModel)
         {
-            return View(new PeopleViewModel().GetEntityBy<People>("PeopleId", id));
+            return View(peopleModel.GetEntityBy<People>("PeopleId", id));
         }
     }
 }
