@@ -12,14 +12,13 @@ namespace SiiTaxi.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(string name, string phone, string email, string emailAlt, TaxiViewModel taxiModel, PeopleViewModel peopleModel)
+        public ActionResult Index(string name, string phone, string email, TaxiViewModel taxiModel, PeopleViewModel peopleModel)
         {
             var person = new People()
             {
                 Name = name,
                 Phone = phone,
                 Email = email,
-                AltEmail = emailAlt,
                 IsApprover = true
             };
 
@@ -32,7 +31,9 @@ namespace SiiTaxi.Controllers
         [HttpPost]
         public ActionResult Delete(int id, PeopleViewModel peopleModel)
         {
-            peopleModel.Delete(id);
+            var person = peopleModel.GetEntityByKey(id);
+            person.IsApprover = false;
+            peopleModel.UpdateApproverByEmail(person);
 
             return RedirectToAction("Index", "Approvers");
         }
@@ -45,12 +46,11 @@ namespace SiiTaxi.Controllers
 
 
         [HttpPost]
-        public ActionResult Update(int id, string name, string email, string emailAlt, string phone, PeopleViewModel peopleModel)
+        public ActionResult Update(int id, string name, string email, string phone, PeopleViewModel peopleModel)
         {
             var approver = peopleModel.GetEntityByKey(id);
             approver.Name = name;
             approver.Email = email;
-            approver.AltEmail = emailAlt;
             approver.Phone = phone;
 
             peopleModel.UpdateApproverByEmail(approver);

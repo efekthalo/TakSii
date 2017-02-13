@@ -5,7 +5,6 @@
 }
 <h2>Administracja</h2>
 <ul class="nav nav-pills">
-    <li role="presentation">@Html.ActionLink("Home", "Index", "Admin")</li>
     <li role="presentation">@Html.ActionLink("Taxi", "Taxi", "Admin")</li>
     <li role="presentation" class="active">@Html.ActionLink("Approvers", "Index", "Approvers")</li>
     <li role="presentation">@Html.ActionLink("Zarządzaj kontem", "Index", "Manage")</li>
@@ -35,10 +34,6 @@
         <div class="form-group">
             <label for="email">E-mail: </label>
             <input class="form-control" id="email" type="email" name="email" value="@Model.Email" placeholder="Email" />
-        </div>
-        <div class="form-group">
-            <label for="email">Alternatywny E-mail: </label>
-            <input class="form-control" id="email" type="email" name="emailAlt"  value="@Model.AltEmail" placeholder="Alternatywny Email" />
         </div>
         <div class="form-group">
             <label for="phone">Nnumer telefonu: </label>

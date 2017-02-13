@@ -10,7 +10,7 @@ namespace SiiTaxi.Controllers
     public class TaxiController : Controller
     {
         [HttpPost]
-        public ActionResult New(string ownerName, string ownerPhone, string time, string ownerEmail, string ownerAltEmail, string przejazdFrom, string przejazdTo, List<string> adds, int approver, TaxiViewModel taxiModel, PeopleViewModel peopleModel, TaxiPeopleViewModel taxiPeopleModel)
+        public ActionResult New(string ownerName, string ownerPhone, string time, string ownerEmail, string przejazdFrom, string przejazdTo, List<string> adds, int approver, TaxiViewModel taxiModel, PeopleViewModel peopleModel, TaxiPeopleViewModel taxiPeopleModel)
         {
             TempData["formData"] = Request.Form;
             string EncodedResponse = Request.Form["g-Recaptcha-Response"];
@@ -23,11 +23,6 @@ namespace SiiTaxi.Controllers
             if(!Validators.IsEmailValid(ownerEmail, true))
             {
                 TempData["errorMessage"] = Messages.NotValidCompanyEmail;
-                return View(new PeopleViewModel());
-            }
-            if (!Validators.IsEmailValid(ownerAltEmail))
-            {
-                TempData["errorMessage"] = Messages.NotValidAltEmail;
                 return View(new PeopleViewModel());
             }
 
@@ -44,7 +39,6 @@ namespace SiiTaxi.Controllers
             {
                 Name = ownerName,
                 Email = ownerEmail,
-                AltEmail = ownerAltEmail,
                 Phone = ownerPhone
             };
 
