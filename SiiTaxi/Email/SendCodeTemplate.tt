@@ -15,10 +15,10 @@
         <strong>Witam!</strong>
     </p>
     <p>
-        Kliknij w poniższy link aby potwierdzić taxi.
+        Oto kod do zamówionego przez Ciebie TAXI z <#= TaxiFrom #> do <#= TaxiTo #>. Data przejazdu: <#= TaxiTime #>.
     </p>
-    <p>
-        <a href="http://localhost:61339/Taxi/Confirm?id=<#= TaxiId #>&code=<#= ConfirmationString #>">Potwierdzam TAXI</a>
-    </p>
+    <h1>
+        <#= TaxiCodeString #>
+    </h1>
 </body>
 </html>
