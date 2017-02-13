@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Linq.Dynamic;
 
 namespace SiiTaxi.Models
@@ -14,23 +12,15 @@ namespace SiiTaxi.Models
         public PeopleViewModel()
         {
             _context = new SiiTaxiEntities();
-            People = Get();
+            People = Get<People>();
             Approvers = People.Where(x => x.IsApprover);
         }
 
-        public IQueryable<People> Get()
-        {
-            var list = _context.People;
-            return list == null ? new List<People>().AsQueryable() : list;
-        }
-
-         public People UpdateApproverByEmail(People update)
+        public People UpdateApproverByEmail(People update)
         {
             var entity = GetEntityBy<People>("Email", update.Email);
             return UpdateApprover(entity, update);
         }
-
-
 
         private People UpdateApprover(People entity, People update)
         {
@@ -51,11 +41,6 @@ namespace SiiTaxi.Models
             return entity;
         }
 
-        public void Delete(int key)
-        {
-            var people = _context.People.Find(key);
-            _context.People.Remove(people);
-            _context.SaveChanges();
-        }
+
     }
 }

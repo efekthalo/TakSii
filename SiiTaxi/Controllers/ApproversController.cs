@@ -32,7 +32,7 @@ namespace SiiTaxi.Controllers
         [HttpPost]
         public ActionResult Delete(int id, PeopleViewModel peopleModel)
         {
-            peopleModel.Delete(id);
+            peopleModel.Delete<People>("PeopleId", id);
 
             return RedirectToAction("Index", "Approvers");
         }

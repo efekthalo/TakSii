@@ -254,8 +254,6 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MeViewModels.cs" />
-    <Compile Include="Models\Partial\IModel.cs" />
-    <Compile Include="Models\Partial\People.cs" />
     <Compile Include="Models\People.cs">
       <DependentUpon>SiiTaxiEFModel.tt</DependentUpon>
     </Compile>

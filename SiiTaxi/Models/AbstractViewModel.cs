@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic;
-using System.Web;
 
 namespace SiiTaxi.Models
 {
@@ -10,19 +9,25 @@ namespace SiiTaxi.Models
     {
         public SiiTaxiEntities _context;
 
-        public T GetEntityBy<T>(string propertyToSelectBy, object valueToSelectBy)
+        public IQueryable<T> Get<T>() where T : class
         {
-            return _context.Set(typeof(T)).Where(string.Format("{0} = {1}", propertyToSelectBy, valueToSelectBy)).;
+            var list = _context.Set<T>();
+            return list == null ? new List<T>().AsQueryable() : list;
         }
 
-        public T UpdateEntityBy<T>(string propertyToSelectBy, T update)
+        public T GetEntityBy<T>(string propertyToSelectBy, object valueToSelectBy) where T : class
+        {
+            return _context.Set<T>().Where(string.Format("{0} = {1}", propertyToSelectBy, valueToSelectBy)).FirstOrDefault();
+        }
+
+        public T UpdateEntityBy<T>(string propertyToSelectBy, T update) where T : class
         {
             var entityValue = update.GetType().GetProperty(propertyToSelectBy).GetValue(update, null);
             var entity = GetEntityBy<T>(propertyToSelectBy, entityValue);
-            return UpdateEntity<T>(entity, update);
+            return UpdateEntity(entity, update);
         }
 
-        private T UpdateEntity<T>(T entity, T update)
+        private T UpdateEntity<T>(T entity, T update) where T : class
         {
             if (entity == null)
             {
@@ -30,11 +35,25 @@ namespace SiiTaxi.Models
             }
             else
             {
-                _context.Entry<T>(entity).CurrentValues.SetValues(update);
+                _context.Entry(entity).CurrentValues.SetValues(update);
             }
 
             _context.SaveChanges();
             return entity;
+        }
+
+        public void Delete<T>(string propertyToSelectBy, object valueToSelectBy) where T : class
+        {
+            var entity = GetEntityBy<T>(propertyToSelectBy, valueToSelectBy);
+            if (entity != null)
+            {
+                _context.Set<T>().Remove(entity);
+                _context.SaveChanges();
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }            
         }
     }
 }
