@@ -52,7 +52,7 @@ namespace SiiTaxi.Controllers
                 From = przejazdFrom,
                 To = przejazdTo,
                 Time = parsedTime,
-                Owner = peopleModel.UpdatePeopleByEmail(owner).PeopleId,
+                Owner = peopleModel.UpdateEntityBy<People>("Email", owner).PeopleId,
                 Approver = approver
             };
 
@@ -65,7 +65,7 @@ namespace SiiTaxi.Controllers
                     foreach (var add in adds)
                     {
                         var other = new People { Name = add, Email = "" };
-                        var taxiPeople = new TaxiPeople { TaxiId = taxi.TaxiId, PeopleId = peopleModel.UpdatePeopleByName(other).PeopleId };
+                        var taxiPeople = new TaxiPeople { TaxiId = taxi.TaxiId, PeopleId = peopleModel.UpdateEntityBy<People>("Name", other).PeopleId };
                         taxiPeopleModel.AddEntity(taxiPeople);
                     }
                 }
@@ -109,7 +109,7 @@ namespace SiiTaxi.Controllers
             try
             {
                 var other = new People { Name = name, Email = email, Phone = phone };
-                var taxiPeople = new TaxiPeople { TaxiId = id, PeopleId = peopleModel.UpdatePeopleByName(other).PeopleId };
+                var taxiPeople = new TaxiPeople { TaxiId = id, PeopleId = peopleModel.UpdateEntityBy<People>("Name", other).PeopleId };
                 taxiPeopleModel.AddEntity(taxiPeople);
             }
             catch

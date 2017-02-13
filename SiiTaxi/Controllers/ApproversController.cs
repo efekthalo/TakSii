@@ -40,14 +40,14 @@ namespace SiiTaxi.Controllers
         [HttpGet]
         public ActionResult Delete(int id)
         {
-            return View(new PeopleViewModel().GetEntityByKey(id));
+            return View(new PeopleViewModel().GetEntityBy<People>("PeopleId", id));
         }
 
 
         [HttpPost]
         public ActionResult Update(int id, string name, string email, string emailAlt, string phone, PeopleViewModel peopleModel)
         {
-            var approver = peopleModel.GetEntityByKey(id);
+            var approver = peopleModel.GetEntityBy<People>("PeopleId", id);
             approver.Name = name;
             approver.Email = email;
             approver.AltEmail = emailAlt;
@@ -60,7 +60,7 @@ namespace SiiTaxi.Controllers
 
         public ActionResult Update(int id)
         {
-            return View(new PeopleViewModel().GetEntityByKey(id));
+            return View(new PeopleViewModel().GetEntityBy<People>("PeopleId", id));
         }
     }
 }
