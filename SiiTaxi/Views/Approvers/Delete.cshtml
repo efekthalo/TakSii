@@ -33,9 +33,6 @@
             <label>E-mail </label> @Model.Email
         </div>
         <div class="panel-body">
-            <label>Alternatywny E-mail: </label> @Model.AltEmail
-        </div>
-        <div class="panel-body">
             <label>Numer telefonu: </label> @Model.Phone
         </div>
         <form method="post" action="@Url.Action("Delete", "Approvers", new { id = Model.PeopleId })">
