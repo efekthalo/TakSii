@@ -1,4 +1,5 @@
 ﻿@using SiiTaxi.Models;
+@using System.Collections.Specialized
 @model SiiTaxi.Models.PeopleViewModel
 @{
     ViewBag.Title = "Nowy przejazd";
@@ -21,21 +22,28 @@
         <strong>Sukces!</strong> @TempData["successMessage"]
     </div>
 }
+@functions {
+    public string GetValue(string name)
+    {
+        var x = TempData["formData"] as NameValueCollection;
+        return x != null? x[name] : "";
+    }
+    }
 <form method="post" action="@Url.Action("New", "Taxi")">
     <div class="form-group">
         <label for="ownerName">Zgłaszający:</label>
-        <input type="text" class="form-control" id="ownerName" name="ownerName" placeholder="Imię i nazwisko" required>
-        <input type="tel" class="form-control" id="ownerPhone" name="ownerPhone" placeholder="Numer telefonu">
-        <input type="email" class="form-control" id="ownerEmail" name="ownerEmail" aria-describedby="emailHelp" placeholder="E-mail" required>
+        <input type="text" class="form-control" id="ownerName" name="ownerName" value="@GetValue("ownerName")" placeholder="Imię i nazwisko" required>
+        <input type="tel" class="form-control" id="ownerPhone" value="@GetValue("ownerPhone")" name="ownerPhone" placeholder="Numer telefonu">
+        <input type="email" class="form-control" id="ownerEmail" value="@GetValue("ownerEmail")" name="ownerEmail" aria-describedby="emailHelp" placeholder="E-mail" required>
         <small id="emailHelp" class="form-text text-muted">Podaj swój e-mail w Sii.</small>
-        <input type="email" class="form-control" id="ownerAltEmail" name="ownerAltEmail" aria-describedby="emailHelp" placeholder="Alternatywny E-mail">
+        <input type="email" class="form-control" id="ownerAltEmail" name="ownerAltEmail" value="@GetValue("ownerAltEmail")" aria-describedby="emailHelp" placeholder="Alternatywny E-mail">
         <small id="emailHelp" class="form-text text-muted">Podaj swój alternatywny e-mail.</small>
     </div>
 
     <div class="form-group">
         <label for="datetimepicker10">Data i godzina przejazdu:</label>
         <div class="input-group date" id="datetimepicker10">
-            <input type="text" class="form-control" id="time" name="time" />
+            <input type="text" class="form-control" id="time" name="time" value="@GetValue("time")" />
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-calendar">
                 </span>
@@ -45,17 +53,24 @@
 
     <div class="form-group">
         <label for="przejazdFrom">Miejsce początkowe:</label>
-        <input type="text" class="form-control" id="przejazdFrom" name="przejazdFrom" required>
+        <input type="text" class="form-control" id="przejazdFrom" name="przejazdFrom" value="@GetValue("przejazdFrom")" required>
         <label for="przejazdTo">Miejsce docelowe:</label>
-        <input type="text" class="form-control" id="przejazdTo" name="przejazdTo" required>
+        <input type="text" class="form-control" id="przejazdTo" name="przejazdTo" value="@GetValue("przejazdTo")" required>
     </div>
 
     <div class="form-group">
         <label for="exampleSelect1">Wybierz approvera:</label>
         <select class="form-control" name="approver" id="exampleSelect1" required>
             @foreach (People approver in Model.Approvers)
-            {
+    {           
+                if (GetValue("approver") == approver.PeopleId.ToString())
+                {
+                    <option value="@approver.PeopleId" selected="selected">@approver.Name</option>
+                }
+                else
+                {
                 <option value="@approver.PeopleId">@approver.Name</option>
+                }
             }
         </select>
     </div>
@@ -89,7 +104,7 @@
         $(function () {
             $('#datetimepicker10')
                 .datetimepicker({
-                    locale: 'pl',
+                locale: 'pl',
                     defaultDate: new Date('@DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss")'),
                     viewMode: 'days',
                     format: 'DD/MM/YYYY HH:mm'
@@ -124,7 +139,7 @@
                 $('#osobyButton').addClass('disabled');
             }
         }
-        
+
         var deleteInputs = function () {
             if ($('.dodatkowaOsoba').length > maleTaxi) {
                 $('.dodatkowaOsoba:gt('+(maleTaxi-1)+')').remove();
@@ -144,9 +159,9 @@
                     .on("click",
                         function () {
                             $(this).parent().remove();
-                            dodatkoweOsoby--;
-                            refreshButton();
-                        });
+                    dodatkoweOsoby--;
+                    refreshButton();
+                });
             }
 
             refreshButton();
