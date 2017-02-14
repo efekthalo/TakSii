@@ -10,18 +10,6 @@
 }
 
 <h2>Nowy przejazd</h2>
-@if (TempData["errorMessage"] != null)
-{
-    <div class="alert alert-danger">
-        <strong>Błąd!</strong> @TempData["errorMessage"]
-    </div>
-}
-@if (TempData["successMessage"] != null)
-{
-    <div class="alert alert-success">
-        <strong>Sukces!</strong> @TempData["successMessage"]
-    </div>
-}
 @functions {
     public string GetValue(string name)
     {
@@ -29,19 +17,28 @@
         return x != null? x[name] : "";
     }
     }
-<form method="post" action="@Url.Action("New", "Taxi")">
-    <div class="form-group">
+<form method="post" action="@Url.Action("New", "Taxi")" data-toggle="validator">
+    <div class="form-group has-feedback">
         <label for="ownerName">Zgłaszający:</label>
         <input type="text" class="form-control" id="ownerName" name="ownerName" value="@GetValue("ownerName")" placeholder="Imię i nazwisko" required>
-        <input type="tel" class="form-control" id="ownerPhone" value="@GetValue("ownerPhone")" name="ownerPhone" placeholder="Numer telefonu">
-        <input type="email" class="form-control" id="ownerEmail" value="@GetValue("ownerEmail")" name="ownerEmail" aria-describedby="emailHelp" placeholder="E-mail" required>
-        <small id="emailHelp" class="form-text text-muted">Podaj swój e-mail w Sii.</small>
+        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+        <div class="help-block with-errors"></div>
+    </div>
+    <div class="form-group has-feedback">
+        <input type="email" class="form-control" id="ownerEmail" value="@GetValue("ownerEmail")" name="ownerEmail" pattern=".*pl\.sii\.eu" data-pattern-error="Dopuszczalny tylko E-mail Sii!" placeholder="E-mail" required>
+        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+        <div class="help-block with-errors"></div>
+    </div>
+    <div class="form-group has-feedback">
+        <input type="tel" class="form-control" id="ownerPhone" value="@GetValue("ownerPhone")" name="ownerPhone" pattern="[\+]?\d{8,12}" data-pattern-error="Niepoprawny numer telefonu!" placeholder="Numer telefonu">    
+        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+        <div class="help-block with-errors"></div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group has-feedback">
         <label for="datetimepicker10">Data i godzina przejazdu:</label>
         <div class="input-group date" id="datetimepicker10">
-            <input type="text" class="form-control" id="time" name="time" value="@GetValue("time")" />
+            <input type="text" class="form-control" id="time" name="time" value="@GetValue("time")" required />
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-calendar">
                 </span>
@@ -49,16 +46,23 @@
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group has-feedback">
         <label for="przejazdFrom">Miejsce początkowe:</label>
         <input type="text" class="form-control" id="przejazdFrom" name="przejazdFrom" value="@GetValue("przejazdFrom")" required>
-        <label for="przejazdTo">Miejsce docelowe:</label>
-        <input type="text" class="form-control" id="przejazdTo" name="przejazdTo" value="@GetValue("przejazdTo")" required>
+        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+        <div class="help-block with-errors"></div>
     </div>
+        <div class="form-group has-feedback">
+            <label for="przejazdTo">Miejsce docelowe:</label>
+            <input type="text" class="form-control" id="przejazdTo" name="przejazdTo" value="@GetValue("przejazdTo")" required>
+            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+            <div class="help-block with-errors"></div>
+        </div>
 
     <div class="form-group">
         <label for="exampleSelect1">Wybierz approvera:</label>
         <select class="form-control" name="approver" id="exampleSelect1" required>
+            <option disabled selected> -- Wybierz Approvera -- </option>
             @foreach (People approver in Model.Approvers)
     {           
                 if (GetValue("approver") == approver.PeopleId.ToString())
@@ -71,6 +75,8 @@
                 }
             }
         </select>
+        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+        <div class="help-block with-errors"></div>
     </div>
 
     <div class="form-check form-check-inline">

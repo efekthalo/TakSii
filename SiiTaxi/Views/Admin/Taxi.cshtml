@@ -4,32 +4,30 @@
     ViewBag.Title = "Administracja";
 }
 <h2>Administracja</h2>
-@if (TempData["errorMessage"] != null)
-{
-    <div class="alert alert-danger">
-        <strong>Błąd!</strong> @TempData["errorMessage"]
-    </div>
-}
-@if (TempData["successMessage"] != null)
-{
-    <div class="alert alert-success">
-        <strong>Sukces!</strong> @TempData["successMessage"]
-    </div>
-}
 <ul class="nav nav-pills">
     <li role="presentation" class="active">@Html.ActionLink("Taxi", "Taxi", "Admin")</li>
     <li role="presentation">@Html.ActionLink("Approvers", "Index", "Approvers")</li>
     <li role="presentation">@Html.ActionLink("Zarządzaj kontem", "Index", "Manage")</li>
 </ul>
-
+<br/>
 <div>
+    <label for="datetimepicker10">Wybierz dzień:</label>
+    <div class="input-group date" id="datetimepicker10">
+        <input type="text" class="form-control" />
+        <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar">
+            </span>
+        </span>
+    </div>
+    @if (Model.Taxis.Count() > 0)
+    {
     <table class="table table-hover table-responsive">
         <thead>
             <tr class="thead-inverse">
                 <th>#</th>
                 <th>Start</th>
                 <th>Cel</th>
-                <th>Data i godzina</th>
+                <th>Godzina</th>
                 <th>Pasażerowie</th>
                 <th>Approver</th>
                 <th>PO</th>
@@ -44,7 +42,7 @@
                     <th scope="row">@taxi.TaxiId</th>
                     <td>@taxi.From</td>
                     <td>@taxi.To</td>
-                    <td>@taxi.Time.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@taxi.Time.ToString("HH:mm")</td>
                     <td>
                         <ul class="list-group">
                             <li class="list-group-item">
@@ -90,4 +88,50 @@
             }
         </tbody>
     </table>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            <strong>Pusto!</strong> Brak przejazdów wybranego dnia.
+        </div>
+    }
 </div>
+
+@section scripts {
+    <script>
+
+        $(function() {
+            var date = getParameterByName("date", window.location.href);
+
+            var choosenDate = date ? new Date(date) : new Date();
+
+            $('#datetimepicker10')
+                .datetimepicker({
+                    locale: 'pl',
+                    defaultDate: choosenDate,
+                    viewMode: 'days',
+                    format: 'DD/MM/YYYY'
+                })
+                .on("dp.change",
+                    function(e) {
+                        var date = e.date.toDate().toISOString();
+                        var url = '@Url.Action("Taxi", "Admin", new {date = "__param__"})';
+                        location.href = url.replace('__param__', encodeURIComponent(date));
+                        return false;
+                    });
+        });
+
+        function getParameterByName(name, url) {
+            if (!url) {
+                url = window.location.href;
+            }
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+    </script>
+}

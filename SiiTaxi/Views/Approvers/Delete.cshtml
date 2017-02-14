@@ -5,18 +5,6 @@
 }
 <h2>Administracja</h2>
 <div>
-@if (TempData["errorMessage"] != null)
-{
-    <div class="alert alert-danger">
-        <strong>Błąd!</strong> @TempData["errorMessage"]
-    </div>
-}
-@if (TempData["successMessage"] != null)
-{
-    <div class="alert alert-success">
-        <strong>Sukces!</strong> @TempData["successMessage"]
-    </div>
-}
 <ul class="nav nav-pills">
     <li role="presentation">@Html.ActionLink("Taxi", "Taxi", "Admin")</li>
     <li role="presentation" class="active">@Html.ActionLink("Approvers", "Index", "Approvers")</li>

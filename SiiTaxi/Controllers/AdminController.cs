@@ -1,15 +1,16 @@
 ﻿using System.Web.Mvc;
 using SiiTaxi.Models;
 using SiiTaxi.Providers;
+using System;
 
 namespace SiiTaxi.Controllers
 {
     [Authorize]
     public class AdminController : Controller
     {
-        public ActionResult Taxi()
+        public ActionResult Taxi(System.DateTime? date = null)
         {
-            return View(new TaxiViewModel());
+            return View(new TaxiViewModel(date ?? DateTime.Now));
         }
 
         public ActionResult Approvers(PeopleViewModel peopleModel)
@@ -28,7 +29,7 @@ namespace SiiTaxi.Controllers
             catch
             {
                 TempData["errorMessage"] = Messages.SendCodeFailed;
-                return View(new TaxiViewModel());
+                return RedirectToAction("Taxi", "Admin");
             }
             TempData["successMessage"] = Messages.SendCodeSucceed;
             return RedirectToAction("Taxi", "Admin");
