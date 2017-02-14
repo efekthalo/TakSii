@@ -1,0 +1,63 @@
+﻿@using SiiTaxi.Models;
+@using System.Collections.Specialized
+@model SiiTaxi.Models.Taxi
+@{
+    ViewBag.Title = "Dołącz do przejazdu";
+}
+@section recaptcha {
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+}
+@functions {
+    public string GetValue(string name)
+    {
+        var x = TempData["formData"] as NameValueCollection;
+        return x != null ? x[name] : "";
+    }
+}
+
+<h3>Dołączanie do przejazdu</h3>
+<div>
+    <div class="panel panel-info">
+        <div class="panel-heading">Informacje na temat przejazdu:</div>
+        <div class="panel-body">
+            <label>Miejsce początkowe: </label> @Model.From
+        </div>
+        <div class="panel-body">
+            <label>Miejsce docelowe: </label> @Model.To
+        </div>
+        <div class="panel-body">
+            <label>Data: </label> @Model.Time.ToString("dd/MM/yyyy")
+        </div>
+        <div class="panel-body">
+            <label>Godzina: </label> @Model.Time.ToString("HH:mm")
+        </div>
+    </div>
+
+    <form method="post" action="@Url.Action("Include", "Taxi", new { id = Model.TaxiId })" data-toggle="validator">
+        <div class="form-group has-feedback">
+            <label for="name">Podaj swoje imię i nazwisko: </label>
+            <input class="form-control" id="name" name="name" type="text" value="@GetValue("name")" placeholder="Imię i nazwisko" required/>
+            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+            <div class="help-block with-errors"></div>
+        </div>
+        <div class="form-group has-feedback">
+            <label for="email">Wpisz swoj email: </label>
+            <input class="form-control" id="email" type="email" name="email" value="@GetValue("email")" pattern=".*pl\.sii\.eu" data-pattern-error="Dopuszczalny tylko E-mail Sii!" placeholder="E-mail" required>
+            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+            <div class="help-block with-errors"></div>
+        </div>
+        <div class="form-group has-feedback">
+            <label for="phone">Podaj swój numer telefonu: </label>
+            <input class="form-control" id="phone" name="phone" type="tel" value="@GetValue("phone")" pattern="[\+]?\d{8,12}" data-pattern-error="Niepoprawny numer telefonu!" placeholder="Numer telefonu"/>
+            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+            <div class="help-block with-errors"></div>
+        </div>
+        <br/>
+        <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
+
+        <br/>
+        <button class="btn btn-primary" type="submit">Dołącz</button>
+        <button class="btn btn-danger" onclick="location.href = '@Url.Action("Index", "Taxi")'">Anuluj</button>
+    </form>
+
+</div>

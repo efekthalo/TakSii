@@ -12,32 +12,26 @@
 
 <h3>Edycja Approvera</h3>
 <div>
-@if (TempData["errorMessage"] != null)
-{
-    <div class="alert alert-danger">
-        <strong>Błąd!</strong> @TempData["errorMessage"]
-    </div>
-}
-@if (TempData["successMessage"] != null)
-{
-    <div class="alert alert-success">
-        <strong>Sukces!</strong> @TempData["successMessage"]
-    </div>
-}
 <div>
 
-    <form method="post" action="@Url.Action("Update", "Approvers", new { id = Model.PeopleId })">
-        <div class="form-group">
-            <label for="name">Imię i nazwisko: </label>
-            <input class="form-control" id="name" name="name" type="text" value="@Model.Name" placeholder="Imię i nazwisko" />
+    <form method="post" action="@Url.Action("Update", "Approvers", new { id = Model.PeopleId })" data-toggle="validator">
+        <div class="form-group has-feedback">
+            <label for="name">Imię i nazwisko:</label>
+            <input class="form-control" id="name" name="name" type="text" value="@Model.Name" placeholder="Imię i nazwisko" required/>
+            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+            <div class="help-block with-errors"></div>
+        </div>
+        <div class="form-group has-feedback">
+            <label for="email">E-mail:</label>
+            <input class="form-control" id="email" type="email" name="email" value="@Model.Email" pattern=".*pl\.sii\.eu" data-pattern-error="Dopuszczalny tylko E-mail Sii!" placeholder="E-mail" required>
+        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+        <div class="help-block with-errors"></div>
         </div>
         <div class="form-group">
-            <label for="email">E-mail: </label>
-            <input class="form-control" id="email" type="email" name="email" value="@Model.Email" placeholder="Email" />
-        </div>
-        <div class="form-group">
-            <label for="phone">Nnumer telefonu: </label>
-            <input class="form-control" id="phone" name="phone" type="tel"  value="@Model.Phone" placeholder="Telefon" />
+            <label for="phone">Numer telefonu:</label>
+            <input class="form-control" id="phone" name="phone" type="tel"  value="@Model.Phone" pattern="[\+]?\d{8,12}" data-pattern-error="Niepoprawny numer telefonu!" placeholder="Numer telefonu">    
+        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+        <div class="help-block with-errors"></div>
         </div>
 
         <br />

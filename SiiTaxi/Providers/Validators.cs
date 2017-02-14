@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace SiiTaxi.Providers
 {
@@ -21,6 +22,11 @@ namespace SiiTaxi.Providers
         public static bool IsCaptchaValid(string response)
         {
             return (ReCaptcha.Validate(response) == "True" ? true : false);
+        }
+
+        public static bool IsPhoneValid(string phone)
+        {
+            return Regex.Match(phone, @"[+]?\d{8,12}").Success || phone == string.Empty;
         }
     }
 }

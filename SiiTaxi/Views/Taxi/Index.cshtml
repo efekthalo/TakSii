@@ -3,18 +3,6 @@
     ViewBag.Title = "Przejazdy";
 }
 <h2>Przejazdy</h2>
-@if (TempData["errorMessage"] != null)
-{
-    <div class="alert alert-danger">
-        <strong>Błąd!</strong> @TempData["errorMessage"]
-    </div>
-}
-@if (TempData["successMessage"] != null)
-{
-    <div class="alert alert-success">
-        <strong>Sukces!</strong> @TempData["successMessage"]
-    </div>
-}
 <div class="form-group">
     <label for="datetimepicker10">Wybierz dzień:</label>
     <div class="input-group date" id="datetimepicker10">
@@ -26,6 +14,8 @@
     </div>
 </div>
 <div>
+@if (Model.Taxis.Count() > 0)
+{
     <table class="table table-hover table-responsive">
         <thead>
         <tr class="thead-inverse">
@@ -46,16 +36,16 @@
                 <td>@objUser.To</td>
                 <td>@objUser.Time.ToString("HH:mm")</td>
                 <td>@(objUser.TaxiPeople.Count + 1) / 4</td>
-                @if (objUser.TaxiPeople.Count <= 3)
+                @if (objUser.TaxiPeople.Count <= 2)
                 {
                     <td>
-                        <button type="button" class="btn btn-small btn-success" onclick="location.href = '@Url.Action("Include", "Taxi", new {id = objUser.TaxiId})';return false;">Dołącz</button>
+                        <button type="button" class="btn btn-small btn-success" onclick="location.href = '@Url.Action("Join", "Taxi", new { id = objUser.TaxiId })';return false;">Dołącz</button>
                     </td>
                 }
                 else
                 {
                     <td>
-                        <button type="button" class="btn btn-small btn-danger" onclick="location.href = '@Url.Action("Include", "Taxi", new {id = objUser.TaxiId})';return false;" disabled>Pełno</button>
+                        <button type="button" class="btn btn-small btn-danger" disabled>Pełno</button>
                     </td>
                 }
 
@@ -63,6 +53,13 @@
         }
         </tbody>
     </table>
+        }
+        else
+        {
+    <div class="alert alert-info">
+        <strong>Pusto!</strong> Brak przejazdów wybranego dnia.
+    </div>
+    }
 </div>
 
 @section scripts {

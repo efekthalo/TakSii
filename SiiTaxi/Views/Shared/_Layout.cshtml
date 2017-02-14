@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -23,7 +23,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("TakSii", "Index", "Home", null, new {@class = "navbar-brand"})
+                @Html.ActionLink("TakSii", "Index", "Taxi", null, new {@class = "navbar-brand"})
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
@@ -38,6 +38,18 @@
     <section>
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
+                @if (TempData["errorMessage"] != null)
+                {
+                    <div class="alert alert-danger">
+                        <strong>Błąd!</strong> @TempData["errorMessage"]
+                    </div>
+                }
+                @if (TempData["successMessage"] != null)
+                {
+                    <div class="alert alert-success">
+                        <strong>Sukces!</strong> @TempData["successMessage"]
+                    </div>
+                }
                 @RenderBody()
             </div>
         </div>

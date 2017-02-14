@@ -8,18 +8,6 @@
 }
 
 <h3>Potwierdzenie przejazdu</h3>
-@if (TempData["errorMessage"] != null)
-{
-    <div class="alert alert-danger">
-        <strong>Błąd!</strong> @TempData["errorMessage"]
-    </div>
-}
-@if (TempData["successMessage"] != null)
-{
-    <div class="alert alert-success">
-        <strong>Sukces!</strong> @TempData["successMessage"]
-    </div>
-}
 <div>
     <div class="panel panel-info">
         <div class="panel-heading">Informacje na temat przejazdu:</div>
