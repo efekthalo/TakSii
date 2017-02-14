@@ -18,7 +18,6 @@
     </div>
 }
 <ul class="nav nav-pills">
-    <li role="presentation">@Html.ActionLink("Home", "Index", "Admin")</li>
     <li role="presentation">@Html.ActionLink("Taxi", "Taxi", "Admin")</li>
     <li role="presentation" class="active">@Html.ActionLink("Approvers", "Index", "Approvers")</li>
     <li role="presentation">@Html.ActionLink("Zarządzaj kontem", "Index", "Manage")</li>
@@ -33,7 +32,6 @@
                 <th>#</th>
                 <th>Imię i nazwisko</th>
                 <th>E-mail</th>
-                <th>E-mail 2</th>
                 <th>Telefon</th>
                 <th>Akcja</th>
             </tr>
@@ -45,7 +43,6 @@
                     <th scope="row">@approver.PeopleId</th>
                     <td>@approver.Name</td>
                     <td>@approver.Email</td>
-                    <td>@approver.AltEmail</td>
                     <td>@approver.Phone</td>
                     <td>
                         <button type="button" class="btn btn-small btn-default" onclick="location.href = '@Url.Action("Update", "Approvers", new {id = approver.PeopleId})';return false;">Edytuj</button>
@@ -81,10 +78,6 @@
                     <div class="form-group">
                         <label for="email">Podaj E-mail: </label>
                         <input class="form-control" id="email" type="email" name="email" placeholder="Email" />
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Podaj alternatywny E-mail: </label>
-                        <input class="form-control" id="emailAlt" type="email" name="emailAlt" placeholder="Alternatywny Email" />
                     </div>
                     <br />
                     <button class="btn btn-primary" type="submit">Dodaj</button><button type="button" class="btn btn-default" data-dismiss="modal">Anuluj</button>

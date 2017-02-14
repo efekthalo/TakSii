@@ -73,7 +73,6 @@ namespace SiiTaxi.Models
             {
                 entity.Name = update.Name;
                 entity.Email = update.Email;
-                entity.AltEmail = update.AltEmail;
                 entity.Phone = update.Phone;
             }
 
@@ -91,7 +90,6 @@ namespace SiiTaxi.Models
             {
                 entity.Name = update.Name;
                 entity.Email = update.Email;
-                entity.AltEmail = update.AltEmail;
                 entity.Phone = update.Phone;
                 entity.IsApprover = update.IsApprover;
             }

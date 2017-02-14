@@ -18,7 +18,6 @@
     </div>
 }
 <ul class="nav nav-pills">
-    <li role="presentation">@Html.ActionLink("Home", "Index", "Admin")</li>
     <li role="presentation">@Html.ActionLink("Taxi", "Taxi", "Admin")</li>
     <li role="presentation" class="active">@Html.ActionLink("Approvers", "Index", "Approvers")</li>
     <li role="presentation">@Html.ActionLink("Zarządzaj kontem", "Index", "Manage")</li>
@@ -32,9 +31,6 @@
         </div>
         <div class="panel-body">
             <label>E-mail </label> @Model.Email
-        </div>
-        <div class="panel-body">
-            <label>Alternatywny E-mail: </label> @Model.AltEmail
         </div>
         <div class="panel-body">
             <label>Numer telefonu: </label> @Model.Phone

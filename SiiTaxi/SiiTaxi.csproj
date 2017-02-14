@@ -392,7 +392,6 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Taxi\Index.cshtml" />
     <Content Include="Views\Taxi\New.cshtml" />
     <Content Include="Views\Taxi\Include.cshtml" />
