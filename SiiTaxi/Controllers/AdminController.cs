@@ -13,11 +13,10 @@ namespace SiiTaxi.Controllers
             return View(new TaxiViewModel(date ?? DateTime.Now));
         }
 
-        public ActionResult Approvers(PeopleViewModel peopleModel)
-        {
-            return View(new PeopleViewModel());
-        }
-
+        //public ActionResult Approvers(PeopleViewModel peopleModel)
+        //{
+        //    return View(new PeopleViewModel());
+        //}
 
         [HttpPost]
         public ActionResult SendCode(int id, string code, TaxiViewModel taxiModel)

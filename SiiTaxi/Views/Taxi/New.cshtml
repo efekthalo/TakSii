@@ -1,6 +1,4 @@
-﻿@using SiiTaxi.Models;
-@using System.Collections.Specialized
-@model SiiTaxi.Models.PeopleViewModel
+﻿@using System.Collections.Specialized
 @{
     ViewBag.Title = "Nowy przejazd";
 }
@@ -14,9 +12,9 @@
     public string GetValue(string name)
     {
         var x = TempData["formData"] as NameValueCollection;
-        return x != null? x[name] : "";
+        return x != null ? x[name] : "";
     }
-    }
+}
 <form method="post" action="@Url.Action("New", "Taxi")" data-toggle="validator">
     <div class="form-group has-feedback">
         <label for="ownerName">Zgłaszający:</label>
@@ -30,7 +28,7 @@
         <div class="help-block with-errors"></div>
     </div>
     <div class="form-group has-feedback">
-        <input type="tel" class="form-control" id="ownerPhone" value="@GetValue("ownerPhone")" name="ownerPhone" pattern="[\+]?\d{8,12}" data-pattern-error="Niepoprawny numer telefonu!" placeholder="Numer telefonu">    
+        <input type="tel" class="form-control" id="ownerPhone" value="@GetValue("ownerPhone")" name="ownerPhone" pattern="[\+]?\d{8,12}" data-pattern-error="Niepoprawny numer telefonu!" placeholder="Numer telefonu">
         <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
         <div class="help-block with-errors"></div>
     </div>
@@ -52,26 +50,26 @@
         <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
         <div class="help-block with-errors"></div>
     </div>
-        <div class="form-group has-feedback">
-            <label for="przejazdTo">Miejsce docelowe:</label>
-            <input type="text" class="form-control" id="przejazdTo" name="przejazdTo" value="@GetValue("przejazdTo")" required>
-            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-            <div class="help-block with-errors"></div>
-        </div>
+    <div class="form-group has-feedback">
+        <label for="przejazdTo">Miejsce docelowe:</label>
+        <input type="text" class="form-control" id="przejazdTo" name="przejazdTo" value="@GetValue("przejazdTo")" required>
+        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+        <div class="help-block with-errors"></div>
+    </div>
 
     <div class="form-group">
         <label for="exampleSelect1">Wybierz approvera:</label>
         <select class="form-control" name="approver" id="exampleSelect1" required>
             <option disabled selected> -- Wybierz Approvera -- </option>
-            @foreach (People approver in Model.Approvers)
-    {           
+            @foreach (var approver in Model.Approvers)
+            {
                 if (GetValue("approver") == approver.PeopleId.ToString())
                 {
                     <option value="@approver.PeopleId" selected="selected">@approver.Name</option>
                 }
                 else
                 {
-                <option value="@approver.PeopleId">@approver.Name</option>
+                    <option value="@approver.PeopleId">@approver.Name</option>
                 }
             }
         </select>
@@ -108,7 +106,7 @@
         $(function () {
             $('#datetimepicker10')
                 .datetimepicker({
-                locale: 'pl',
+                    locale: 'pl',
                     defaultDate: new Date('@DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss")'),
                     viewMode: 'days',
                     format: 'DD/MM/YYYY HH:mm'
@@ -146,7 +144,7 @@
 
         var deleteInputs = function () {
             if ($('.dodatkowaOsoba').length > maleTaxi) {
-                $('.dodatkowaOsoba:gt('+(maleTaxi-1)+')').remove();
+                $('.dodatkowaOsoba:gt(' + (maleTaxi - 1) + ')').remove();
             }
         }
 
@@ -163,9 +161,9 @@
                     .on("click",
                         function () {
                             $(this).parent().remove();
-                    dodatkoweOsoby--;
-                    refreshButton();
-                });
+                            dodatkoweOsoby--;
+                            refreshButton();
+                        });
             }
 
             refreshButton();

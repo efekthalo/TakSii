@@ -1,6 +1,4 @@
-﻿﻿@using SiiTaxi.Models;
-@model SiiTaxi.Models.People
-@{
+﻿@{
     ViewBag.Title = "Usuwanie approvera";
 }
 <h2>Administracja</h2>
@@ -11,7 +9,6 @@
 </ul>
 
 <h3>Edycja Approvera</h3>
-<div>
 <div>
 
     <form method="post" action="@Url.Action("Update", "Approvers", new { id = Model.PeopleId })" data-toggle="validator">
@@ -40,4 +37,3 @@
     </form>
     
 </div>
-    </div>

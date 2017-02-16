@@ -30,9 +30,9 @@ namespace SiiTaxi.Models
         public bool IsOrdered { get; set; }
         public int Approver { get; set; }
     
+        public virtual Approvers Approvers { get; set; }
         public virtual People People { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TaxiPeople> TaxiPeople { get; set; }
-        public virtual People People1 { get; set; }
     }
 }

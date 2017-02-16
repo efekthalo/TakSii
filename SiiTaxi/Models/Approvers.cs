@@ -12,25 +12,19 @@ namespace SiiTaxi.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class People
+    public partial class Approvers
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public People()
+        public Approvers()
         {
             this.Taxi = new HashSet<Taxi>();
-            this.TaxiPeople = new HashSet<TaxiPeople>();
         }
     
         public int PeopleId { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string AltEmail { get; set; }
-        public string Phone { get; set; }
+        public bool IsApprover { get; set; }
     
-        public virtual Approvers Approvers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Taxi> Taxi { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TaxiPeople> TaxiPeople { get; set; }
+        public virtual People People { get; set; }
     }
 }

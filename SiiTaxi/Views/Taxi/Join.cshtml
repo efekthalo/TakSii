@@ -1,6 +1,4 @@
-﻿@using SiiTaxi.Models;
-@using System.Collections.Specialized
-@model SiiTaxi.Models.Taxi
+﻿@using System.Collections.Specialized
 @{
     ViewBag.Title = "Dołącz do przejazdu";
 }
@@ -33,7 +31,7 @@
         </div>
     </div>
 
-    <form method="post" action="@Url.Action("Include", "Taxi", new { id = Model.TaxiId })" data-toggle="validator">
+    <form method="post" action="@Url.Action("Join", "Taxi", new { id = Model.TaxiId })" data-toggle="validator">
         <div class="form-group has-feedback">
             <label for="name">Podaj swoje imię i nazwisko: </label>
             <input class="form-control" id="name" name="name" type="text" value="@GetValue("name")" placeholder="Imię i nazwisko" required/>
