@@ -4,7 +4,6 @@ using System.Data.Entity.Core.Metadata.Edm;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Linq.Dynamic;
-using System.Reflection;
 
 namespace SiiTaxi.Models
 {
@@ -46,7 +45,7 @@ namespace SiiTaxi.Models
             }
             else
             {
-                foreach (PropertyInfo property in typeof(T).GetProperties())
+                foreach (var property in typeof(T).GetProperties())
                 {
                     var metadata = ((IObjectContextAdapter)Context).ObjectContext.MetadataWorkspace;
                     var objectItemCollection = ((ObjectItemCollection)metadata.GetItemCollection(DataSpace.OSpace));
@@ -62,7 +61,6 @@ namespace SiiTaxi.Models
                     var value = property.GetValue(update);
                     property.SetValue(entity, value);
                 }
-                //Context.Entry(entity).CurrentValues.SetValues(update);
             }
 
             Context.SaveChanges();

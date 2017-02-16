@@ -241,6 +241,9 @@
     </Compile>
     <Compile Include="Models\AbstractViewModel.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Approvers.cs">
+      <DependentUpon>SiiTaxiEFModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AspNetRoles.cs">
       <DependentUpon>SiiTaxiEFModel.tt</DependentUpon>
     </Compile>
@@ -251,9 +254,6 @@
       <DependentUpon>SiiTaxiEFModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspNetUsers.cs">
-      <DependentUpon>SiiTaxiEFModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\C__MigrationHistory.cs">
       <DependentUpon>SiiTaxiEFModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />

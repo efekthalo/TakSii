@@ -1,6 +1,4 @@
-﻿@using SiiTaxi.Models;
-@model SiiTaxi.Models.Taxi
-@{
+﻿@{
     ViewBag.Title = "Potwierdzenie przejazdu";
 }
 @section recaptcha {
@@ -15,7 +13,7 @@
             <label>Owner: </label> @Model.People.Name
         </div>
         <div class="panel-body">
-            <label>Approver: </label> @Model.People1.Name 
+            <label>Approver: </label> @Model.Approvers.People.Name 
         </div>
         <div class="panel-body">
             <label>Miejsce początkowe: </label> @Model.From

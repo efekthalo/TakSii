@@ -70,6 +70,8 @@ namespace SiiTaxi.Controllers
                         taxiPeopleModel.UpdateEntity(null, taxiPeople);
                     }
                 }
+
+                taxiModel.SendConfirmEmail(taxi.TaxiId);
             }
             catch
             {
@@ -163,7 +165,7 @@ namespace SiiTaxi.Controllers
         [HttpGet]
         public ActionResult Confirm(int id, string code)
         {
-            var taxi = new TaxiViewModel().GetEntityBy<Taxi>("Taxi", id);
+            var taxi = new TaxiViewModel().GetEntityBy<Taxi>("TaxiId", id);
             if(taxi != null && taxi.Confirm == code)
             {
                 if (taxi.IsConfirmed)

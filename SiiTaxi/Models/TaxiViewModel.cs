@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using SiiTaxi.Email;
 
@@ -24,39 +27,33 @@ namespace SiiTaxi.Models
             Taxis = Get<Taxi>().Where(x => (x.Time.Year == date.Year) && (x.Time.Month == date.Month) && (x.Time.Day == date.Day));
         }
 
-        public Taxi UpdateEntity(Taxi update)
+        public bool SendConfirmEmail(int id)
         {
-            var entity = GetEntityBy<Taxi>("TaxiId", update.TaxiId);
-            if (entity == null)
+            var entity = GetEntityBy<Taxi>("TaxiId", id);
+            if (entity != null)
             {
                 var code = Guid.NewGuid().ToString();
-                update.Confirm = code;
-                entity = Context.Taxi.Add(update);
-                Context.SaveChanges();
+                entity.Confirm = code;
+                UpdateEntityBy("TaxiId", entity);
 
                 var template = new ConfirmTemplate
                 {
                     ConfirmationString = code,
                     TaxiId = entity.TaxiId
                 };
+
                 var body = template.TransformText();
-                var people = Context.People.Find(entity.Owner);
-                var approver = Context.People.Find(entity.Approver);
+                var people = GetEntityBy<People>("PeopleId", entity.Owner);
+                var approver = GetEntityBy<People>("PeopleId", entity.Approver);
                 if (people != null && approver != null)
                 {
                     var client = new Emailer("taksii.test@gmail.com", people.Email, body, "Potwierdzenie TakSii", approver.Email);
                     client.SendEmail();
+                    return true;
                 }
             }
-            else
-            {
-                //update.TaxiId = entity.TaxiId;
-                //entity = update;
-                Context.Entry(entity).CurrentValues.SetValues(update);
-                Context.SaveChanges();
-            }
 
-            return entity;
+            return false;
         }
 
         internal void ConfirmTaxi(int id, string confirm)
@@ -76,15 +73,17 @@ namespace SiiTaxi.Models
 
         internal void SendCode(int id, string code)
         {
-            var taxi = GetEntityBy<Taxi>("TaxiId",id);
+            var taxi = GetEntityBy<Taxi>("TaxiId", id);
 
             if (taxi.IsConfirmed)
             {
-                var template = new SendCodeTemplate();
-                template.TaxiFrom = taxi.From;
-                template.TaxiTo = taxi.To;
-                template.TaxiTime = taxi.Time.ToString("HH:mm dd/MM/yyyy");
-                template.TaxiCodeString = code;
+                var template = new SendCodeTemplate
+                {
+                    TaxiFrom = taxi.From,
+                    TaxiTo = taxi.To,
+                    TaxiTime = taxi.Time.ToString("HH:mm dd/MM/yyyy"),
+                    TaxiCodeString = code
+                };
                 var body = template.TransformText();
 
                 var client = new Emailer("taksii.test@gmail.com", taxi.People.Email, body, "Kod TaxSii");

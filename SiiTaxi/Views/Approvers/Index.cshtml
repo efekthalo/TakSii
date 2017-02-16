@@ -1,5 +1,5 @@
-﻿﻿@using SiiTaxi.Models;
-@model SiiTaxi.Models.PeopleViewModel
+﻿@using SiiTaxi.Models
+@model PeopleViewModel
 @{
     ViewBag.Title = "Administracja";
 }
@@ -25,7 +25,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (People approver in Model.Approvers)
+            @foreach (var approver in Model.Approvers)
             {
                 <tr>
                     <th scope="row">@approver.PeopleId</th>
