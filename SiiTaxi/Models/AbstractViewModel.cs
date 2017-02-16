@@ -17,7 +17,15 @@ namespace SiiTaxi.Models
 
         public virtual T GetEntityBy<T>(string propertyToSelectBy, object valueToSelectBy) where T : class
         {
-            return Context.Set<T>().Where($"{propertyToSelectBy} = {valueToSelectBy}").FirstOrDefault();
+            var whereClause = "{0} = {1}";
+            if (valueToSelectBy is string)
+            {
+                whereClause = "{0} = \"{1}\"";
+            }
+
+            var predicate = string.Format(whereClause, propertyToSelectBy, valueToSelectBy);
+            var entity = Context.Set<T>().Where(predicate).FirstOrDefault();
+            return entity;
         }
 
         public virtual T UpdateEntityBy<T>(string propertyToSelectBy, T update) where T : class
