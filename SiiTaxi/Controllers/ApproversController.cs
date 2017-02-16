@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using SiiTaxi.Models;
+using SiiTaxi.Providers;
 
 namespace SiiTaxi.Controllers
 {
@@ -12,19 +13,37 @@ namespace SiiTaxi.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(string name, string phone, string email, string emailAlt, PeopleViewModel peopleModel)
+        public ActionResult Index(string name, string phone, string email, TaxiViewModel taxiModel, PeopleViewModel peopleModel)
         {
-            var person = new People()
+            if (!Validators.IsEmailValid(email, true))
             {
-                Name = name,
-                Phone = phone,
-                Email = email,
-                AltEmail = emailAlt,
-                IsApprover = true
-            };
+                TempData["errorMessage"] = Messages.NotValidCompanyEmail;
+                return RedirectToAction("Index", "Approvers");
+            }
+            if (!Validators.IsPhoneValid(phone))
+            {
+                TempData["errorMessage"] = Messages.NotValidPhone;
+                return RedirectToAction("Index", "Approvers");
+            }
 
-            peopleModel.UpdateApproverByEmail(person);
+            try
+            {
+                var person = new People()
+                {
+                    Name = name,
+                    Phone = phone,
+                    Email = email,
+                    IsApprover = true
+                };
+                peopleModel.UpdateApproverByEmail(person);
+            }
+            catch
+            {
+                TempData["errorMessage"] = Messages.AddNewApproverFailed;
+                return RedirectToAction("Index", "Approvers");
+            }
 
+            TempData["successMessage"] = Messages.AddNewApproverSucceed;
             return RedirectToAction("Index", "Approvers");
         }
 
@@ -32,34 +51,72 @@ namespace SiiTaxi.Controllers
         [ActionName("Delete")]
         public ActionResult DeletePost(int id, PeopleViewModel peopleModel)
         {
-            peopleModel.Delete<People>("PeopleId", id);
+            var person = peopleModel.GetEntityByKey(id);
+            if (person != null)
+            {
+                person.IsApprover = false;
+                peopleModel.UpdateApproverByEmail(person);
 
+                return RedirectToAction("Index", "Approvers");
+            }
+            TempData["errorMessage"] = Messages.ApproverNotFound;
             return RedirectToAction("Index", "Approvers");
         }
 
         [HttpGet]
         public ActionResult Delete(int id, PeopleViewModel peopleModel)
         {
-            return View(peopleModel.GetEntityBy<People>("PeopleId", id));
+            var person = new PeopleViewModel().GetEntityByKey(id);
+            if (person != null)
+            {
+                return View(person);
+            }
+            TempData["errorMessage"] = Messages.ApproverNotFound;
+            return RedirectToAction("Index", "Approvers");
         }
 
         [HttpPost]
-        public ActionResult Update(int id, string name, string email, string emailAlt, string phone, PeopleViewModel peopleModel)
+        public ActionResult Update(int id, string name, string email, string phone, PeopleViewModel peopleModel)
         {
-            var approver = peopleModel.GetEntityBy<People>("PeopleId", id);
-            approver.Name = name;
-            approver.Email = email;
-            approver.AltEmail = emailAlt;
-            approver.Phone = phone;
+            if (!Validators.IsEmailValid(email, true))
+            {
+                TempData["errorMessage"] = Messages.NotValidCompanyEmail;
+                return View(new PeopleViewModel().GetEntityByKey(id));
+            }
+            if (!Validators.IsPhoneValid(phone))
+            {
+                TempData["errorMessage"] = Messages.NotValidPhone;
+                return View(new PeopleViewModel().GetEntityByKey(id));
+            }
 
-            peopleModel.UpdateApproverByEmail(approver);
+            try
+            {
+                var approver = peopleModel.GetEntityByKey(id);
+                approver.Name = name;
+                approver.Email = email;
+                approver.Phone = phone;
 
+                peopleModel.UpdateApproverByEmail(approver);
+            }
+            catch
+            {
+                TempData["errorMessage"] = Messages.UpdateApproverFailed;
+                return View(new PeopleViewModel().GetEntityByKey(id));
+            }
+
+            TempData["successMessage"] = Messages.UpdateApproverSucceed;
             return RedirectToAction("Index", "Approvers");
         }
 
         public ActionResult Update(int id, PeopleViewModel peopleModel)
         {
-            return View(peopleModel.GetEntityBy<People>("PeopleId", id));
+            var person = new PeopleViewModel().GetEntityByKey(id);
+            if (person != null)
+            {
+                return View(person);
+            }
+            TempData["errorMessage"] = Messages.ApproverNotFound;
+            return RedirectToAction("Index", "Approvers");
         }
     }
 }

@@ -22,7 +22,24 @@ namespace SiiTaxi.Models
             return UpdateApprover(entity, update);
         }
 
-        private People UpdateApprover(People entity, People update)
+        internal People UpdatePeople(People entity, People update)
+        {
+            if (entity == null)
+            {
+                entity = _context.People.Add(update);
+            }
+            else
+            {
+                entity.Name = update.Name;
+                entity.Email = update.Email;
+                entity.Phone = update.Phone;
+            }
+
+            _context.SaveChanges();
+            return entity;
+        }
+
+        internal People UpdateApprover(People entity, People update)
         {
             if (entity == null)
             {
@@ -32,7 +49,6 @@ namespace SiiTaxi.Models
             {
                 entity.Name = update.Name;
                 entity.Email = update.Email;
-                entity.AltEmail = update.AltEmail;
                 entity.Phone = update.Phone;
                 entity.IsApprover = update.IsApprover;
             }
@@ -40,7 +56,5 @@ namespace SiiTaxi.Models
             Context.SaveChanges();
             return entity;
         }
-
-
     }
 }

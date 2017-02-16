@@ -225,6 +225,11 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MeController.cs" />
+    <Compile Include="Email\SendCodeTemplate.cs">
+      <DependentUpon>SendCodeTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Email\ConfirmTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -291,14 +296,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-datetimepicker-standalone.css" />
-    <Content Include="Content\bootstrap-datetimepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
-    <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
-    <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="Email\SendCodeTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>SendCodeTemplate.cs</LastGenOutput>
+    </Content>
     <Content Include="Email\ConfirmTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>ConfirmTemplate.cs</LastGenOutput>
@@ -319,7 +325,6 @@
     <Content Include="Scripts\ai.0.22.9-build00167.js" />
     <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
-    <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -331,28 +336,15 @@
     <Content Include="Models\SiiTaxiEFModel.edmx.diagram">
       <DependentUpon>SiiTaxiEFModel.edmx</DependentUpon>
     </Content>
-    <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
     <Content Include="Scripts\jquery-ui.js" />
-    <Content Include="Scripts\knockout-2.3.0.debug.js" />
-    <Content Include="Scripts\knockout-2.3.0.js" />
-    <Content Include="Scripts\knockout.validation.debug.js" />
-    <Content Include="Scripts\knockout.validation.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\moment-with-locales.js" />
-    <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\sammy-0.7.4.js" />
-    <Content Include="Scripts\sammy-0.7.4.min.js" />
+    <Content Include="Scripts\validator.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Scripts\app\_run.js" />
-    <Content Include="Scripts\app\app.datamodel.js" />
-    <Content Include="Scripts\app\app.viewmodel.js" />
-    <Content Include="Scripts\app\common.js" />
-    <Content Include="Scripts\app\home.viewmodel.js" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
@@ -388,10 +380,9 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Taxi\Index.cshtml" />
     <Content Include="Views\Taxi\New.cshtml" />
-    <Content Include="Views\Taxi\Include.cshtml" />
+    <Content Include="Views\Taxi\Join.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,28 +1,38 @@
-﻿@model SiiTaxi.Models.TaxiViewModel
+﻿﻿@using SiiTaxi.Models;
+@model SiiTaxi.Models.TaxiViewModel
 @{
     ViewBag.Title = "Administracja";
 }
 <h2>Administracja</h2>
 <ul class="nav nav-pills">
-    <li role="presentation">@Html.ActionLink("Home", "Index", "Admin")</li>
     <li role="presentation" class="active">@Html.ActionLink("Taxi", "Taxi", "Admin")</li>
     <li role="presentation">@Html.ActionLink("Approvers", "Index", "Approvers")</li>
     <li role="presentation">@Html.ActionLink("Zarządzaj kontem", "Index", "Manage")</li>
 </ul>
-
+<br/>
 <div>
-    <table class="table">
+    <label for="datetimepicker10">Wybierz dzień:</label>
+    <div class="input-group date" id="datetimepicker10">
+        <input type="text" class="form-control" />
+        <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar">
+            </span>
+        </span>
+    </div>
+    @if (Model.Taxis.Count() > 0)
+    {
+    <table class="table table-hover table-responsive">
         <thead>
             <tr class="thead-inverse">
                 <th>#</th>
                 <th>Start</th>
                 <th>Cel</th>
-                <th>Data i godzina</th>
+                <th>Godzina</th>
                 <th>Pasażerowie</th>
+                <th>Approver</th>
                 <th>PO</th>
                 <th>Z</th>
                 <th>Kod Taxi</th>
-                <th>Akcja</th>
             </tr>
         </thead>
         <tbody>
@@ -32,7 +42,7 @@
                     <th scope="row">@taxi.TaxiId</th>
                     <td>@taxi.From</td>
                     <td>@taxi.To</td>
-                    <td>@taxi.Time.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@taxi.Time.ToString("HH:mm")</td>
                     <td>
                         <ul class="list-group">
                             <li class="list-group-item">
@@ -44,7 +54,7 @@
                             }
                         </ul>
                     </td>
-
+                    <td>@taxi.People1.Name</td>
                     <td style="text-align: center;">
                         @if (taxi.IsConfirmed)
                         {
@@ -65,17 +75,63 @@
                             <span class="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span>
                         }
                     </td>
-                    <td>
-                        <input type="text" class="form-control" id="taxicode">
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-small btn-success"
-                                onclick="location.href = '@Url.Action("SendCode", "Admin", new { id = @taxi.TaxiId, taxicode = "SomeCode" })';return false">
-                            Wyslij kod
-                        </button>
+                    <td class="col-md-2">
+                        
+                        <form name="codeForm" class="input-group" method="post" action="@Url.Action("SendCode", "Admin", new { id = taxi.TaxiId })">
+                            <input type="text" class="form-control" name="code" id="taxicode" required>
+                            <span class="input-group-btn">
+                                <button type="submit" class="btn btn-success btn-search"><span class="glyphicon glyphicon glyphicon-send"></span></button>
+                            </span>
+                        </form>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            <strong>Pusto!</strong> Brak przejazdów wybranego dnia.
+        </div>
+    }
 </div>
+
+@section scripts {
+    <script>
+
+        $(function() {
+            var date = getParameterByName("date", window.location.href);
+
+            var choosenDate = date ? new Date(date) : new Date();
+
+            $('#datetimepicker10')
+                .datetimepicker({
+                    locale: 'pl',
+                    defaultDate: choosenDate,
+                    viewMode: 'days',
+                    format: 'DD/MM/YYYY'
+                })
+                .on("dp.change",
+                    function(e) {
+                        var date = e.date.toDate().toISOString();
+                        var url = '@Url.Action("Taxi", "Admin", new {date = "__param__"})';
+                        location.href = url.replace('__param__', encodeURIComponent(date));
+                        return false;
+                    });
+        });
+
+        function getParameterByName(name, url) {
+            if (!url) {
+                url = window.location.href;
+            }
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+    </script>
+}

@@ -40,12 +40,11 @@ namespace SiiTaxi.Models
                     TaxiId = entity.TaxiId
                 };
                 var body = template.TransformText();
-
                 var people = Context.People.Find(entity.Owner);
                 var approver = Context.People.Find(entity.Approver);
                 if (people != null && approver != null)
                 {
-                    var client = new Emailer("taksii.test@gmail.com", people.Email, approver.Email, body);
+                    var client = new Emailer("taksii.test@gmail.com", people.Email, body, "Potwierdzenie TakSii", approver.Email)
                     client.SendEmail();
                 }
             }
@@ -68,6 +67,28 @@ namespace SiiTaxi.Models
             {
                 taxi.IsConfirmed = true;
                 Context.SaveChanges();
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        internal void SendCode(int id, string code)
+        {
+            var taxi = GetEntityByKey(id);
+
+            if (taxi.IsConfirmed)
+            {
+                var template = new SendCodeTemplate();
+                template.TaxiFrom = taxi.From;
+                template.TaxiTo = taxi.To;
+                template.TaxiTime = taxi.Time.ToString("HH:mm dd/MM/yyyy");
+                template.TaxiCodeString = code;
+                var body = template.TransformText();
+
+                var client = new Emailer("taksii.test@gmail.com", taxi.People.Email, body, "Kod TaxSii");
+                client.SendEmail();
             }
             else
             {

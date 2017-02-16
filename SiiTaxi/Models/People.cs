@@ -25,7 +25,6 @@ namespace SiiTaxi.Models
         public int PeopleId { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
-        public string AltEmail { get; set; }
         public bool IsApprover { get; set; }
         public string Phone { get; set; }
     
