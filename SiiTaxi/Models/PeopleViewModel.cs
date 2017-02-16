@@ -26,7 +26,7 @@ namespace SiiTaxi.Models
         {
             if (entity == null)
             {
-                entity = _context.People.Add(update);
+                entity = Context.People.Add(update);
             }
             else
             {
@@ -35,7 +35,7 @@ namespace SiiTaxi.Models
                 entity.Phone = update.Phone;
             }
 
-            _context.SaveChanges();
+            Context.SaveChanges();
             return entity;
         }
 

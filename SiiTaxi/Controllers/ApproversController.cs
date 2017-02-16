@@ -51,7 +51,7 @@ namespace SiiTaxi.Controllers
         [ActionName("Delete")]
         public ActionResult DeletePost(int id, PeopleViewModel peopleModel)
         {
-            var person = peopleModel.GetEntityByKey(id);
+            var person = peopleModel.GetEntityBy<People>("PeopleId",id);
             if (person != null)
             {
                 person.IsApprover = false;
@@ -66,7 +66,7 @@ namespace SiiTaxi.Controllers
         [HttpGet]
         public ActionResult Delete(int id, PeopleViewModel peopleModel)
         {
-            var person = new PeopleViewModel().GetEntityByKey(id);
+            var person = new PeopleViewModel().GetEntityBy<People>("PeopleId", id);
             if (person != null)
             {
                 return View(person);
@@ -81,17 +81,17 @@ namespace SiiTaxi.Controllers
             if (!Validators.IsEmailValid(email, true))
             {
                 TempData["errorMessage"] = Messages.NotValidCompanyEmail;
-                return View(new PeopleViewModel().GetEntityByKey(id));
+                return View(new PeopleViewModel().GetEntityBy<People>("PeopleId", id));
             }
             if (!Validators.IsPhoneValid(phone))
             {
                 TempData["errorMessage"] = Messages.NotValidPhone;
-                return View(new PeopleViewModel().GetEntityByKey(id));
+                return View(new PeopleViewModel().GetEntityBy<People>("PeopleId", id));
             }
 
             try
             {
-                var approver = peopleModel.GetEntityByKey(id);
+                var approver = peopleModel.GetEntityBy<People>("PeopleId", id);
                 approver.Name = name;
                 approver.Email = email;
                 approver.Phone = phone;
@@ -101,7 +101,7 @@ namespace SiiTaxi.Controllers
             catch
             {
                 TempData["errorMessage"] = Messages.UpdateApproverFailed;
-                return View(new PeopleViewModel().GetEntityByKey(id));
+                return View(new PeopleViewModel().GetEntityBy<People>("PeopleId", id));
             }
 
             TempData["successMessage"] = Messages.UpdateApproverSucceed;
@@ -110,7 +110,7 @@ namespace SiiTaxi.Controllers
 
         public ActionResult Update(int id, PeopleViewModel peopleModel)
         {
-            var person = new PeopleViewModel().GetEntityByKey(id);
+            var person = new PeopleViewModel().GetEntityBy<People>("PeopleId", id);
             if (person != null)
             {
                 return View(person);

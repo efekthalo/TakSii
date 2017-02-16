@@ -90,7 +90,7 @@ namespace SiiTaxi.Controllers
         public ActionResult Join(int id)
         {
             TempData["formData"] = Request.Form;
-            var taxi = new TaxiViewModel().GetEntityByKey(id);
+            var taxi = new TaxiViewModel().GetEntityBy<Taxi>("TaxiId", id);
             if (taxi != null)
             {
                 if (taxi.TaxiPeople.Count <= 3)
@@ -110,7 +110,7 @@ namespace SiiTaxi.Controllers
         [HttpPost]
         public ActionResult Join(int id, string name, string phone, string email, TaxiViewModel taxiModel, PeopleViewModel peopleModel, TaxiPeopleViewModel taxiPeopleModel)
         {
-            var taxi = new TaxiViewModel().GetEntityByKey(id);
+            var taxi = new TaxiViewModel().GetEntityBy<Taxi>("TaxiId",id);
             TempData["formData"] = Request.Form;
             string EncodedResponse = Request.Form["g-Recaptcha-Response"];
             if (!Validators.IsCaptchaValid(EncodedResponse))

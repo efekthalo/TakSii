@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Metadata.Edm;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Linq.Dynamic;
+using System.Reflection;
 
 namespace SiiTaxi.Models
 {
@@ -43,7 +46,23 @@ namespace SiiTaxi.Models
             }
             else
             {
-                Context.Entry(entity).CurrentValues.SetValues(update);
+                foreach (PropertyInfo property in typeof(T).GetProperties())
+                {
+                    var metadata = ((IObjectContextAdapter)Context).ObjectContext.MetadataWorkspace;
+                    var objectItemCollection = ((ObjectItemCollection)metadata.GetItemCollection(DataSpace.OSpace));
+                    var entityMetadata = metadata.GetItems<EntityType>(DataSpace.OSpace).Single(e => objectItemCollection.GetClrType(e) == typeof(T));
+                    if (entityMetadata.KeyProperties.Count > 1)
+                        throw new NotImplementedException();
+
+                    var keyName = entityMetadata.KeyProperties[0].Name;
+
+                    if (property.Name.Contains(keyName))
+                        continue;
+
+                    var value = property.GetValue(update);
+                    property.SetValue(entity, value);
+                }
+                //Context.Entry(entity).CurrentValues.SetValues(update);
             }
 
             Context.SaveChanges();

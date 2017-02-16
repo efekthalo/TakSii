@@ -44,7 +44,7 @@ namespace SiiTaxi.Models
                 var approver = Context.People.Find(entity.Approver);
                 if (people != null && approver != null)
                 {
-                    var client = new Emailer("taksii.test@gmail.com", people.Email, body, "Potwierdzenie TakSii", approver.Email)
+                    var client = new Emailer("taksii.test@gmail.com", people.Email, body, "Potwierdzenie TakSii", approver.Email);
                     client.SendEmail();
                 }
             }
@@ -76,7 +76,7 @@ namespace SiiTaxi.Models
 
         internal void SendCode(int id, string code)
         {
-            var taxi = GetEntityByKey(id);
+            var taxi = GetEntityBy<Taxi>("TaxiId",id);
 
             if (taxi.IsConfirmed)
             {
