@@ -20,19 +20,16 @@ namespace SiiTaxi.Models
         {
             Database.SetInitializer(new CreateDatabaseIfNotExists<SiiTaxiEntities>());
         }
-    
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
         }
     
         public virtual DbSet<Approvers> Approvers { get; set; }
-        public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
-        public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
-        public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
-        public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<People> People { get; set; }
         public virtual DbSet<Taxi> Taxi { get; set; }
         public virtual DbSet<TaxiPeople> TaxiPeople { get; set; }
+        public virtual DbSet<Admin> Admin { get; set; }
     }
 }

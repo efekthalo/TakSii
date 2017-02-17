@@ -11,8 +11,8 @@
 @functions {
     public string GetValue(string name)
     {
-        var x = TempData["formData"] as NameValueCollection;
-        return x != null ? x[name] : "";
+        var data = TempData["formData"] as NameValueCollection;
+        return data != null ? data[name] : "";
     }
 }
 <form method="post" action="@Url.Action("New", "Taxi")" data-toggle="validator">
@@ -79,7 +79,15 @@
 
     <div class="form-check form-check-inline">
         <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" id="bigTaxiCheckbox" value="bigTaxi"> Duża Taxówka
+            <input class="form-check-input" type="checkbox" id="bigTaxiCheckbox" value="bigTaxi" />Duża Taxówka
+        </label>
+        <br>
+        <br>
+    </div>
+
+    <div class="form-check form-check-inline">
+        <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" id="orderCheckbox" value="order" />Czy zamówić taksówke?
         </label>
         <br>
         <br>
@@ -152,8 +160,11 @@
             if (!disabled) {
                 dodatkoweOsoby++;
                 $('#dodatkoweOsoby')
-                    .append("<div class=\"input-group dodatkowaOsoba\">" +
-                        "<input type=\"text\" name=\"adds\" class=\"form-control\" placeholder=\"Imię i nazwisko dodatkowej osoby\"></div>");
+                    .append("<div class=\"input-group dodatkowaOsoba form-group has-feedback\">" +
+        "<input type=\"email\" class=\"form-control\" id=\"adds\" name=\"adds\" pattern=\".*pl\.sii\.eu\"" +
+        " data-pattern-error=\"Dopuszczalny tylko E-mail Sii!\" placeholder=\"E-mail\" required>" +
+        "<span class=\"glyphicon form-control-feedback\" aria-hidden=\"true\"></span>" +
+        "<div class=\"help-block with-errors\"></div></div>");
                 $('#dodatkoweOsoby > .dodatkowaOsoba:last')
                     .append("<span class=\"input-group-addon btn btn-danger deleteDiv\">Usuń</span>");
                 $(".deleteDiv")

@@ -240,19 +240,10 @@
     </Compile>
     <Compile Include="Models\AbstractViewModel.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Admin.cs">
+      <DependentUpon>SiiTaxiEFModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Approvers.cs">
-      <DependentUpon>SiiTaxiEFModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\AspNetRoles.cs">
-      <DependentUpon>SiiTaxiEFModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\AspNetUserClaims.cs">
-      <DependentUpon>SiiTaxiEFModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\AspNetUserLogins.cs">
-      <DependentUpon>SiiTaxiEFModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\AspNetUsers.cs">
       <DependentUpon>SiiTaxiEFModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
@@ -316,6 +307,7 @@
       <DependentUpon>SiiTaxiEFModel.edmx</DependentUpon>
       <LastGenOutput>SiiTaxiEFModel.Context.cs</LastGenOutput>
     </Content>
+    <Content Include="Models\SiiTaxiEFModel.edmx.sql" />
     <Content Include="Models\SiiTaxiEFModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>SiiTaxiEFModel.edmx</DependentUpon>
