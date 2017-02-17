@@ -67,6 +67,7 @@ namespace SiiTaxi.Controllers
 
                 return RedirectToAction("Index", "Approvers");
             }
+
             TempData["errorMessage"] = Messages.ApproverNotFound;
             return RedirectToAction("Index", "Approvers");
         }
@@ -79,6 +80,7 @@ namespace SiiTaxi.Controllers
             {
                 return View(person);
             }
+
             TempData["errorMessage"] = Messages.ApproverNotFound;
             return RedirectToAction("Index", "Approvers");
         }
@@ -125,6 +127,7 @@ namespace SiiTaxi.Controllers
             {
                 return View(person);
             }
+
             TempData["errorMessage"] = Messages.ApproverNotFound;
             return RedirectToAction("Index", "Approvers");
         }

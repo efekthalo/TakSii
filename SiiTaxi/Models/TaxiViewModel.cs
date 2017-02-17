@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using SiiTaxi.Email;
 
@@ -56,7 +53,7 @@ namespace SiiTaxi.Models
             return false;
         }
 
-        internal void ConfirmTaxi(int id, string confirm)
+        public void ConfirmTaxi(int id, string confirm)
         {
             var taxi = GetEntityBy<Taxi>("TaxiId", id);
 
@@ -71,7 +68,7 @@ namespace SiiTaxi.Models
             }
         }
 
-        internal void SendCode(int id, string code)
+        public void SendCode(int id, string code)
         {
             var taxi = GetEntityBy<Taxi>("TaxiId", id);
 
