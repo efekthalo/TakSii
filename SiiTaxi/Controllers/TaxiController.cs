@@ -166,7 +166,7 @@ namespace SiiTaxi.Controllers
         public ActionResult Confirm(int id, string code)
         {
             var taxi = new TaxiViewModel().GetEntityBy<Taxi>("TaxiId", id);
-            if(taxi != null && taxi.Confirm == code)
+            if(taxi != null && taxi.ConfirmCode == code)
             {
                 if (taxi.IsConfirmed)
                 {

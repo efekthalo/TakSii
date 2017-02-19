@@ -17,6 +17,7 @@ namespace SiiTaxi.Models
         public Nullable<int> TaxiId { get; set; }
         public Nullable<int> PeopleId { get; set; }
         public int Id { get; set; }
+        public string ConfirmCode { get; set; }
     
         public virtual People People { get; set; }
         public virtual Taxi Taxi { get; set; }

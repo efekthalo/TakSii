@@ -4,257 +4,261 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="SiiTaxi.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="Approvers">
-          <Key>
-            <PropertyRef Name="PeopleId" />
-          </Key>
-          <Property Name="PeopleId" Type="int" Nullable="false" />
-          <Property Name="IsApprover" Type="bit" Nullable="false" />
-        </EntityType>
-        <EntityType Name="AspNetRoles">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
-        </EntityType>
-        <EntityType Name="AspNetUserClaims">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="ClaimType" Type="nvarchar(max)" />
-          <Property Name="ClaimValue" Type="nvarchar(max)" />
-        </EntityType>
-        <EntityType Name="AspNetUserLogins">
-          <Key>
-            <PropertyRef Name="LoginProvider" />
-            <PropertyRef Name="ProviderKey" />
-            <PropertyRef Name="UserId" />
-          </Key>
-          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
-        </EntityType>
-        <EntityType Name="AspNetUserRoles">
-          <Key>
-            <PropertyRef Name="RoleId" />
-            <PropertyRef Name="UserId" />
-          </Key>
-          <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
-        </EntityType>
-        <EntityType Name="AspNetUsers">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="Email" Type="nvarchar" MaxLength="256" />
-          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
-          <Property Name="PasswordHash" Type="nvarchar(max)" />
-          <Property Name="SecurityStamp" Type="nvarchar(max)" />
-          <Property Name="PhoneNumber" Type="nvarchar(max)" />
-          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
-          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
-          <Property Name="LockoutEndDateUtc" Type="datetime" />
-          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
-          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
-          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
-        </EntityType>
-        <EntityType Name="People">
-          <Key>
-            <PropertyRef Name="PeopleId" />
-          </Key>
-          <Property Name="PeopleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar(max)" />
-          <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="AltEmail" Type="nvarchar(max)" />
-          <Property Name="Phone" Type="nvarchar(max)" />
-        </EntityType>
-        <EntityType Name="Taxi">
-          <Key>
-            <PropertyRef Name="TaxiId" />
-          </Key>
-          <Property Name="TaxiId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="From" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="To" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Owner" Type="int" Nullable="false" />
-          <Property Name="Time" Type="datetime" Nullable="false" />
-          <Property Name="Confirm" Type="nvarchar(max)" />
-          <Property Name="IsConfirmed" Type="bit" Nullable="false" />
-          <Property Name="IsOrdered" Type="bit" Nullable="false" />
-          <Property Name="Approver" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="TaxiPeople">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="TaxiId" Type="int" />
-          <Property Name="PeopleId" Type="int" />
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-        </EntityType>
-        <Association Name="FK_Approver_ToApprovers">
-          <End Role="Approvers" Type="Self.Approvers" Multiplicity="1" />
-          <End Role="Taxi" Type="Self.Taxi" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Approvers">
-              <PropertyRef Name="PeopleId" />
-            </Principal>
-            <Dependent Role="Taxi">
-              <PropertyRef Name="Approver" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Approvers_ToTaxi">
-          <End Role="People" Type="Self.People" Multiplicity="1" />
-          <End Role="Approvers" Type="Self.Approvers" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="People">
-              <PropertyRef Name="PeopleId" />
-            </Principal>
-            <Dependent Role="Approvers">
-              <PropertyRef Name="PeopleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AspNetUserRoles_AspNetRoles">
-          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1" />
-          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetRoles">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AspNetUserRoles">
-              <PropertyRef Name="RoleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AspNetUserRoles_AspNetUsers">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
-          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AspNetUserRoles">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AspNetUserClaims">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AspNetUserLogins">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Owner_ToPeople">
-          <End Role="People" Type="Self.People" Multiplicity="1" />
-          <End Role="Taxi" Type="Self.Taxi" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="People">
-              <PropertyRef Name="PeopleId" />
-            </Principal>
-            <Dependent Role="Taxi">
-              <PropertyRef Name="Owner" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_People_ToPeople">
-          <End Role="People" Type="Self.People" Multiplicity="0..1" />
-          <End Role="TaxiPeople" Type="Self.TaxiPeople" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="People">
-              <PropertyRef Name="PeopleId" />
-            </Principal>
-            <Dependent Role="TaxiPeople">
-              <PropertyRef Name="PeopleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Taxi_ToTaxi">
-          <End Role="Taxi" Type="Self.Taxi" Multiplicity="0..1" />
-          <End Role="TaxiPeople" Type="Self.TaxiPeople" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Taxi">
-              <PropertyRef Name="TaxiId" />
-            </Principal>
-            <Dependent Role="TaxiPeople">
-              <PropertyRef Name="TaxiId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityContainer Name="SiiTaxiStoreContainer">
-          <EntitySet Name="Approvers" EntityType="Self.Approvers" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="People" EntityType="Self.People" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Taxi" EntityType="Self.Taxi" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TaxiPeople" EntityType="Self.TaxiPeople" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_Approver_ToApprovers" Association="Self.FK_Approver_ToApprovers">
-            <End Role="Approvers" EntitySet="Approvers" />
-            <End Role="Taxi" EntitySet="Taxi" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Approvers_ToTaxi" Association="Self.FK_Approvers_ToTaxi">
-            <End Role="People" EntitySet="People" />
-            <End Role="Approvers" EntitySet="Approvers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AspNetUserRoles_AspNetRoles" Association="Self.FK_AspNetUserRoles_AspNetRoles">
-            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
-            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AspNetUserRoles_AspNetUsers" Association="Self.FK_AspNetUserRoles_AspNetUsers">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
-          </AssociationSet>
-          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
-          </AssociationSet>
-          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Owner_ToPeople" Association="Self.FK_Owner_ToPeople">
-            <End Role="People" EntitySet="People" />
-            <End Role="Taxi" EntitySet="Taxi" />
-          </AssociationSet>
-          <AssociationSet Name="FK_People_ToPeople" Association="Self.FK_People_ToPeople">
-            <End Role="People" EntitySet="People" />
-            <End Role="TaxiPeople" EntitySet="TaxiPeople" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Taxi_ToTaxi" Association="Self.FK_Taxi_ToTaxi">
-            <End Role="Taxi" EntitySet="Taxi" />
-            <End Role="TaxiPeople" EntitySet="TaxiPeople" />
-          </AssociationSet>
-        </EntityContainer>
-      </Schema></edmx:StorageModels>
+    <Schema Namespace="SiiTaxi.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="SiiTaxiStoreContainer">
+    <EntitySet Name="Approvers" EntityType="SiiTaxi.Store.Approvers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AspNetRoles" EntityType="SiiTaxi.Store.AspNetRoles" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AspNetUserClaims" EntityType="SiiTaxi.Store.AspNetUserClaims" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AspNetUserLogins" EntityType="SiiTaxi.Store.AspNetUserLogins" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AspNetUsers" EntityType="SiiTaxi.Store.AspNetUsers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="People" EntityType="SiiTaxi.Store.People" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Taxi" EntityType="SiiTaxi.Store.Taxi" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TaxiPeople" EntityType="SiiTaxi.Store.TaxiPeople" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AspNetUserRoles" EntityType="SiiTaxi.Store.AspNetUserRoles" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_Approver_ToApprovers" Association="SiiTaxi.Store.FK_Approver_ToApprovers">
+      <End Role="Approvers" EntitySet="Approvers" />
+      <End Role="Taxi" EntitySet="Taxi" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Approvers_ToTaxi" Association="SiiTaxi.Store.FK_Approvers_ToTaxi">
+      <End Role="People" EntitySet="People" />
+      <End Role="Approvers" EntitySet="Approvers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="SiiTaxi.Store.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="SiiTaxi.Store.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Owner_ToPeople" Association="SiiTaxi.Store.FK_Owner_ToPeople">
+      <End Role="People" EntitySet="People" />
+      <End Role="Taxi" EntitySet="Taxi" />
+    </AssociationSet>
+    <AssociationSet Name="FK_People_ToPeople" Association="SiiTaxi.Store.FK_People_ToPeople">
+      <End Role="People" EntitySet="People" />
+      <End Role="TaxiPeople" EntitySet="TaxiPeople" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Taxi_ToTaxi" Association="SiiTaxi.Store.FK_Taxi_ToTaxi">
+      <End Role="Taxi" EntitySet="Taxi" />
+      <End Role="TaxiPeople" EntitySet="TaxiPeople" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AspNetUserRoles_AspNetRoles" Association="SiiTaxi.Store.FK_AspNetUserRoles_AspNetRoles">
+      <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+      <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AspNetUserRoles_AspNetUsers" Association="SiiTaxi.Store.FK_AspNetUserRoles_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Approvers">
+    <Key>
+      <PropertyRef Name="PeopleId" />
+    </Key>
+    <Property Name="PeopleId" Type="int" Nullable="false" />
+    <Property Name="IsApprover" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetRoles">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="256" />
+  </EntityType>
+  <EntityType Name="AspNetUserClaims">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="ClaimType" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="ClaimValue" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="AspNetUserLogins">
+    <Key>
+      <PropertyRef Name="LoginProvider" />
+      <PropertyRef Name="ProviderKey" />
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="LoginProvider" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="ProviderKey" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="UserId" Type="nvarchar" Nullable="false" MaxLength="128" />
+  </EntityType>
+  <EntityType Name="AspNetUsers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="Email" Type="nvarchar" Nullable="true" MaxLength="256" />
+    <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+    <Property Name="PasswordHash" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="SecurityStamp" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="PhoneNumber" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="datetime" Nullable="true" />
+    <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="256" />
+  </EntityType>
+  <EntityType Name="People">
+    <Key>
+      <PropertyRef Name="PeopleId" />
+    </Key>
+    <Property Name="PeopleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="AltEmail" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Phone" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Taxi">
+    <Key>
+      <PropertyRef Name="TaxiId" />
+    </Key>
+    <Property Name="TaxiId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="From" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="To" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Owner" Type="int" Nullable="false" />
+    <Property Name="Time" Type="datetime" Nullable="false" />
+    <Property Name="ConfirmCode" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="IsConfirmed" Type="bit" Nullable="false" />
+    <Property Name="IsOrdered" Type="bit" Nullable="false" />
+    <Property Name="Approver" Type="int" Nullable="false" />
+    <Property Name="Order" Type="bit" Nullable="false" />
+    <Property Name="IsBigTaxi" Type="bit" Nullable="false" />
+    <Property Name="TaxiCode" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="TaxiPeople">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="TaxiId" Type="int" Nullable="true" />
+    <Property Name="PeopleId" Type="int" Nullable="true" />
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ConfirmCode" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="AspNetUserRoles">
+    <Key>
+      <PropertyRef Name="AspNetRoles_Id" />
+      <PropertyRef Name="AspNetUsers_Id" />
+    </Key>
+    <Property Name="AspNetRoles_Id" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="AspNetUsers_Id" Type="nvarchar" Nullable="false" MaxLength="128" />
+  </EntityType>
+  <Association Name="FK_Approver_ToApprovers">
+    <End Role="Approvers" Type="SiiTaxi.Store.Approvers" Multiplicity="1" />
+    <End Role="Taxi" Type="SiiTaxi.Store.Taxi" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Approvers">
+        <PropertyRef Name="PeopleId" />
+      </Principal>
+      <Dependent Role="Taxi">
+        <PropertyRef Name="Approver" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Approvers_ToTaxi">
+    <End Role="People" Type="SiiTaxi.Store.People" Multiplicity="1" />
+    <End Role="Approvers" Type="SiiTaxi.Store.Approvers" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="People">
+        <PropertyRef Name="PeopleId" />
+      </Principal>
+      <Dependent Role="Approvers">
+        <PropertyRef Name="PeopleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+    <End Role="AspNetUsers" Type="SiiTaxi.Store.AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserClaims" Type="SiiTaxi.Store.AspNetUserClaims" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserClaims">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+    <End Role="AspNetUsers" Type="SiiTaxi.Store.AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserLogins" Type="SiiTaxi.Store.AspNetUserLogins" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserLogins">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Owner_ToPeople">
+    <End Role="People" Type="SiiTaxi.Store.People" Multiplicity="1" />
+    <End Role="Taxi" Type="SiiTaxi.Store.Taxi" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="People">
+        <PropertyRef Name="PeopleId" />
+      </Principal>
+      <Dependent Role="Taxi">
+        <PropertyRef Name="Owner" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_People_ToPeople">
+    <End Role="People" Type="SiiTaxi.Store.People" Multiplicity="0..1" />
+    <End Role="TaxiPeople" Type="SiiTaxi.Store.TaxiPeople" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="People">
+        <PropertyRef Name="PeopleId" />
+      </Principal>
+      <Dependent Role="TaxiPeople">
+        <PropertyRef Name="PeopleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Taxi_ToTaxi">
+    <End Role="Taxi" Type="SiiTaxi.Store.Taxi" Multiplicity="0..1" />
+    <End Role="TaxiPeople" Type="SiiTaxi.Store.TaxiPeople" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Taxi">
+        <PropertyRef Name="TaxiId" />
+      </Principal>
+      <Dependent Role="TaxiPeople">
+        <PropertyRef Name="TaxiId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AspNetUserRoles_AspNetRoles">
+    <End Role="AspNetRoles" Type="SiiTaxi.Store.AspNetRoles" Multiplicity="1" />
+    <End Role="AspNetUserRoles" Type="SiiTaxi.Store.AspNetUserRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetRoles">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserRoles">
+        <PropertyRef Name="AspNetRoles_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AspNetUserRoles_AspNetUsers">
+    <End Role="AspNetUserRoles" Type="SiiTaxi.Store.AspNetUserRoles" Multiplicity="*" />
+    <End Role="AspNetUsers" Type="SiiTaxi.Store.AspNetUsers" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserRoles">
+        <PropertyRef Name="AspNetUsers_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SiiTaxi" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -380,10 +384,13 @@
           <Property Name="To" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Owner" Type="Int32" Nullable="false" />
           <Property Name="Time" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Confirm" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ConfirmCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="IsConfirmed" Type="Boolean" Nullable="false" />
           <Property Name="IsOrdered" Type="Boolean" Nullable="false" />
           <Property Name="Approver" Type="Int32" Nullable="false" />
+          <Property Name="Order" Type="Boolean" Nullable="false" />
+          <Property Name="IsBigTaxi" Type="Boolean" Nullable="false" />
+          <Property Name="TaxiCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Approvers" Relationship="SiiTaxi.FK_Approver_ToApprovers" FromRole="Taxi" ToRole="Approvers" />
           <NavigationProperty Name="People" Relationship="SiiTaxi.FK_Owner_ToPeople" FromRole="Taxi" ToRole="People" />
           <NavigationProperty Name="TaxiPeople" Relationship="SiiTaxi.FK_Taxi_ToTaxi" FromRole="Taxi" ToRole="TaxiPeople" />
@@ -395,6 +402,7 @@
           <Property Name="TaxiId" Type="Int32" />
           <Property Name="PeopleId" Type="Int32" />
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ConfirmCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="People" Relationship="SiiTaxi.FK_People_ToPeople" FromRole="TaxiPeople" ToRole="People" />
           <NavigationProperty Name="Taxi" Relationship="SiiTaxi.FK_Taxi_ToTaxi" FromRole="TaxiPeople" ToRole="Taxi" />
         </EntityType>
@@ -496,103 +504,107 @@
     <edmx:Mappings>
     <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="SiiTaxiStoreContainer" CdmEntityContainer="SiiTaxiEntities">
-          <EntitySetMapping Name="Approvers">
-            <EntityTypeMapping TypeName="SiiTaxi.Approvers">
-              <MappingFragment StoreEntitySet="Approvers">
-                <ScalarProperty Name="IsApprover" ColumnName="IsApprover" />
-                <ScalarProperty Name="PeopleId" ColumnName="PeopleId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AspNetRoles">
-            <EntityTypeMapping TypeName="SiiTaxi.AspNetRoles">
-              <MappingFragment StoreEntitySet="AspNetRoles">
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AspNetUserClaims">
-            <EntityTypeMapping TypeName="SiiTaxi.AspNetUserClaims">
-              <MappingFragment StoreEntitySet="AspNetUserClaims">
-                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
-                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AspNetUserLogins">
-            <EntityTypeMapping TypeName="SiiTaxi.AspNetUserLogins">
-              <MappingFragment StoreEntitySet="AspNetUserLogins">
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
-                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AspNetUsers">
-            <EntityTypeMapping TypeName="SiiTaxi.AspNetUsers">
-              <MappingFragment StoreEntitySet="AspNetUsers">
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
-                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
-                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
-                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
-                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
-                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
-                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="People">
-            <EntityTypeMapping TypeName="SiiTaxi.People">
-              <MappingFragment StoreEntitySet="People">
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="AltEmail" ColumnName="AltEmail" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="PeopleId" ColumnName="PeopleId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Taxi">
-            <EntityTypeMapping TypeName="SiiTaxi.Taxi">
-              <MappingFragment StoreEntitySet="Taxi">
-                <ScalarProperty Name="Approver" ColumnName="Approver" />
-                <ScalarProperty Name="IsOrdered" ColumnName="IsOrdered" />
-                <ScalarProperty Name="IsConfirmed" ColumnName="IsConfirmed" />
-                <ScalarProperty Name="Confirm" ColumnName="Confirm" />
-                <ScalarProperty Name="Time" ColumnName="Time" />
-                <ScalarProperty Name="Owner" ColumnName="Owner" />
-                <ScalarProperty Name="To" ColumnName="To" />
-                <ScalarProperty Name="From" ColumnName="From" />
-                <ScalarProperty Name="TaxiId" ColumnName="TaxiId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TaxiPeople">
-            <EntityTypeMapping TypeName="SiiTaxi.TaxiPeople">
-              <MappingFragment StoreEntitySet="TaxiPeople">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="PeopleId" ColumnName="PeopleId" />
-                <ScalarProperty Name="TaxiId" ColumnName="TaxiId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <AssociationSetMapping Name="AspNetUserRoles" TypeName="SiiTaxi.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
-            <EndProperty Name="AspNetUsers">
-              <ScalarProperty Name="Id" ColumnName="UserId" />
-            </EndProperty>
-            <EndProperty Name="AspNetRoles">
-              <ScalarProperty Name="Id" ColumnName="RoleId" />
-            </EndProperty>
-          </AssociationSetMapping>
-        </EntityContainerMapping>
+    <EntitySetMapping Name="Approvers">
+      <EntityTypeMapping TypeName="IsTypeOf(SiiTaxi.Approvers)">
+        <MappingFragment StoreEntitySet="Approvers">
+          <ScalarProperty Name="PeopleId" ColumnName="PeopleId" />
+          <ScalarProperty Name="IsApprover" ColumnName="IsApprover" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetRoles">
+      <EntityTypeMapping TypeName="IsTypeOf(SiiTaxi.AspNetRoles)">
+        <MappingFragment StoreEntitySet="AspNetRoles">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUserClaims">
+      <EntityTypeMapping TypeName="IsTypeOf(SiiTaxi.AspNetUserClaims)">
+        <MappingFragment StoreEntitySet="AspNetUserClaims">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+          <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUserLogins">
+      <EntityTypeMapping TypeName="IsTypeOf(SiiTaxi.AspNetUserLogins)">
+        <MappingFragment StoreEntitySet="AspNetUserLogins">
+          <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+          <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUsers">
+      <EntityTypeMapping TypeName="IsTypeOf(SiiTaxi.AspNetUsers)">
+        <MappingFragment StoreEntitySet="AspNetUsers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+          <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+          <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+          <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+          <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+          <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+          <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="People">
+      <EntityTypeMapping TypeName="IsTypeOf(SiiTaxi.People)">
+        <MappingFragment StoreEntitySet="People">
+          <ScalarProperty Name="PeopleId" ColumnName="PeopleId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="AltEmail" ColumnName="AltEmail" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Taxi">
+      <EntityTypeMapping TypeName="IsTypeOf(SiiTaxi.Taxi)">
+        <MappingFragment StoreEntitySet="Taxi">
+          <ScalarProperty Name="TaxiId" ColumnName="TaxiId" />
+          <ScalarProperty Name="From" ColumnName="From" />
+          <ScalarProperty Name="To" ColumnName="To" />
+          <ScalarProperty Name="Owner" ColumnName="Owner" />
+          <ScalarProperty Name="Time" ColumnName="Time" />
+          <ScalarProperty Name="ConfirmCode" ColumnName="ConfirmCode" />
+          <ScalarProperty Name="IsConfirmed" ColumnName="IsConfirmed" />
+          <ScalarProperty Name="IsOrdered" ColumnName="IsOrdered" />
+          <ScalarProperty Name="Approver" ColumnName="Approver" />
+          <ScalarProperty Name="Order" ColumnName="Order" />
+          <ScalarProperty Name="IsBigTaxi" ColumnName="IsBigTaxi" />
+          <ScalarProperty Name="TaxiCode" ColumnName="TaxiCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TaxiPeople">
+      <EntityTypeMapping TypeName="IsTypeOf(SiiTaxi.TaxiPeople)">
+        <MappingFragment StoreEntitySet="TaxiPeople">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="TaxiId" ColumnName="TaxiId" />
+          <ScalarProperty Name="PeopleId" ColumnName="PeopleId" />
+          <ScalarProperty Name="ConfirmCode" ColumnName="ConfirmCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="AspNetUserRoles" TypeName="SiiTaxi.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+      <EndProperty Name="AspNetRoles">
+        <ScalarProperty Name="Id" ColumnName="AspNetRoles_Id" />
+      </EndProperty>
+      <EndProperty Name="AspNetUsers">
+        <ScalarProperty Name="Id" ColumnName="AspNetUsers_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->

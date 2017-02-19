@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/18/2017 19:46:01
+-- Date Created: 02/19/2017 07:18:36
 -- Generated from EDMX file: C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Models\SiiTaxiEFModel.edmx
 -- --------------------------------------------------
 
@@ -23,17 +23,17 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_Approvers_ToTaxi]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Approvers] DROP CONSTRAINT [FK_Approvers_ToTaxi];
 GO
-IF OBJECT_ID(N'[dbo].[FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AspNetUserClaims] DROP CONSTRAINT [FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId];
-GO
-IF OBJECT_ID(N'[dbo].[FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AspNetUserLogins] DROP CONSTRAINT [FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId];
-GO
 IF OBJECT_ID(N'[dbo].[FK_AspNetUserRoles_AspNetRoles]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[AspNetUserRoles] DROP CONSTRAINT [FK_AspNetUserRoles_AspNetRoles];
 GO
 IF OBJECT_ID(N'[dbo].[FK_AspNetUserRoles_AspNetUsers]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[AspNetUserRoles] DROP CONSTRAINT [FK_AspNetUserRoles_AspNetUsers];
+GO
+IF OBJECT_ID(N'[dbo].[FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AspNetUserClaims] DROP CONSTRAINT [FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId];
+GO
+IF OBJECT_ID(N'[dbo].[FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AspNetUserLogins] DROP CONSTRAINT [FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Owner_ToPeople]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Taxi] DROP CONSTRAINT [FK_Owner_ToPeople];
@@ -49,9 +49,6 @@ GO
 -- Dropping existing tables
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[C__MigrationHistory]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[C__MigrationHistory];
-GO
 IF OBJECT_ID(N'[dbo].[Approvers]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Approvers];
 GO
@@ -90,47 +87,6 @@ CREATE TABLE [dbo].[Approvers] (
     [IsApprover] bit  NOT NULL
 );
 GO
-
--- Creating table 'People'
-CREATE TABLE [dbo].[People] (
-    [PeopleId] int IDENTITY(1,1) NOT NULL,
-    [Name] nvarchar(max)  NULL,
-    [Email] nvarchar(max)  NOT NULL,
-    [AltEmail] nvarchar(max)  NULL,
-    [Phone] nvarchar(max)  NULL
-);
-GO
-
--- Creating table 'Taxi'
-CREATE TABLE [dbo].[Taxi] (
-    [TaxiId] int IDENTITY(1,1) NOT NULL,
-    [From] nvarchar(max)  NOT NULL,
-    [To] nvarchar(max)  NOT NULL,
-    [Owner] int  NOT NULL,
-    [Time] datetime  NOT NULL,
-    [Confirm] nvarchar(max)  NULL,
-    [IsConfirmed] bit  NOT NULL,
-    [IsOrdered] bit  NOT NULL,
-    [Approver] int  NOT NULL
-);
-GO
-
--- Creating table 'TaxiPeople'
-CREATE TABLE [dbo].[TaxiPeople] (
-    [TaxiId] int  NULL,
-    [PeopleId] int  NULL,
-    [Id] int IDENTITY(1,1) NOT NULL
-);
-GO
-
--- Creating table 'C__MigrationHistory'
--- CREATE TABLE [dbo].[C__MigrationHistory] (
---     [MigrationId] nvarchar(150)  NOT NULL,
---     [ContextKey] nvarchar(300)  NOT NULL,
---     [Model] varbinary(max)  NOT NULL,
---     [ProductVersion] nvarchar(32)  NOT NULL
--- );
--- GO
 
 -- Creating table 'AspNetRoles'
 CREATE TABLE [dbo].[AspNetRoles] (
@@ -173,6 +129,42 @@ CREATE TABLE [dbo].[AspNetUsers] (
 );
 GO
 
+-- Creating table 'People'
+CREATE TABLE [dbo].[People] (
+    [PeopleId] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(max)  NULL,
+    [Email] nvarchar(max)  NOT NULL,
+    [AltEmail] nvarchar(max)  NULL,
+    [Phone] nvarchar(max)  NULL
+);
+GO
+
+-- Creating table 'Taxi'
+CREATE TABLE [dbo].[Taxi] (
+    [TaxiId] int IDENTITY(1,1) NOT NULL,
+    [From] nvarchar(max)  NOT NULL,
+    [To] nvarchar(max)  NOT NULL,
+    [Owner] int  NOT NULL,
+    [Time] datetime  NOT NULL,
+    [ConfirmCode] nvarchar(max)  NULL,
+    [IsConfirmed] bit  NOT NULL,
+    [IsOrdered] bit  NOT NULL,
+    [Approver] int  NOT NULL,
+    [Order] bit  NOT NULL,
+    [IsBigTaxi] bit  NOT NULL,
+    [TaxiCode] nvarchar(max)  NULL
+);
+GO
+
+-- Creating table 'TaxiPeople'
+CREATE TABLE [dbo].[TaxiPeople] (
+    [TaxiId] int  NULL,
+    [PeopleId] int  NULL,
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [ConfirmCode] nvarchar(max)  NULL
+);
+GO
+
 -- Creating table 'AspNetUserRoles'
 CREATE TABLE [dbo].[AspNetUserRoles] (
     [RoleId] nvarchar(128)  NOT NULL,
@@ -189,30 +181,6 @@ ALTER TABLE [dbo].[Approvers]
 ADD CONSTRAINT [PK_Approvers]
     PRIMARY KEY CLUSTERED ([PeopleId] ASC);
 GO
-
--- Creating primary key on [PeopleId] in table 'People'
-ALTER TABLE [dbo].[People]
-ADD CONSTRAINT [PK_People]
-    PRIMARY KEY CLUSTERED ([PeopleId] ASC);
-GO
-
--- Creating primary key on [TaxiId] in table 'Taxi'
-ALTER TABLE [dbo].[Taxi]
-ADD CONSTRAINT [PK_Taxi]
-    PRIMARY KEY CLUSTERED ([TaxiId] ASC);
-GO
-
--- Creating primary key on [Id] in table 'TaxiPeople'
-ALTER TABLE [dbo].[TaxiPeople]
-ADD CONSTRAINT [PK_TaxiPeople]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
-
--- Creating primary key on [MigrationId], [ContextKey] in table 'C__MigrationHistory'
--- ALTER TABLE [dbo].[C__MigrationHistory]
--- ADD CONSTRAINT [PK_C__MigrationHistory]
---    PRIMARY KEY CLUSTERED ([MigrationId], [ContextKey] ASC);
--- GO
 
 -- Creating primary key on [Id] in table 'AspNetRoles'
 ALTER TABLE [dbo].[AspNetRoles]
@@ -235,6 +203,24 @@ GO
 -- Creating primary key on [Id] in table 'AspNetUsers'
 ALTER TABLE [dbo].[AspNetUsers]
 ADD CONSTRAINT [PK_AspNetUsers]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [PeopleId] in table 'People'
+ALTER TABLE [dbo].[People]
+ADD CONSTRAINT [PK_People]
+    PRIMARY KEY CLUSTERED ([PeopleId] ASC);
+GO
+
+-- Creating primary key on [TaxiId] in table 'Taxi'
+ALTER TABLE [dbo].[Taxi]
+ADD CONSTRAINT [PK_Taxi]
+    PRIMARY KEY CLUSTERED ([TaxiId] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'TaxiPeople'
+ALTER TABLE [dbo].[TaxiPeople]
+ADD CONSTRAINT [PK_TaxiPeople]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -270,6 +256,36 @@ ADD CONSTRAINT [FK_Approvers_ToTaxi]
     REFERENCES [dbo].[People]
         ([PeopleId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [UserId] in table 'AspNetUserClaims'
+ALTER TABLE [dbo].[AspNetUserClaims]
+ADD CONSTRAINT [FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId]
+    FOREIGN KEY ([UserId])
+    REFERENCES [dbo].[AspNetUsers]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId'
+CREATE INDEX [IX_FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId]
+ON [dbo].[AspNetUserClaims]
+    ([UserId]);
+GO
+
+-- Creating foreign key on [UserId] in table 'AspNetUserLogins'
+ALTER TABLE [dbo].[AspNetUserLogins]
+ADD CONSTRAINT [FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId]
+    FOREIGN KEY ([UserId])
+    REFERENCES [dbo].[AspNetUsers]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId'
+CREATE INDEX [IX_FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId]
+ON [dbo].[AspNetUserLogins]
+    ([UserId]);
 GO
 
 -- Creating foreign key on [Owner] in table 'Taxi'
@@ -315,36 +331,6 @@ GO
 CREATE INDEX [IX_FK_Taxi_ToTaxi]
 ON [dbo].[TaxiPeople]
     ([TaxiId]);
-GO
-
--- Creating foreign key on [UserId] in table 'AspNetUserClaims'
-ALTER TABLE [dbo].[AspNetUserClaims]
-ADD CONSTRAINT [FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId]
-    FOREIGN KEY ([UserId])
-    REFERENCES [dbo].[AspNetUsers]
-        ([Id])
-    ON DELETE CASCADE ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId'
-CREATE INDEX [IX_FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId]
-ON [dbo].[AspNetUserClaims]
-    ([UserId]);
-GO
-
--- Creating foreign key on [UserId] in table 'AspNetUserLogins'
-ALTER TABLE [dbo].[AspNetUserLogins]
-ADD CONSTRAINT [FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId]
-    FOREIGN KEY ([UserId])
-    REFERENCES [dbo].[AspNetUsers]
-        ([Id])
-    ON DELETE CASCADE ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId'
-CREATE INDEX [IX_FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId]
-ON [dbo].[AspNetUserLogins]
-    ([UserId]);
 GO
 
 -- Creating foreign key on [AspNetRoles_Id] in table 'AspNetUserRoles'

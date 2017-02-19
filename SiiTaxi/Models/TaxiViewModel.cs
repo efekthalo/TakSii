@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using SiiTaxi.Email;
 
@@ -33,7 +30,7 @@ namespace SiiTaxi.Models
             if (entity != null)
             {
                 var code = Guid.NewGuid().ToString();
-                entity.Confirm = code;
+                entity.ConfirmCode = code;
                 UpdateEntityBy("TaxiId", entity);
 
                 var template = new ConfirmTemplate
@@ -60,7 +57,7 @@ namespace SiiTaxi.Models
         {
             var taxi = GetEntityBy<Taxi>("TaxiId", id);
 
-            if (taxi.Confirm == confirm)
+            if (taxi.ConfirmCode == confirm)
             {
                 taxi.IsConfirmed = true;
                 Context.SaveChanges();
@@ -74,6 +71,8 @@ namespace SiiTaxi.Models
         internal void SendCode(int id, string code)
         {
             var taxi = GetEntityBy<Taxi>("TaxiId", id);
+            taxi.TaxiCode = code;
+            UpdateEntityBy("TaxiId", taxi);
 
             if (taxi.IsConfirmed)
             {
