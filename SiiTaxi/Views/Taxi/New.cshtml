@@ -79,7 +79,7 @@
 
     <div class="form-check form-check-inline">
         <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" id="bigTaxiCheckbox" value="isBigTaxi">Duża Taxówka
+            <input class="form-check-input" type="checkbox" id="bigTaxiCheckbox" value="isBigTaxi"> Duża Taxówka
         </label>
         <br>
         <br>
@@ -87,7 +87,7 @@
     
     <div class="form-check form-check-inline">
         <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" id="orderCheckbox" value="order">Czy zamówić?
+            <input class="form-check-input" type="checkbox" id="orderCheckbox" value="order"> Czy zamówić?
         </label>
         <br>
         <br>
@@ -101,7 +101,7 @@
         <span class="btn btn-success" id="osobyButton" onclick="dodajOsobe()">Dodaj osobę</span>
     </div>
 
-    <div id="dodatkoweOsoby">
+    <div class="form-group has-feedback" id="dodatkoweOsoby">
 
     </div>
     <br>
@@ -161,9 +161,10 @@
                 dodatkoweOsoby++;
                 $('#dodatkoweOsoby')
                     .append("<div class=\"input-group dodatkowaOsoba\">" +
-                        "<input type=\"text\" name=\"adds\" class=\"form-control\" placeholder=\"Imię i nazwisko dodatkowej osoby\"></div>");
+                        "<input type=\"email\" class=\"form-control\" id=\"adds\" name=\"adds\" pattern=\".*pl\.sii\.eu\" data-pattern-error=\"Dopuszczalny tylko E-mail Sii!\" placeholder=\"E-mail\" required><span class=\"glyphicon form-control-feedback\" aria-hidden=\"true\"></span><div class=\"help-block with-errors\"></div>" +
+                        "");
                 $('#dodatkoweOsoby > .dodatkowaOsoba:last')
-                    .append("<span class=\"input-group-addon btn btn-danger deleteDiv\">Usuń</span>");
+                    .append("<span class=\"input-group-addon btn btn-danger deleteDiv\">Usuń</span></div>");
                 $(".deleteDiv")
                     .unbind()
                     .on("click",
