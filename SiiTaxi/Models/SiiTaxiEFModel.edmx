@@ -5,6 +5,16 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="SiiTaxi.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+          <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+        </EntityType>
         <EntityType Name="Approvers">
           <Key>
             <PropertyRef Name="PeopleId" />
@@ -82,10 +92,13 @@
           <Property Name="To" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Owner" Type="int" Nullable="false" />
           <Property Name="Time" Type="datetime" Nullable="false" />
-          <Property Name="Confirm" Type="nvarchar(max)" />
+          <Property Name="ConfirmCode" Type="nvarchar(max)" />
           <Property Name="IsConfirmed" Type="bit" Nullable="false" />
           <Property Name="IsOrdered" Type="bit" Nullable="false" />
           <Property Name="Approver" Type="int" Nullable="false" />
+          <Property Name="Order" Type="bit" Nullable="false" />
+          <Property Name="IsBigTaxi" Type="bit" Nullable="false" />
+          <Property Name="TaxiCode" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="TaxiPeople">
           <Key>
@@ -94,6 +107,8 @@
           <Property Name="TaxiId" Type="int" />
           <Property Name="PeopleId" Type="int" />
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ConfirmCode" Type="nvarchar(max)" />
+          <Property Name="IsConfirmed" Type="bit" Nullable="false" />
         </EntityType>
         <Association Name="FK_Approver_ToApprovers">
           <End Role="Approvers" Type="Self.Approvers" Multiplicity="1" />
@@ -208,6 +223,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="SiiTaxiStoreContainer">
+          <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Approvers" EntityType="Self.Approvers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
@@ -259,6 +275,7 @@
     <edmx:ConceptualModels>
       <Schema Namespace="SiiTaxi" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="SiiTaxiEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C__MigrationHistory" EntityType="SiiTaxi.C__MigrationHistory" />
           <EntitySet Name="Approvers" EntityType="SiiTaxi.Approvers" />
           <EntitySet Name="AspNetRoles" EntityType="SiiTaxi.AspNetRoles" />
           <EntitySet Name="AspNetUserClaims" EntityType="SiiTaxi.AspNetUserClaims" />
@@ -300,6 +317,16 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="C__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ContextKey" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Model" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="ProductVersion" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="Approvers">
           <Key>
             <PropertyRef Name="PeopleId" />
@@ -380,10 +407,13 @@
           <Property Name="To" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Owner" Type="Int32" Nullable="false" />
           <Property Name="Time" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Confirm" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ConfirmCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="IsConfirmed" Type="Boolean" Nullable="false" />
           <Property Name="IsOrdered" Type="Boolean" Nullable="false" />
           <Property Name="Approver" Type="Int32" Nullable="false" />
+          <Property Name="Order" Type="Boolean" Nullable="false" />
+          <Property Name="IsBigTaxi" Type="Boolean" Nullable="false" />
+          <Property Name="TaxiCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Approvers" Relationship="SiiTaxi.FK_Approver_ToApprovers" FromRole="Taxi" ToRole="Approvers" />
           <NavigationProperty Name="People" Relationship="SiiTaxi.FK_Owner_ToPeople" FromRole="Taxi" ToRole="People" />
           <NavigationProperty Name="TaxiPeople" Relationship="SiiTaxi.FK_Taxi_ToTaxi" FromRole="Taxi" ToRole="TaxiPeople" />
@@ -395,6 +425,8 @@
           <Property Name="TaxiId" Type="Int32" />
           <Property Name="PeopleId" Type="Int32" />
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ConfirmCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsConfirmed" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="People" Relationship="SiiTaxi.FK_People_ToPeople" FromRole="TaxiPeople" ToRole="People" />
           <NavigationProperty Name="Taxi" Relationship="SiiTaxi.FK_Taxi_ToTaxi" FromRole="TaxiPeople" ToRole="Taxi" />
         </EntityType>
@@ -496,6 +528,16 @@
     <edmx:Mappings>
     <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="SiiTaxiStoreContainer" CdmEntityContainer="SiiTaxiEntities">
+          <EntitySetMapping Name="C__MigrationHistory">
+            <EntityTypeMapping TypeName="SiiTaxi.C__MigrationHistory">
+              <MappingFragment StoreEntitySet="__MigrationHistory">
+                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Approvers">
             <EntityTypeMapping TypeName="SiiTaxi.Approvers">
               <MappingFragment StoreEntitySet="Approvers">
@@ -563,10 +605,13 @@
           <EntitySetMapping Name="Taxi">
             <EntityTypeMapping TypeName="SiiTaxi.Taxi">
               <MappingFragment StoreEntitySet="Taxi">
+                <ScalarProperty Name="TaxiCode" ColumnName="TaxiCode" />
+                <ScalarProperty Name="IsBigTaxi" ColumnName="IsBigTaxi" />
+                <ScalarProperty Name="Order" ColumnName="Order" />
                 <ScalarProperty Name="Approver" ColumnName="Approver" />
                 <ScalarProperty Name="IsOrdered" ColumnName="IsOrdered" />
                 <ScalarProperty Name="IsConfirmed" ColumnName="IsConfirmed" />
-                <ScalarProperty Name="Confirm" ColumnName="Confirm" />
+                <ScalarProperty Name="ConfirmCode" ColumnName="ConfirmCode" />
                 <ScalarProperty Name="Time" ColumnName="Time" />
                 <ScalarProperty Name="Owner" ColumnName="Owner" />
                 <ScalarProperty Name="To" ColumnName="To" />
@@ -578,6 +623,8 @@
           <EntitySetMapping Name="TaxiPeople">
             <EntityTypeMapping TypeName="SiiTaxi.TaxiPeople">
               <MappingFragment StoreEntitySet="TaxiPeople">
+                <ScalarProperty Name="IsConfirmed" ColumnName="IsConfirmed" />
+                <ScalarProperty Name="ConfirmCode" ColumnName="ConfirmCode" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="PeopleId" ColumnName="PeopleId" />
                 <ScalarProperty Name="TaxiId" ColumnName="TaxiId" />

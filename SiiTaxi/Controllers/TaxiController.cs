@@ -11,11 +11,14 @@ namespace SiiTaxi.Controllers
     public class TaxiController : Controller
     {
         [HttpPost]
-        public ActionResult New(string ownerName, string ownerPhone, string time, string ownerEmail, string przejazdFrom, string przejazdTo, List<string> adds, int approver, TaxiViewModel taxiModel, PeopleViewModel peopleModel, TaxiPeopleViewModel taxiPeopleModel)
+        public ActionResult New(string ownerName, string ownerPhone, string time, 
+            string ownerEmail, string przejazdFrom, string przejazdTo, 
+            List<string> adds, int approver, bool isBigTaxi, 
+            bool order, TaxiViewModel taxiModel, PeopleViewModel peopleModel, TaxiPeopleViewModel taxiPeopleModel)
         {
             TempData["formData"] = Request.Form;
-            string EncodedResponse = Request.Form["g-Recaptcha-Response"];
-            if (!Validators.IsCaptchaValid(EncodedResponse))
+            var encodedResponse = Request.Form["g-Recaptcha-Response"];
+            if (!Validators.IsCaptchaValid(encodedResponse))
             {
                 TempData["errorMessage"] = Messages.NotValidCaptcha;
                 return View(new PeopleViewModel());
@@ -54,7 +57,9 @@ namespace SiiTaxi.Controllers
                 To = przejazdTo,
                 Time = parsedTime,
                 Owner = peopleModel.UpdateEntityBy("Email", owner).PeopleId,
-                Approver = approver
+                Approver = approver,
+                IsBigTaxi = isBigTaxi,
+                Order = order
             };
 
             try
@@ -65,8 +70,8 @@ namespace SiiTaxi.Controllers
                 {
                     foreach (var add in adds)
                     {
-                        var other = new People { Name = add, Email = "" };
-                        var taxiPeople = new TaxiPeople { TaxiId = taxi.TaxiId, PeopleId = peopleModel.UpdateEntityBy("Name", other).PeopleId };
+                        var other = new People { Name = "", Email = add };
+                        var taxiPeople = new TaxiPeople { TaxiId = taxi.TaxiId, PeopleId = peopleModel.UpdateEntityBy("Email", other).PeopleId };
                         taxiPeopleModel.UpdateEntity(null, taxiPeople);
                     }
                 }
@@ -89,13 +94,17 @@ namespace SiiTaxi.Controllers
             return View(new PeopleViewModel());
         }
 
-        public ActionResult Join(int id)
+        public ActionResult Join(int id, TaxiViewModel taxiModel)
         {
+            var maxInTaxi = 3;
             TempData["formData"] = Request.Form;
-            var taxi = new TaxiViewModel().GetEntityBy<Taxi>("TaxiId", id);
+            var taxi = taxiModel.GetEntityBy<Taxi>("TaxiId", id);
             if (taxi != null)
             {
-                if (taxi.TaxiPeople.Count <= 3)
+                if (taxi.IsBigTaxi)
+                    maxInTaxi = 6;
+
+                if (taxi.TaxiPeople.Count <= maxInTaxi)
                 {
                     return View(taxi);
                 }
@@ -112,10 +121,14 @@ namespace SiiTaxi.Controllers
         [HttpPost]
         public ActionResult Join(int id, string name, string phone, string email, TaxiViewModel taxiModel, PeopleViewModel peopleModel, TaxiPeopleViewModel taxiPeopleModel)
         {
-            var taxi = new TaxiViewModel().GetEntityBy<Taxi>("TaxiId",id);
+            var maxInTaxi = 3;
+            var taxi = taxiModel.GetEntityBy<Taxi>("TaxiId",id);
+            if (taxi.IsBigTaxi)
+                maxInTaxi = 6;
+
             TempData["formData"] = Request.Form;
-            string EncodedResponse = Request.Form["g-Recaptcha-Response"];
-            if (!Validators.IsCaptchaValid(EncodedResponse))
+            var encodedResponse = Request.Form["g-Recaptcha-Response"];
+            if (!Validators.IsCaptchaValid(encodedResponse))
             {
                 TempData["errorMessage"] = Messages.NotValidCaptcha;
                 return View(taxi);
@@ -130,27 +143,29 @@ namespace SiiTaxi.Controllers
                 TempData["errorMessage"] = Messages.NotValidPhone;
                 return View(taxi);
             }
-            if (taxi.TaxiPeople.Count >= 3)
+            if (taxi.TaxiPeople.Count >= maxInTaxi)
             {
-                TempData["errorMessage"] = Messages.NotValidPhone;
+                TempData["errorMessage"] = Messages.TaxiFull;
                 return RedirectToAction("Index", "Taxi");
             }
-            if(email == taxi.People.Email || taxi.TaxiPeople.Any(x => x.People.Name == name))
-            {
-                TempData["errorMessage"] = Messages.JoinedAlready;
-                return RedirectToAction("Index", "Taxi");
-            }
+            //if(email == taxi.People.Email || taxi.TaxiPeople.Any(x => x.People.Name == name))
+            //{
+            //    TempData["errorMessage"] = Messages.JoinedAlready;
+            //    return RedirectToAction("Index", "Taxi");
+            //}
             
             try
             {
                 var other = new People { Name = name, Email = email, Phone = phone };
-                var taxiPeople = new TaxiPeople { TaxiId = id, PeopleId = peopleModel.UpdateEntityBy("Name", other).PeopleId };
-                taxiPeopleModel.UpdateEntity(null, taxiPeople);
+                var taxiPeople = new TaxiPeople { TaxiId = id, PeopleId = peopleModel.UpdateEntityBy("Email", other).PeopleId };
+                taxiPeople = taxiPeopleModel.UpdateEntity(null, taxiPeople);
+
+                taxiModel.SendJoinEmail(taxiPeople.Id);
             }
             catch
             {
                 TempData["errorMessage"] = Messages.DatabaseError;
-                return View(taxiModel.GetEntityBy<Taxi>("TaxiId", id));
+                return View(taxi);
             }
 
             TempData["successMessage"] = Messages.IncludeTaxiSuccess;
@@ -166,7 +181,7 @@ namespace SiiTaxi.Controllers
         public ActionResult Confirm(int id, string code)
         {
             var taxi = new TaxiViewModel().GetEntityBy<Taxi>("TaxiId", id);
-            if(taxi != null && taxi.Confirm == code)
+            if(taxi != null && taxi.ConfirmCode == code)
             {
                 if (taxi.IsConfirmed)
                 {
@@ -178,7 +193,6 @@ namespace SiiTaxi.Controllers
             }
             TempData["errorMessage"] = Messages.TaxiNotFound;
             return RedirectToAction("Index", "Taxi");
-  
         }
 
         [HttpPost]
@@ -195,6 +209,40 @@ namespace SiiTaxi.Controllers
             }
             TempData["successMessage"] = Messages.ConfirmSucceed;
             return RedirectToAction("Index", "Taxi") ;
+        }
+
+        [HttpGet]
+        public ActionResult ConfirmJoin(int id, string code)
+        {
+            var taxiPeople = new TaxiViewModel().GetEntityBy<TaxiPeople>("Id", id);
+            if (taxiPeople != null && taxiPeople.ConfirmCode == code)
+            {
+                if (taxiPeople.IsConfirmed)
+                {
+                    TempData["errorMessage"] = Messages.TaxiConfirmed;
+                    return RedirectToAction("Index", "Taxi");
+                }
+                TempData["code"] = code;
+                return View(taxiPeople);
+            }
+            TempData["errorMessage"] = Messages.TaxiNotFound;
+            return RedirectToAction("Index", "Taxi");
+        }
+
+        [HttpPost]
+        public ActionResult ConfirmJoin(int id, string code, TaxiViewModel taxiModel)
+        {
+            try
+            {
+                taxiModel.ConfirmJoin(id, code);
+            }
+            catch
+            {
+                TempData["errorMessage"] = Messages.ConfirmFailed;
+                return View(taxiModel.GetEntityBy<TaxiPeople>("Id", id));
+            }
+            TempData["successMessage"] = Messages.ConfirmSucceed;
+            return RedirectToAction("Index", "Taxi");
         }
     }
 }

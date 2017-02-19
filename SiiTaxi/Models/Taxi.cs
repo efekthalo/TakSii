@@ -25,10 +25,13 @@ namespace SiiTaxi.Models
         public string To { get; set; }
         public int Owner { get; set; }
         public System.DateTime Time { get; set; }
-        public string Confirm { get; set; }
+        public string ConfirmCode { get; set; }
         public bool IsConfirmed { get; set; }
         public bool IsOrdered { get; set; }
         public int Approver { get; set; }
+        public bool Order { get; set; }
+        public bool IsBigTaxi { get; set; }
+        public string TaxiCode { get; set; }
     
         public virtual Approvers Approvers { get; set; }
         public virtual People People { get; set; }
