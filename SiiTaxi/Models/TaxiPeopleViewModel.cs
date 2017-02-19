@@ -8,7 +8,7 @@ namespace SiiTaxi.Models
 
         public TaxiPeopleViewModel()
         {
-            Context = new SiiTaxiEntities();
+            Context = new SiiTaxiEntities(true);
             TaxiPeople = Get<TaxiPeople>();
         }
     }

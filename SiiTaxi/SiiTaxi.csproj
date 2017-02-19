@@ -276,10 +276,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SiiTaxiEFModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\PeopleViewModel.cs" />
     <Compile Include="Models\Taxi.cs">
       <DependentUpon>SiiTaxiEFModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\PeopleViewModel.cs" />
     <Compile Include="Models\TaxiPeople.cs">
       <DependentUpon>SiiTaxiEFModel.tt</DependentUpon>
     </Compile>
@@ -316,6 +316,7 @@
       <DependentUpon>SiiTaxiEFModel.edmx</DependentUpon>
       <LastGenOutput>SiiTaxiEFModel.Context.cs</LastGenOutput>
     </Content>
+    <Content Include="Models\SiiTaxiEFModel.edmx.sql" />
     <Content Include="Models\SiiTaxiEFModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>SiiTaxiEFModel.edmx</DependentUpon>
