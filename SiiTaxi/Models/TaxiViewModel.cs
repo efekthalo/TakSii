@@ -40,11 +40,11 @@ namespace SiiTaxi.Models
                 };
 
                 var body = template.TransformText();
-                var people = GetEntityBy<People>("PeopleId", entity.Owner);
-                var approver = GetEntityBy<People>("PeopleId", entity.Approver);
-                if (people != null && approver != null)
+                var owner = entity.People.Email;
+                var approver = entity.Approvers.People.Email;
+                if (owner != null && approver != null)
                 {
-                    var client = new Emailer("taksii.test@gmail.com", people.Email, body, "Potwierdzenie TakSii", approver.Email);
+                    var client = new Emailer("taksii.test@gmail.com", owner, body, "Potwierdzenie TakSii", approver);
                     client.SendEmail();
                     return true;
                 }
@@ -56,7 +56,6 @@ namespace SiiTaxi.Models
         internal void ConfirmTaxi(int id, string confirm)
         {
             var taxi = GetEntityBy<Taxi>("TaxiId", id);
-
             if (taxi.ConfirmCode == confirm)
             {
                 taxi.IsConfirmed = true;
@@ -92,6 +91,52 @@ namespace SiiTaxi.Models
             {
                 throw new NotImplementedException();
             }
+        }
+
+        internal void ConfirmJoin(int id, string confirm)
+        {
+            var taxi = GetEntityBy<Taxi>("TaxiId", id);
+            if (taxi.ConfirmCode == confirm)
+            {
+                taxi.IsConfirmed = true;
+                Context.SaveChanges();
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public bool SendJoinEmail(int id)
+        {
+            var entity = GetEntityBy<TaxiPeople>("Id", id);
+            if (entity != null)
+            {
+                var code = Guid.NewGuid().ToString();
+                entity.ConfirmCode = code;
+                UpdateEntityBy("Id", entity);
+
+                if (entity.TaxiId != null)
+                {
+                    var template = new ConfirmJoinTemplate
+                    {
+                        ConfirmationString = code,
+                        TaxiId = (int) entity.TaxiId
+                    };
+
+                    var body = template.TransformText();
+                    var joiner = entity.People.Email;
+                    var owner = entity.Taxi.People.Email;
+                    if (joiner != null && owner != null)
+                    {
+                        var client = new Emailer("taksii.test@gmail.com", joiner, body, "Potwierdzenie TakSii", owner);
+                        client.SendEmail();
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }

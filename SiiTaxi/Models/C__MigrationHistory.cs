@@ -12,15 +12,11 @@ namespace SiiTaxi.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class TaxiPeople
+    public partial class C__MigrationHistory
     {
-        public Nullable<int> TaxiId { get; set; }
-        public Nullable<int> PeopleId { get; set; }
-        public int Id { get; set; }
-        public string ConfirmCode { get; set; }
-        public bool IsConfirmed { get; set; }
-    
-        public virtual People People { get; set; }
-        public virtual Taxi Taxi { get; set; }
+        public string MigrationId { get; set; }
+        public string ContextKey { get; set; }
+        public byte[] Model { get; set; }
+        public string ProductVersion { get; set; }
     }
 }

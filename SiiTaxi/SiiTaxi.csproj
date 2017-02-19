@@ -224,6 +224,11 @@
     <Compile Include="Controllers\TaxiController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MeController.cs" />
+    <Compile Include="Email\ConfirmJoinTemplate.cs">
+      <DependentUpon>ConfirmJoinTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Email\SendCodeTemplate.cs">
       <DependentUpon>SendCodeTemplate.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -253,6 +258,9 @@
       <DependentUpon>SiiTaxiEFModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspNetUsers.cs">
+      <DependentUpon>SiiTaxiEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C__MigrationHistory.cs">
       <DependentUpon>SiiTaxiEFModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
@@ -300,6 +308,10 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="Email\ConfirmJoinTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>ConfirmJoinTemplate.cs</LastGenOutput>
+    </Content>
     <Content Include="Email\SendCodeTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>SendCodeTemplate.cs</LastGenOutput>
@@ -399,6 +411,7 @@
     <Content Include="Views\Approvers\Delete.cshtml" />
     <Content Include="Views\Approvers\Update.cshtml" />
     <Content Include="Views\Taxi\Confirm.cshtml" />
+    <Content Include="Views\Taxi\ConfirmJoin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
