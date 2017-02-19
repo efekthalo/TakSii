@@ -10,7 +10,7 @@ namespace SiiTaxi.Models
 
         public PeopleViewModel()
         {
-            Context = new SiiTaxiEntities();
+            Context = new SiiTaxiEntities(true);
             People = Get<People>();
             Approvers = People.Where(x => x.Approvers.IsApprover);
         }

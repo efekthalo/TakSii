@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Core.Metadata.Edm;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
@@ -79,6 +80,27 @@ namespace SiiTaxi.Models
             {
                 throw new NotImplementedException();
             }            
+        }
+    }
+
+    public partial class SiiTaxiEntities
+    {
+        public SiiTaxiEntities(bool initDb = true)
+            : base("name=SiiTaxiEntities")
+        {
+            if (initDb)
+            {
+                try
+                {
+                    Database.SetInitializer(new CreateDatabaseIfNotExists<SiiTaxiEntities>());
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+            }
+                
         }
     }
 }

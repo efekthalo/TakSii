@@ -15,14 +15,14 @@ namespace SiiTaxi.Models
 
         public TaxiViewModel()
         {
-            Context = new SiiTaxiEntities();
+            Context = new SiiTaxiEntities(true);
             DateInput = DateTime.Now.Date;
             Taxis = Get<Taxi>();
         }
 
         public TaxiViewModel(DateTime date)
         {
-            Context = new SiiTaxiEntities();
+            Context = new SiiTaxiEntities(true);
             DateInput = date;
             Taxis = Get<Taxi>().Where(x => (x.Time.Year == date.Year) && (x.Time.Month == date.Month) && (x.Time.Day == date.Day));
         }
