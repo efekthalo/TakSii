@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using SiiTaxi.Models;
 using SiiTaxi.Providers;
 
@@ -43,7 +44,8 @@ namespace SiiTaxi.Controllers
                     IsApprover = true
                 };
 
-                peopleModel.UpdateEntity(null, approver);
+                var entity = peopleModel.GetEntityBy<Approvers>("PeopleId", person.PeopleId);
+                peopleModel.UpdateEntity(entity, approver);
             }
             catch
             {
@@ -101,6 +103,7 @@ namespace SiiTaxi.Controllers
             {
                 var approver = new People()
                 {
+                    PeopleId = id,
                     Name = name,
                     Email = email,
                     Phone = phone
