@@ -18,7 +18,7 @@
         Kliknij w poniższy link aby potwierdzić taxi.
     </p>
     <p>
-        <a href="http://localhost:61339/Taxi/Confirm?id=<#= TaxiId #>&code=<#= ConfirmationString #>">Potwierdzam TAXI</a>
+        <a href="http://taksii.efekt.co.uk/Taxi/Confirm?id=<#= TaxiId #>&code=<#= ConfirmationString #>">Potwierdzam TAXI</a>
     </p>
 </body>
 </html>
