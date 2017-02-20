@@ -148,16 +148,16 @@ namespace SiiTaxi.Controllers
                 TempData["errorMessage"] = Messages.NotValidPhone;
                 return View(taxi);
             }
-            //if (taxi.TaxiPeople.Count >= maxInTaxi)
-            //{
-            //    TempData["errorMessage"] = Messages.TaxiFull;
-            //    return RedirectToAction("Index", "Taxi");
-            //}
-            //if (email == taxi.People.Email || taxi.TaxiPeople.Any(x => x.People.Name == name))
-            //{
-            //    TempData["errorMessage"] = Messages.JoinedAlready;
-            //    return RedirectToAction("Index", "Taxi");
-            //}
+            if (taxi.TaxiPeople.Count >= maxInTaxi)
+            {
+                TempData["errorMessage"] = Messages.TaxiFull;
+                return RedirectToAction("Index", "Taxi");
+            }
+            if (email == taxi.People.Email || taxi.TaxiPeople.Any(x => x.People.Name == name))
+            {
+                TempData["errorMessage"] = Messages.JoinedAlready;
+                return RedirectToAction("Index", "Taxi");
+            }
 
             try
             {
