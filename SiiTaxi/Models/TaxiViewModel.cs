@@ -40,8 +40,8 @@ namespace SiiTaxi.Models
                 };
 
                 var body = template.TransformText();
-                var owner = entity.People.Email;
-                var approver = entity.Approvers.People.Email;
+                var owner = GetEntityBy<People>("PeopleId", entity.Owner).Email;
+                var approver = GetEntityBy<People>("PeopleId", entity.Approver).Email;
                 if (owner != null && approver != null)
                 {
                     var client = new Emailer("taksii.test@gmail.com", owner, body, "Potwierdzenie TakSii", approver);
@@ -125,8 +125,8 @@ namespace SiiTaxi.Models
                     };
 
                     var body = template.TransformText();
-                    var joiner = entity.People.Email;
-                    var owner = entity.Taxi.People.Email;
+                    var joiner = GetEntityBy<People>("PeopleId", entity.PeopleId).Email;
+                    var owner = GetEntityBy<People>("PeopleId", entity.Taxi.Owner).Email;
                     if (joiner != null && owner != null)
                     {
                         var client = new Emailer("taksii.test@gmail.com", joiner, body, "Potwierdzenie TakSii", owner);
