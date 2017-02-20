@@ -18,7 +18,7 @@ namespace SiiTaxi.Email
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Users\Tomek\Desktop\SiiTaxi\SiiTaxi\Email\ConfirmTemplate.tt"
+    #line 1 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\ConfirmTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "14.0.0.0")]
     public partial class ConfirmTemplate : ConfirmTemplateBase
     {
@@ -43,16 +43,16 @@ namespace SiiTaxi.Email
         Kliknij w poniższy link aby potwierdzić taxi.
     </p>
     <p>
-        <a href=""http://localhost:61339/Taxi/Confirm?id=");
+        <a href=""http://taksii.efekt.co.uk/Taxi/Confirm?id=");
             
-            #line 21 "C:\Users\Tomek\Desktop\SiiTaxi\SiiTaxi\Email\ConfirmTemplate.tt"
+            #line 21 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\ConfirmTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TaxiId));
             
             #line default
             #line hidden
             this.Write("&code=");
             
-            #line 21 "C:\Users\Tomek\Desktop\SiiTaxi\SiiTaxi\Email\ConfirmTemplate.tt"
+            #line 21 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\ConfirmTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ConfirmationString));
             
             #line default

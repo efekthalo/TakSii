@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/19/2017 07:18:36
--- Generated from EDMX file: C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Models\SiiTaxiEFModel.edmx
+-- Date Created: 02/20/2017 09:07:59
+-- Generated from EDMX file: C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Models\SiiTaxiEFModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [aspnet-SiiTaxi-20170129084253];
+USE [efekt_taksii];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -49,6 +49,12 @@ GO
 -- Dropping existing tables
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[__MigrationHistory]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[__MigrationHistory];
+GO
+IF OBJECT_ID(N'[dbo].[C__MigrationHistory]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[C__MigrationHistory];
+GO
 IF OBJECT_ID(N'[dbo].[Approvers]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Approvers];
 GO
@@ -161,7 +167,8 @@ CREATE TABLE [dbo].[TaxiPeople] (
     [TaxiId] int  NULL,
     [PeopleId] int  NULL,
     [Id] int IDENTITY(1,1) NOT NULL,
-    [ConfirmCode] nvarchar(max)  NULL
+    [ConfirmCode] nvarchar(max)  NULL,
+    [IsConfirmed] bit  NOT NULL
 );
 GO
 
