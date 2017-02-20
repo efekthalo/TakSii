@@ -71,7 +71,12 @@ namespace SiiTaxi.Controllers
                     foreach (var add in adds)
                     {
                         var other = new People { Name = "", Email = add };
-                        var taxiPeople = new TaxiPeople { TaxiId = taxi.TaxiId, PeopleId = peopleModel.UpdateEntityBy("Email", other).PeopleId };
+                        var taxiPeople = new TaxiPeople
+                        {
+                            TaxiId = taxi.TaxiId,
+                            PeopleId = peopleModel.UpdateEntityBy("Email", other).PeopleId,
+                            IsConfirmed = true
+                        };
                         taxiPeopleModel.UpdateEntity(null, taxiPeople);
                     }
                 }
@@ -200,7 +205,7 @@ namespace SiiTaxi.Controllers
         {
             try
             {
-                taxiModel.ConfirmTaxi(id, code);
+                taxiModel.Confirm(id, code);
             }
             catch
             {
@@ -212,7 +217,7 @@ namespace SiiTaxi.Controllers
         }
 
         [HttpGet]
-        public ActionResult ConfirmJoin(int id, string code)
+        public ActionResult ConfirmJoin(int id, string code, TaxiViewModel taxiModel)
         {
             var taxiPeople = new TaxiViewModel().GetEntityBy<TaxiPeople>("Id", id);
             if (taxiPeople != null && taxiPeople.ConfirmCode == code)
@@ -230,16 +235,16 @@ namespace SiiTaxi.Controllers
         }
 
         [HttpPost]
-        public ActionResult ConfirmJoin(int id, string code, TaxiViewModel taxiModel)
+        public ActionResult ConfirmJoin(int id, string code)
         {
             try
             {
-                taxiModel.ConfirmJoin(id, code);
+                new TaxiViewModel().ConfirmJoin(id, code);
             }
             catch
             {
                 TempData["errorMessage"] = Messages.ConfirmFailed;
-                return View(taxiModel.GetEntityBy<TaxiPeople>("Id", id));
+                return View(new TaxiViewModel().GetEntityBy<TaxiPeople>("Id", id));
             }
             TempData["successMessage"] = Messages.ConfirmSucceed;
             return RedirectToAction("Index", "Taxi");
