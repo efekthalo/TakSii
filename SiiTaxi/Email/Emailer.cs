@@ -59,7 +59,7 @@ namespace SiiTaxi.Email
     public partial class ConfirmJoinTemplate
     {
         public string ConfirmationString { get; set; }
-        public int TaxiId { get; internal set; }
+        public int Id { get; internal set; }
     }
 
     public partial class SendCodeTemplate

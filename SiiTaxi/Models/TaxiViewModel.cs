@@ -53,20 +53,6 @@ namespace SiiTaxi.Models
             return false;
         }
 
-        internal void ConfirmTaxi(int id, string confirm)
-        {
-            var taxi = GetEntityBy<Taxi>("TaxiId", id);
-            if (taxi.ConfirmCode == confirm)
-            {
-                taxi.IsConfirmed = true;
-                Context.SaveChanges();
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
-        }
-
         internal void SendCode(int id, string code)
         {
             var taxi = GetEntityBy<Taxi>("TaxiId", id);
@@ -93,12 +79,26 @@ namespace SiiTaxi.Models
             }
         }
 
-        internal void ConfirmJoin(int id, string confirm)
+        internal void Confirm(int id, string confirm)
         {
             var taxi = GetEntityBy<Taxi>("TaxiId", id);
             if (taxi.ConfirmCode == confirm)
             {
                 taxi.IsConfirmed = true;
+                Context.SaveChanges();
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        internal void ConfirmJoin(int id, string confirm)
+        {
+            var taxiPeople = GetEntityBy<TaxiPeople>("Id", id);
+            if (taxiPeople.ConfirmCode == confirm)
+            {
+                taxiPeople.IsConfirmed = true;
                 Context.SaveChanges();
             }
             else
@@ -121,7 +121,7 @@ namespace SiiTaxi.Models
                     var template = new ConfirmJoinTemplate
                     {
                         ConfirmationString = code,
-                        TaxiId = (int) entity.TaxiId
+                        Id = (int) entity.Id
                     };
 
                     var body = template.TransformText();
