@@ -27,6 +27,10 @@ namespace SiiTaxi.Providers
 
         public const string ConfirmSucceed = "Potwierdziłeś swoje zamówienie!";
 
+        public const string BugReported = "Dziękujemy za zgłoszenie błędu!";
+
+        public const string BugFailed = "Błąd nie został zgłoszony!";
+
         public const string TaxiConfirmed = "Taxi zostało już potwierdzone.";
 
         public const string SendCodeFailed = "Kod nie został wysłany.";

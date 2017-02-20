@@ -9,6 +9,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @RenderSection("recaptcha", false)
+    <script src="https://www.google.com/recaptcha/api.js"></script>
 </head>
 <body>
 
@@ -60,6 +61,41 @@
         </div>
     </footer>
 </div>
+    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#bugReport" style="position: fixed; bottom: 10px; right: 10px;"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Zgłoś Błąd</button>
+
+    <!-- Modal -->
+    <div id="bugReport" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Zgłaszanie błędu</h4>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="@Url.Action("BugReport", "Taxi")" data-toggle="validator">
+                        <div class="form-group has-feedback">
+                            <label for="name">Zgłaszający:</label>
+                            <input class="form-control" id="name" name="name" type="text" placeholder="Zgłaszający"  required />
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <label for="name">Opis błędu: </label>
+                            <textarea class="form-control" rows="5" id="description" name="description" required></textarea>
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
+                        <br />
+                        <button class="btn btn-primary" type="submit">Zgłoś</button><button type="button" class="btn btn-default" data-dismiss="modal">Anuluj</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/bootstrap")
