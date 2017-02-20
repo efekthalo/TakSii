@@ -46,7 +46,7 @@ namespace SiiTaxi.Email
         <a href=""http://taksii.efekt.co.uk/Taxi/ConfirmJoin?id=");
             
             #line 21 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\ConfirmJoinTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(TaxiId));
+            this.Write(this.ToStringHelper.ToStringWithCulture(Id));
             
             #line default
             #line hidden
