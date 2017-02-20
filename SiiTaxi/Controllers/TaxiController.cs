@@ -244,5 +244,29 @@ namespace SiiTaxi.Controllers
             TempData["successMessage"] = Messages.ConfirmSucceed;
             return RedirectToAction("Index", "Taxi");
         }
+
+        [HttpPost]
+        public ActionResult BugReport(string name, string description)
+        {
+            var encodedResponse = Request.Form["g-Recaptcha-Response"];
+            if (!Validators.IsCaptchaValid(encodedResponse))
+            {
+                TempData["errorMessage"] = Messages.NotValidCaptcha;
+                return RedirectToAction("Index", "Taxi");
+            }
+
+            if(name != null && description != null)
+            {
+                var body = string.Format("<p>Zgłaszający: {0}</p><p>Opis błędu: {1}</p>", name, description);
+                var client = new Email.Emailer("taksii.test@gmail.com", "taksii.test@gmail.com", body, "Zgłoszenie błędu TakSii");
+                client.SendEmail();
+
+                TempData["successMessage"] = Messages.BugReported;
+                return RedirectToAction("Index", "Taxi");
+            }
+
+            TempData["successMessage"] = Messages.BugFailed;
+            return RedirectToAction("Index", "Taxi");
+        }
     }
 }
