@@ -35,7 +35,16 @@
                 <td>@objUser.From</td>
                 <td>@objUser.To</td>
                 <td>@objUser.Time.ToString("HH:mm")</td>
-                <td>@(objUser.TaxiPeople.Count + 1) / 4</td>
+                <td>@(objUser.TaxiPeople.Count + 1) / 
+                    @if (@objUser.IsBigTaxi)
+                        {
+                            <label>7</label>
+                        }
+                        else
+                        {
+                            <label>4</label>
+                        }
+                </td>
                 @if (objUser.TaxiPeople.Count <= 2)
                 {
                     <td>

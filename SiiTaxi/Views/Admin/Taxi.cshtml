@@ -30,8 +30,9 @@
                 <th>Godzina</th>
                 <th>Pasażerowie</th>
                 <th>Approver</th>
-                <th>PO</th>
-                <th>Z</th>
+                <th>Duża?</th>
+                <th>Potwierdzona?</th>
+                <th>Zamówiona?</th>
                 <th>Kod Taxi</th>
             </tr>
         </thead>
@@ -55,6 +56,16 @@
                         </ul>
                     </td>
                     <td>@taxi.Approvers.People.Name</td>
+                    <td style="text-align: center;">
+                        @if (taxi.IsBigTaxi)
+                        {
+                            <span class="glyphicon glyphicon glyphicon-ok" aria-hidden="true" style="color: red"></span>
+                        }
+                        else
+                        {
+                            <span class="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        }
+                    </td>
                     <td style="text-align: center;">
                         @if (taxi.IsConfirmed)
                         {
