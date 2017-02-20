@@ -148,12 +148,12 @@ namespace SiiTaxi.Controllers
                 TempData["errorMessage"] = Messages.TaxiFull;
                 return RedirectToAction("Index", "Taxi");
             }
-            //if(email == taxi.People.Email || taxi.TaxiPeople.Any(x => x.People.Name == name))
-            //{
-            //    TempData["errorMessage"] = Messages.JoinedAlready;
-            //    return RedirectToAction("Index", "Taxi");
-            //}
-            
+            if (email == taxi.People.Email || taxi.TaxiPeople.Any(x => x.People.Name == name))
+            {
+                TempData["errorMessage"] = Messages.JoinedAlready;
+                return RedirectToAction("Index", "Taxi");
+            }
+
             try
             {
                 var other = new People { Name = name, Email = email, Phone = phone };
