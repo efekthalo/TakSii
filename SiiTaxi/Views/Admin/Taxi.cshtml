@@ -50,9 +50,9 @@
                             <li class="list-group-item">
                                 @taxi.People.Name<span class="badge">owner</span>
                             </li>
-                            @for (var i = 0; i < taxi.TaxiPeople.Count; i++)
+                            @foreach (var passenger in taxi.TaxiPeople.Where(x => x.IsConfirmed))
                             {
-                                <li class="list-group-item">@taxi.TaxiPeople.ElementAt(i).People.Name</li>
+                                <li class="list-group-item">@passenger.People.Name</li>
                             }
                         </ul>
                     </td>
