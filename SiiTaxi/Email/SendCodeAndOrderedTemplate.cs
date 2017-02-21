@@ -18,9 +18,9 @@ namespace SiiTaxi.Email
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\SendCodeTemplate.tt"
+    #line 1 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\SendCodeAndOrderedTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "14.0.0.0")]
-    public partial class SendCodeTemplate : SendCodeTemplateBase
+    public partial class SendCodeAndOrderedTemplate : SendCodeAndOrderedTemplateBase
     {
 #line hidden
         /// <summary>
@@ -40,31 +40,31 @@ namespace SiiTaxi.Email
         <strong>Witam!</strong>
     </p>
     <p>
-        Oto kod do zamówionego przez Ciebie TAXI z ");
+		<strong>Zamówiliśmy dla ciebie taksówkę. Proszę zapisz sobie kod gdyby był potrzebny.</strong></br>
+        TAXI z ");
             
-            #line 18 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\SendCodeTemplate.tt"
+            #line 19 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\SendCodeAndOrderedTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TaxiFrom));
             
             #line default
             #line hidden
             this.Write(" do ");
             
-            #line 18 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\SendCodeTemplate.tt"
+            #line 19 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\SendCodeAndOrderedTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TaxiTo));
             
             #line default
             #line hidden
             this.Write(". Data przejazdu: ");
             
-            #line 18 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\SendCodeTemplate.tt"
+            #line 19 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\SendCodeAndOrderedTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TaxiTime));
             
             #line default
             #line hidden
-            this.Write(".</br>\r\n\t\tAby zamówić taksówkę zadzwoń proszę pod numer Halo Taxi: 781 819 666 i " +
-                    "podaj kod na infolinii.\r\n    </p>\r\n    <h1>\r\n        ");
+            this.Write(". Oto kod na przejazd:\r\n    </p>\r\n    <h1>\r\n        ");
             
-            #line 22 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\SendCodeTemplate.tt"
+            #line 22 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\SendCodeAndOrderedTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TaxiCodeString));
             
             #line default
@@ -81,7 +81,7 @@ namespace SiiTaxi.Email
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "14.0.0.0")]
-    public class SendCodeTemplateBase
+    public class SendCodeAndOrderedTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;
