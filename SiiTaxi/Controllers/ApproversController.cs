@@ -28,22 +28,39 @@ namespace SiiTaxi.Controllers
 
             try
             {
-                var person = new People()
+                var entity = peopleModel.GetEntityBy<People>("Email", email);
+                if (entity != null)
                 {
-                    Name = name,
-                    Phone = phone,
-                    Email = email
-                };
-
-                person = peopleModel.UpdateEntityBy("Email", person);
-
-                var approver = new Approvers()
+                    entity.Name = name;
+                    entity.Phone = phone;
+                }
+                else
                 {
-                    PeopleId = person.PeopleId,
-                    IsApprover = true
-                };
+                    entity = new People()
+                    {
+                        Name = name,
+                        Phone = phone,
+                        Email = email
+                    };
+                }
 
-                peopleModel.UpdateEntity(null, approver);
+                entity = peopleModel.UpdateEntityBy("Email", entity);
+
+                if (entity.Approvers == null)
+                {
+                    var approver = new Approvers()
+                    {
+                        PeopleId = entity.PeopleId,
+                        IsApprover = true
+                    };
+
+                    peopleModel.UpdateEntity(null, approver);
+                }
+                else
+                {
+                    entity.Approvers.IsApprover = true;
+                    peopleModel.UpdateEntityBy("Email", entity);
+                }
             }
             catch
             {
@@ -99,14 +116,18 @@ namespace SiiTaxi.Controllers
 
             try
             {
-                var approver = new People()
+                var entity = peopleModel.GetEntityBy<People>("Email", email);
+                if (entity != null)
                 {
-                    Name = name,
-                    Email = email,
-                    Phone = phone
-                };
-
-                peopleModel.UpdateEntityBy("PeopleId", approver);
+                    entity.Name = name;
+                    entity.Phone = phone;
+                    peopleModel.UpdateEntityBy("Email", entity);
+                }
+                else
+                {
+                    TempData["errorMessage"] = Messages.UpdateApproverFailed;
+                    return View(peopleModel.GetEntityBy<People>("PeopleId", id));
+                }                
             }
             catch
             {

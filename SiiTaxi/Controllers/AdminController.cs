@@ -8,22 +8,17 @@ namespace SiiTaxi.Controllers
     [Authorize]
     public class AdminController : Controller
     {
-        public ActionResult Taxi(System.DateTime? date = null)
+        public ActionResult Taxi(DateTime? date = null)
         {
             return View(new TaxiViewModel(date ?? DateTime.Now));
         }
 
-        //public ActionResult Approvers(PeopleViewModel peopleModel)
-        //{
-        //    return View(new PeopleViewModel());
-        //}
-
         [HttpPost]
-        public ActionResult SendCode(int id, string code, TaxiViewModel taxiModel)
+        public ActionResult SendCode(int id, string code, string action, TaxiViewModel taxiModel)
         {
             try
             {
-                taxiModel.SendCode(id, code);
+                taxiModel.SendCode(id, code, action);
             }
             catch
             {

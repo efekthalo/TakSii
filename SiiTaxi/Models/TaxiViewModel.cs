@@ -53,25 +53,43 @@ namespace SiiTaxi.Models
             return false;
         }
 
-        internal void SendCode(int id, string code)
+        internal void SendCode(int id, string code, string action)
         {
             var taxi = GetEntityBy<Taxi>("TaxiId", id);
-            taxi.TaxiCode = code;
-            UpdateEntityBy("TaxiId", taxi);
 
             if (taxi.IsConfirmed)
             {
-                var template = new SendCodeTemplate
+                string body = "";
+                switch(action)
                 {
-                    TaxiFrom = taxi.From,
-                    TaxiTo = taxi.To,
-                    TaxiTime = taxi.Time.ToString("HH:mm dd/MM/yyyy"),
-                    TaxiCodeString = code
-                };
-                var body = template.TransformText();
-
+                    case "Send":
+                        var codeTemplate = new SendCodeTemplate
+                        {
+                            TaxiFrom = taxi.From,
+                            TaxiTo = taxi.To,
+                            TaxiTime = taxi.Time.ToString("HH:mm dd/MM/yyyy"),
+                            TaxiCodeString = code
+                        };
+                        body = codeTemplate.TransformText();
+                        break;
+                    case "Order":
+                        var orderTemplate = new SendCodeAndOrderedTemplate
+                        {
+                            TaxiFrom = taxi.From,
+                            TaxiTo = taxi.To,
+                            TaxiTime = taxi.Time.ToString("HH:mm dd/MM/yyyy"),
+                            TaxiCodeString = code
+                        };
+                        body = orderTemplate.TransformText();
+                        break;
+                }
+                
                 var client = new Emailer("taksii.test@gmail.com", taxi.People.Email, body, "Kod TaxSii");
                 client.SendEmail();
+
+                taxi.TaxiCode = code;
+                taxi.IsOrdered = true;
+                UpdateEntityBy("TaxiId", taxi);
             }
             else
             {

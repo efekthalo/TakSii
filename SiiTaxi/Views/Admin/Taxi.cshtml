@@ -32,6 +32,7 @@
                 <th>Approver</th>
                 <th>Duża?</th>
                 <th>Potwierdzona?</th>
+                <th>Czy zamówić?</th>
                 <th>Zamówiona?</th>
                 <th>Kod Taxi</th>
             </tr>
@@ -77,6 +78,16 @@
                         }
                     </td>
                     <td style="text-align: center;">
+                        @if (taxi.Order)
+                        {
+                            <label>Do zamówienia</label>
+                        }
+                        else
+                        {
+                            <label>Sam kod</label>
+                        }
+                    </td>
+                    <td style="text-align: center;">
                         @if (taxi.IsOrdered)
                         {
                             <span class="glyphicon glyphicon glyphicon-ok" aria-hidden="true"></span>
@@ -87,11 +98,11 @@
                         }
                     </td>
                     <td class="col-md-2">
-                        
                         <form name="codeForm" class="input-group" method="post" action="@Url.Action("SendCode", "Admin", new { id = taxi.TaxiId })">
                             <input type="text" class="form-control" name="code" id="taxicode" required>
                             <span class="input-group-btn">
-                                <button type="submit" class="btn btn-success btn-search"><span class="glyphicon glyphicon glyphicon-send"></span></button>
+                                <button type="submit" name="action" value="Send" class="btn btn-success btn-search"><span class="glyphicon glyphicon glyphicon-send"></span></button>
+                                <button type="submit" name="action" value="Order" class="btn btn-success btn-search"><span class="glyphicon glyphicon glyphicon-phone"></span></button>
                             </span>
                         </form>
                     </td>
