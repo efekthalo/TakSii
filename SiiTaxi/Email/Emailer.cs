@@ -69,4 +69,12 @@ namespace SiiTaxi.Email
         public string TaxiTo { get; set; }
         public string TaxiTime { get; set; }
     }
+
+    public partial class SendCodeAndOrderedTemplate
+    {
+        public string TaxiCodeString { get; set; }
+        public string TaxiFrom { get; set; }
+        public string TaxiTo { get; set; }
+        public string TaxiTime { get; set; }
+    }
 }

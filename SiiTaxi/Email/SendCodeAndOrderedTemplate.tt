@@ -15,8 +15,8 @@
         <strong>Witam!</strong>
     </p>
     <p>
-        Oto kod do zamówionego przez Ciebie TAXI z <#= TaxiFrom #> do <#= TaxiTo #>. Data przejazdu: <#= TaxiTime #>.</br>
-		Aby zamówić taksówkę zadzwoń proszę pod numer Halo Taxi: 781 819 666 i podaj kod na infolinii.
+		<strong>Zamówiliśmy dla ciebie taksówkę. Proszę zapisz sobie kod gdyby był potrzebny.</strong></br>
+        TAXI z <#= TaxiFrom #> do <#= TaxiTo #>. Data przejazdu: <#= TaxiTime #>. Oto kod na przejazd:
     </p>
     <h1>
         <#= TaxiCodeString #>

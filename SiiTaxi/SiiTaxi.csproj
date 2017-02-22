@@ -224,6 +224,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Email\SendCodeAndOrderedTemplate.cs">
+      <DependentUpon>SendCodeAndOrderedTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Email\SendCodeTemplate.cs">
       <DependentUpon>SendCodeTemplate.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -306,6 +311,10 @@
     <Content Include="Email\ConfirmJoinTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>ConfirmJoinTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Email\SendCodeAndOrderedTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>SendCodeAndOrderedTemplate.cs</LastGenOutput>
     </Content>
     <Content Include="Email\SendCodeTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
