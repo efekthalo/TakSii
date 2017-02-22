@@ -13,9 +13,10 @@ namespace SiiTaxi.Controllers
         [HttpPost]
         public ActionResult New(string ownerName, string ownerPhone, string time, 
             string ownerEmail, string przejazdFrom, string przejazdTo, 
-            List<string> adds, int approver, bool isBigTaxi, 
-            bool order, TaxiViewModel taxiModel, PeopleViewModel peopleModel, TaxiPeopleViewModel taxiPeopleModel)
+            List<string> adds, int approver, TaxiViewModel taxiModel, PeopleViewModel peopleModel, TaxiPeopleViewModel taxiPeopleModel)
         {
+            var isBigTaxi = Request.Form["IsBigTaxi"] == "on"? true : false;
+            var order = Request.Form["order"] == "on" ? true : false;
             TempData["formData"] = Request.Form;
             var encodedResponse = Request.Form["g-Recaptcha-Response"];
             if (!Validators.IsCaptchaValid(encodedResponse))
@@ -68,8 +69,12 @@ namespace SiiTaxi.Controllers
 
                 if (adds != null)
                 {
-                    foreach (var add in adds)
+                    foreach (var add in adds.Distinct())
                     {
+                        if (add == ownerEmail)
+                        {
+                            continue;
+                        }
                         var other = peopleModel.GetEntityBy<People>("Email", add);
                         if (other == null)
                         {
