@@ -59,7 +59,7 @@ namespace SiiTaxi.Controllers
                 Owner = peopleModel.UpdateEntityBy("Email", owner).PeopleId,
                 Approver = approver,
                 IsBigTaxi = isBigTaxi,
-                Order = order
+                Order = !order
             };
 
             try
@@ -70,11 +70,8 @@ namespace SiiTaxi.Controllers
                 {
                     foreach (var add in adds)
                     {
-                        var other = peopleModel.GetEntityBy<People>("Email", add);
-                        if (other == null)
-                        {
-                            other = peopleModel.UpdateEntity(null, new People { Name = "", Email = add });
-                        }
+                        var other = peopleModel.GetEntityBy<People>("Email", add) ??
+                                    peopleModel.UpdateEntity(null, new People { Name = "", Email = add });
 
                         var taxiPeople = new TaxiPeople
                         {

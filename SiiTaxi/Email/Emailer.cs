@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Web;
+using SiiTaxi.Models;
 
 namespace SiiTaxi.Email
 {
@@ -71,6 +72,31 @@ namespace SiiTaxi.Email
     }
 
     public partial class SendCodeAndOrderedTemplate
+    {
+        public string TaxiCodeString { get; set; }
+        public string TaxiFrom { get; set; }
+        public string TaxiTo { get; set; }
+        public string TaxiTime { get; set; }
+    }
+
+    public partial class SendNotificationTemplate
+    {
+        public string TaxiCodeString { get; set; }
+        public string TaxiFrom { get; set; }
+        public string TaxiTo { get; set; }
+        public string TaxiTime { get; set; }
+    }
+
+    public partial class SendRemoveToOwnerTemplate
+    {
+        public string TaxiCodeString { get; set; }
+        public string TaxiFrom { get; set; }
+        public string TaxiTo { get; set; }
+        public string TaxiTime { get; set; }
+        public TaxiPeople Joiner { get; set; }
+    }
+
+    public partial class SendRemoveToJoinersTemplate
     {
         public string TaxiCodeString { get; set; }
         public string TaxiFrom { get; set; }

@@ -18,7 +18,14 @@ namespace SiiTaxi.Controllers
         {
             try
             {
-                taxiModel.SendCode(id, code, action);
+                var taxi = taxiModel.GetEntityBy<Taxi>("TaxiId", id);
+                if (taxi.IsOrdered)
+                {
+                    TempData["errorMessage"] = Messages.TaxiOrdered;
+                    return RedirectToAction("Taxi", "Admin");
+                }
+
+                taxiModel.SendCode(taxi, code, action);
             }
             catch
             {

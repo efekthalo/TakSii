@@ -13,7 +13,7 @@
 }
 <form method="post" action="@Url.Action("New", "Taxi")" data-toggle="validator">
     <div class="form-group has-feedback">
-        <label for="ownerName">Zgłaszający:</label>
+        <label for="ownerName">Właściciel:</label>
         <input type="text" class="form-control" id="ownerName" name="ownerName" value="@GetValue("ownerName")" placeholder="Imię i nazwisko" required>
         <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
         <div class="help-block with-errors"></div>
@@ -83,7 +83,7 @@
     
     <div class="form-check form-check-inline">
         <label class="form-check-label">
-            @Html.CheckBox("order", false) Czy zamówić?
+            @Html.CheckBox("order", false) Tylko kod na taksówke?
         </label>
         <br>
         <br>

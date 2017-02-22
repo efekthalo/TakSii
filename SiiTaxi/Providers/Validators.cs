@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace SiiTaxi.Providers
 {
@@ -11,7 +9,7 @@ namespace SiiTaxi.Providers
             try
             {
                 var addr = new System.Net.Mail.MailAddress(email);
-                return addr.Address == email && (company? email.EndsWith("@pl.sii.eu") : true);
+                return addr.Address == email && (!company || email.EndsWith("@pl.sii.eu"));
             }
             catch
             {
@@ -21,7 +19,7 @@ namespace SiiTaxi.Providers
 
         public static bool IsCaptchaValid(string response)
         {
-            return (ReCaptcha.Validate(response) == "True" ? true : false);
+            return (ReCaptcha.Validate(response) == "True");
         }
 
         public static bool IsPhoneValid(string phone)
