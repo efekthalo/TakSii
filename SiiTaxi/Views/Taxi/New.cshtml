@@ -80,14 +80,29 @@
                 <li class="list-group-item">
                     Duża Taksówka
                     <div class="material-switch pull-right">
-                        <input id="IsBigTaxi" name="IsBigTaxi" type="checkbox" />
+                        @if (GetValue("IsBigTaxi") == "on")
+                        {
+                            <input id="IsBigTaxi" name="IsBigTaxi" type="checkbox" checked/>
+                        }
+                        else
+                        {
+                            <input id="IsBigTaxi" name="IsBigTaxi" type="checkbox" />
+                        }
+
                         <label for="IsBigTaxi" class="label-primary"></label>
                     </div>
                 </li>
                 <li class="list-group-item">
                     Czy zamówić?
                     <div class="material-switch pull-right">
-                        <input id="order" name="order" type="checkbox" />
+                        @if (GetValue("order") == "on")
+                        {
+                            <input id="order" name="order" type="checkbox" checked/>
+                        }
+                        else
+                        {
+                            <input id="order" name="order" type="checkbox" />
+                        }
                         <label for="order" class="label-primary"></label>
                     </div>
                 </li>
@@ -99,7 +114,14 @@
                 <li class="list-group-item">
                     Dodatkowe Osoby
                     <div class="material-switch pull-right">
-                        <input id="addPass" name="addPass" type="checkbox" />
+                        @if (GetValue("adds") == "")
+                        {
+                            <input id="addPass" name="addPass" type="checkbox" />
+                        }
+                        else
+                        {
+                            <input id="addPass" name="addPass" type="checkbox" checked/>
+                        }
                         <label for="addPass" class="label-primary"></label>
                     </div>
                 </li>
@@ -107,10 +129,31 @@
         </div>
 
         <div class="form-group has-feedback" id="dodatkoweOsoby">
+           @if (GetValue("adds") != "")
+           {
+               var adds = GetValue("adds").Split(',');
+               foreach (var add in adds)
+               {
+                <div id="dodOsoba" class="form-group">
+                    <div class="input-group dodatkowaOsoba">
+                        <input type="email" value="@add" class="form-control" id="adds" name="adds" pattern=".*pl\.sii\.eu" data-pattern-error="Dopuszczalny tylko E-mail Sii!" placeholder="E-mail" required><span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        <span class="input-group-addon btn btn-danger deleteDiv">Usuń</span>
+                    </div><div class="help-block with-errors"></div>
+                </div>
+               }
+           }
         </div>
         <div class="form-group">
             <div class="form-group">
-                <span style="display: none;" class="btn btn-default" id="osobyButton" onclick="dodajOsobe()"><span class="glyphicon glyphicon glyphicon-plus"></span></span>
+@if (GetValue("adds") != "")
+{
+                <span class="btn btn-default" id="osobyButton" onclick="dodajOsobe()"><span class="glyphicon glyphicon glyphicon-plus"></span></span>
+}
+else
+{
+    <span style="display: none;" class="btn btn-default" id="osobyButton" onclick="dodajOsobe()"><span class="glyphicon glyphicon glyphicon-plus"></span></span>
+
+}
             </div>
             <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
         </div>
@@ -134,7 +177,7 @@
         var maleTaxi = 3;
         var duzeTaxi = 6;
 
-        var dodatkoweOsoby = 0;
+        var dodatkoweOsoby = @GetValue("adds").Split(',').Count() || 0;
         var maxOsob = maleTaxi;
         var disabled = false;
         var duzeTaxiChecked = false;
