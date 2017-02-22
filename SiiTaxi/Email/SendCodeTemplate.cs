@@ -47,7 +47,7 @@ namespace SiiTaxi.Email
             
             #line default
             #line hidden
-            this.Write(" do ");
+            this.Write(" --> do ");
             
             #line 18 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\SendCodeTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TaxiTo));
@@ -61,7 +61,7 @@ namespace SiiTaxi.Email
             
             #line default
             #line hidden
-            this.Write(".</br>\r\n\t\tAby zamówić taksówkę zadzwoń proszę pod numer Halo Taxi: 781 819 666 i " +
+            this.Write(".<br/>\r\n\t\tAby zamówić taksówkę zadzwoń proszę pod numer Halo Taxi: 781 819 666 i " +
                     "podaj kod na infolinii.\r\n    </p>\r\n    <h1>\r\n        ");
             
             #line 22 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\SendCodeTemplate.tt"
