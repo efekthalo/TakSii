@@ -11,9 +11,9 @@ namespace SiiTaxi.Controllers
     public class TaxiController : Controller
     {
         [HttpPost]
-        public ActionResult New(string ownerName, string ownerPhone, string time, 
-            string ownerEmail, string przejazdFrom, string przejazdTo, 
-            List<string> adds, int approver, bool isBigTaxi, 
+        public ActionResult New(string ownerName, string ownerPhone, string time,
+            string ownerEmail, string przejazdFrom, string przejazdTo,
+            List<string> adds, int approver, bool isBigTaxi,
             bool order, TaxiViewModel taxiModel, PeopleViewModel peopleModel, TaxiPeopleViewModel taxiPeopleModel)
         {
             TempData["formData"] = Request.Form;
@@ -24,7 +24,7 @@ namespace SiiTaxi.Controllers
                 return View(new PeopleViewModel());
             }
 
-            if(!Validators.IsEmailValid(ownerEmail, true))
+            if (!Validators.IsEmailValid(ownerEmail, true))
             {
                 TempData["errorMessage"] = Messages.NotValidCompanyEmail;
                 return View(new PeopleViewModel());
@@ -38,7 +38,7 @@ namespace SiiTaxi.Controllers
             DateTime parsedTime;
             DateTime.TryParseExact(time, "dd/MM/yyyy HH:mm", CultureInfo.CurrentCulture, DateTimeStyles.None, out parsedTime);
 
-            if(parsedTime < DateTime.Now)
+            if (parsedTime < DateTime.Now)
             {
                 TempData["errorMessage"] = Messages.NotValidDate;
                 return View(new PeopleViewModel());
@@ -132,7 +132,7 @@ namespace SiiTaxi.Controllers
         public ActionResult Join(int id, string name, string phone, string email, TaxiViewModel taxiModel, PeopleViewModel peopleModel, TaxiPeopleViewModel taxiPeopleModel)
         {
             var maxInTaxi = 3;
-            var taxi = taxiModel.GetEntityBy<Taxi>("TaxiId",id);
+            var taxi = taxiModel.GetEntityBy<Taxi>("TaxiId", id);
             if (taxi.IsBigTaxi)
                 maxInTaxi = 6;
 
@@ -191,7 +191,7 @@ namespace SiiTaxi.Controllers
         public ActionResult Confirm(int id, string code)
         {
             var taxi = new TaxiViewModel().GetEntityBy<Taxi>("TaxiId", id);
-            if(taxi != null && taxi.ConfirmCode == code)
+            if (taxi != null && taxi.ConfirmCode == code)
             {
                 if (taxi.IsConfirmed)
                 {
@@ -218,7 +218,7 @@ namespace SiiTaxi.Controllers
                 return View(taxiModel.GetEntityBy<Taxi>("TaxiId", id));
             }
             TempData["successMessage"] = Messages.ConfirmSucceed;
-            return RedirectToAction("Index", "Taxi") ;
+            return RedirectToAction("Index", "Taxi");
         }
 
         [HttpGet]
@@ -265,7 +265,7 @@ namespace SiiTaxi.Controllers
                 return RedirectToAction("Index", "Taxi");
             }
 
-            if(name != null && description != null)
+            if (name != null && description != null)
             {
                 var body = string.Format("<p>Zgłaszający: {0}</p><p>Opis błędu: {1}</p>", name, description);
                 var client = new Email.Emailer("taksii.test@gmail.com", "taksii.test@gmail.com", body, "Zgłoszenie błędu TakSii");
@@ -276,6 +276,43 @@ namespace SiiTaxi.Controllers
             }
 
             TempData["successMessage"] = Messages.BugFailed;
+            return RedirectToAction("Index", "Taxi");
+        }
+
+        [HttpGet]
+        public ActionResult Remove(int id, string code)
+        {
+            var taxi = new TaxiViewModel().GetEntityBy<Taxi>("TaxiId", id);
+            if (taxi != null)
+            {
+                if (taxi.IsOrdered)
+                {
+                    TempData["errorMessage"] = Messages.TaxiOrdered;
+                    return RedirectToAction("Index", "Taxi");
+                }
+
+                TempData["code"] = code;
+                return View(taxi);
+            }
+
+            TempData["errorMessage"] = Messages.TaxiNotFound;
+            return RedirectToAction("Index", "Taxi");
+        }
+
+        [HttpPost]
+        public ActionResult Remove(int id, string code, TaxiViewModel taxiModel)
+        {
+            try
+            {
+                taxiModel.Remove(id, code);
+            }
+            catch
+            {
+                TempData["errorMessage"] = Messages.RemoveFailed;
+                return View(taxiModel.GetEntityBy<Taxi>("TaxiId", id));
+            }
+
+            TempData["successMessage"] = Messages.RemoveSucceed;
             return RedirectToAction("Index", "Taxi");
         }
     }

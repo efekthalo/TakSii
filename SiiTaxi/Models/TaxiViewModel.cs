@@ -44,7 +44,7 @@ namespace SiiTaxi.Models
                 var approver = GetEntityBy<People>("PeopleId", entity.Approver).Email;
                 if (owner != null && approver != null)
                 {
-                    var client = new Emailer("taksii.test@gmail.com", owner, body, "Potwierdzenie TakSii", approver);
+                    var client = new Emailer("taksii.test@gmail.com", owner, body, "Potwierdzenie taksówki - TakSii", approver);
                     client.SendEmail();
                     return true;
                 }
@@ -53,14 +53,14 @@ namespace SiiTaxi.Models
             return false;
         }
 
-        internal void SendCode(int id, string code, string action)
+        public void SendCode(int id, string code, string action)
         {
             var taxi = GetEntityBy<Taxi>("TaxiId", id);
 
             if (taxi.IsConfirmed)
             {
                 string body = "";
-                switch(action)
+                switch (action)
                 {
                     case "Send":
                         var codeTemplate = new SendCodeTemplate
@@ -83,8 +83,8 @@ namespace SiiTaxi.Models
                         body = orderTemplate.TransformText();
                         break;
                 }
-                
-                var client = new Emailer("taksii.test@gmail.com", taxi.People.Email, body, "Kod TaxSii");
+
+                var client = new Emailer("taksii.test@gmail.com", taxi.People.Email, body, "Kod na taksówke - TakSii");
                 client.SendEmail();
 
                 taxi.TaxiCode = code;
@@ -97,13 +97,48 @@ namespace SiiTaxi.Models
             }
         }
 
-        internal void Confirm(int id, string confirm)
+        public void SendRemoveToJoiners(Taxi taxi)
+        {
+            var codeTemplate = new SendRemoveToJoinersTemplate
+            {
+                TaxiFrom = taxi.From,
+                TaxiTo = taxi.To,
+                TaxiTime = taxi.Time.ToString("HH:mm dd/MM/yyyy")
+
+            };
+            var body = codeTemplate.TransformText();
+
+            var client = new Emailer("taksii.test@gmail.com", taxi.People.Email, body, "Kod na taksówke - TakSii");
+        }
+
+        public void Confirm(int id, string confirm)
         {
             var taxi = GetEntityBy<Taxi>("TaxiId", id);
             if (taxi.ConfirmCode == confirm)
             {
                 taxi.IsConfirmed = true;
                 Context.SaveChanges();
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public void Remove(int id, string confirm)
+        {
+            var taxi = GetEntityBy<Taxi>("TaxiId", id);
+            var joiner = taxi.TaxiPeople.Where(x => x.ConfirmCode == confirm).FirstOrDefault();
+
+            if (taxi.ConfirmCode == confirm)
+            {
+                Delete<Taxi>("TaxiId", id);
+                SendRemoveToJoiners(taxi);
+            }
+            else if (joiner != null)
+            {
+                Delete<TaxiPeople>("Id", joiner.Id);
+                SendUnjoinToOwner(taxi);
             }
             else
             {
@@ -139,7 +174,7 @@ namespace SiiTaxi.Models
                     var template = new ConfirmJoinTemplate
                     {
                         ConfirmationString = code,
-                        Id = (int) entity.Id
+                        Id = (int)entity.Id
                     };
 
                     var body = template.TransformText();
@@ -147,7 +182,7 @@ namespace SiiTaxi.Models
                     var owner = GetEntityBy<People>("PeopleId", entity.Taxi.Owner).Email;
                     if (joiner != null && owner != null)
                     {
-                        var client = new Emailer("taksii.test@gmail.com", joiner, body, "Potwierdzenie TakSii", owner);
+                        var client = new Emailer("taksii.test@gmail.com", joiner, body, "Potwierdzenie dołączenia - TakSii", owner);
                         client.SendEmail();
                         return true;
                     }
