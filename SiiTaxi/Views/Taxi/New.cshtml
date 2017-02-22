@@ -12,97 +12,154 @@
     }
 }
 <form method="post" action="@Url.Action("New", "Taxi")" data-toggle="validator">
-    <div class="form-group has-feedback">
-        <label for="ownerName">Właściciel:</label>
-        <input type="text" class="form-control" id="ownerName" name="ownerName" value="@GetValue("ownerName")" placeholder="Imię i nazwisko" required>
-        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-        <div class="help-block with-errors"></div>
-    </div>
-    <div class="form-group has-feedback">
-        <input type="email" class="form-control" id="ownerEmail" value="@GetValue("ownerEmail")" name="ownerEmail" pattern=".*pl\.sii\.eu" data-pattern-error="Dopuszczalny tylko E-mail Sii!" placeholder="E-mail" required>
-        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-        <div class="help-block with-errors"></div>
-    </div>
-    <div class="form-group has-feedback">
-        <input type="tel" class="form-control" id="ownerPhone" value="@GetValue("ownerPhone")" name="ownerPhone" pattern="[\+]?\d{8,12}" data-pattern-error="Niepoprawny numer telefonu!" placeholder="Numer telefonu">
-        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-        <div class="help-block with-errors"></div>
-    </div>
+    <div class="col-md-6">
+        <div class="form-group has-feedback">
+            <label for="ownerName">Właściciel:</label>
+            <input type="text" class="form-control" id="ownerName" name="ownerName" value="@GetValue("ownerName")" placeholder="Imię i nazwisko" required>
+            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+            <div class="help-block with-errors"></div>
+        </div>
+        <div class="form-group has-feedback">
+            <input type="email" class="form-control" id="ownerEmail" value="@GetValue("ownerEmail")" name="ownerEmail" pattern=".*pl\.sii\.eu" data-pattern-error="Dopuszczalny tylko E-mail Sii!" placeholder="E-mail" required>
+            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+            <div class="help-block with-errors"></div>
+        </div>
+        <div class="form-group has-feedback">
+            <input type="tel" class="form-control" id="ownerPhone" value="@GetValue("ownerPhone")" name="ownerPhone" pattern="[\+]?\d{8,12}" data-pattern-error="Niepoprawny numer telefonu!" placeholder="Numer telefonu">
+            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+            <div class="help-block with-errors"></div>
+        </div>
 
-    <div class="form-group has-feedback">
-        <label for="datetimepicker10">Data i godzina przejazdu:</label>
-        <div class="input-group date" id="datetimepicker10">
-            <input type="text" class="form-control" id="time" name="time" value="@GetValue("time")" required />
-            <span class="input-group-addon">
-                <span class="glyphicon glyphicon-calendar">
+        <div class="form-group has-feedback">
+            <label for="datetimepicker10">Data i godzina przejazdu:</label>
+            <div class="input-group date" id="datetimepicker10">
+                <input type="text" class="form-control" id="time" name="time" value="@GetValue("time")" required />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar">
+                    </span>
                 </span>
-            </span>
+            </div>
+        </div>
+
+        <div class="form-group has-feedback">
+            <label for="przejazdFrom">Miejsce początkowe:</label>
+            <input type="text" class="form-control" id="przejazdFrom" name="przejazdFrom" value="@GetValue("przejazdFrom")" required>
+            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+            <div class="help-block with-errors"></div>
+        </div>
+        <div class="form-group has-feedback">
+            <label for="przejazdTo">Miejsce docelowe:</label>
+            <input type="text" class="form-control" id="przejazdTo" name="przejazdTo" value="@GetValue("przejazdTo")" required>
+            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+            <div class="help-block with-errors"></div>
         </div>
     </div>
-
-    <div class="form-group has-feedback">
-        <label for="przejazdFrom">Miejsce początkowe:</label>
-        <input type="text" class="form-control" id="przejazdFrom" name="przejazdFrom" value="@GetValue("przejazdFrom")" required>
-        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-        <div class="help-block with-errors"></div>
-    </div>
-    <div class="form-group has-feedback">
-        <label for="przejazdTo">Miejsce docelowe:</label>
-        <input type="text" class="form-control" id="przejazdTo" name="przejazdTo" value="@GetValue("przejazdTo")" required>
-        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-        <div class="help-block with-errors"></div>
-    </div>
-
-    <div class="form-group">
-        <label for="exampleSelect1">Wybierz approvera:</label>
-        <select class="form-control" name="approver" id="exampleSelect1" required>
-            <option disabled selected> -- Wybierz Approvera -- </option>
-            @foreach (var approver in Model.Approvers)
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="exampleSelect1">Wybierz approvera:</label>
+            <select class="form-control" name="approver" id="exampleSelect1" required>
+                <option disabled selected> -- Wybierz Approvera -- </option>
+                @foreach (var approver in Model.Approvers)
             {
                 if (GetValue("approver") == approver.PeopleId.ToString())
                 {
-                    <option value="@approver.PeopleId" selected="selected">@approver.Name</option>
+                        <option value="@approver.PeopleId" selected="selected">@approver.Name</option>
+                    }
+                    else
+                    {
+                        <option value="@approver.PeopleId">@approver.Name</option>
+                    }
                 }
-                else
-                {
-                    <option value="@approver.PeopleId">@approver.Name</option>
-                }
-            }
-        </select>
-        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-        <div class="help-block with-errors"></div>
-    </div>
+            </select>
+            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+            <div class="help-block with-errors"></div>
+        </div>
 
-    <div class="form-check form-check-inline">
-        <label class="form-check-label">
-            @Html.CheckBox("IsBigTaxi", false) Duża Taxówka
-        </label>
-        <br>
-        <br>
-    </div>
-    
-    <div class="form-check form-check-inline">
-        <label class="form-check-label">
-            @Html.CheckBox("order", false) Tylko kod na taksówke?
-        </label>
-        <br>
-        <br>
-    </div>
+        <div class="form-check form-check-inline">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    Duża Taksówka
+                    <div class="material-switch pull-right">
+                        @if (GetValue("IsBigTaxi") == "on")
+                        {
+                            <input id="IsBigTaxi" name="IsBigTaxi" type="checkbox" checked/>
+                        }
+                        else
+                        {
+                            <input id="IsBigTaxi" name="IsBigTaxi" type="checkbox" />
+                        }
 
-    <div class="form-group">
-        <label>Dodatkowe osoby:</label>
-    </div>
+                        <label for="IsBigTaxi" class="label-primary"></label>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    Czy zamówić?
+                    <div class="material-switch pull-right">
+                        @if (GetValue("order") == "on")
+                        {
+                            <input id="order" name="order" type="checkbox" checked/>
+                        }
+                        else
+                        {
+                            <input id="order" name="order" type="checkbox" />
+                        }
+                        <label for="order" class="label-primary"></label>
+                    </div>
+                </li>
+            </ul>
+        </div>
 
-    <div class="form-group">
-        <span class="btn btn-success" id="osobyButton" onclick="dodajOsobe()">Dodaj osobę</span>
-    </div>
+        <div class="form-group">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    Dodatkowe Osoby
+                    <div class="material-switch pull-right">
+                        @if (GetValue("adds") == "")
+                        {
+                            <input id="addPass" name="addPass" type="checkbox" />
+                        }
+                        else
+                        {
+                            <input id="addPass" name="addPass" type="checkbox" checked/>
+                        }
+                        <label for="addPass" class="label-primary"></label>
+                    </div>
+                </li>
+            </ul>
+        </div>
 
-    <div class="form-group has-feedback" id="dodatkoweOsoby">
+        <div class="form-group has-feedback" id="dodatkoweOsoby">
+           @if (GetValue("adds") != "")
+           {
+               var adds = GetValue("adds").Split(',');
+               foreach (var add in adds)
+               {
+                <div id="dodOsoba" class="form-group">
+                    <div class="input-group dodatkowaOsoba">
+                        <input type="email" value="@add" class="form-control" id="adds" name="adds" pattern=".*pl\.sii\.eu" data-pattern-error="Dopuszczalny tylko E-mail Sii!" placeholder="E-mail" required><span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        <span class="input-group-addon btn btn-danger deleteDiv">Usuń</span>
+                    </div><div class="help-block with-errors"></div>
+                </div>
+               }
+           }
+        </div>
+        <div class="form-group">
+            <div class="form-group">
+@if (GetValue("adds") != "")
+{
+                <span class="btn btn-default" id="osobyButton" onclick="dodajOsobe()"><span class="glyphicon glyphicon glyphicon-plus"></span></span>
+}
+else
+{
+    <span style="display: none;" class="btn btn-default" id="osobyButton" onclick="dodajOsobe()"><span class="glyphicon glyphicon glyphicon-plus"></span></span>
 
+}
+            </div>
+            <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
+        </div>
+
+        <button type="submit" class="btn btn-default">Zamów</button>
     </div>
-    <br>
-    <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
-    <button type="submit" class="btn btn-default">Zamów</button>
 </form>
 
 @section scripts {
@@ -120,19 +177,37 @@
         var maleTaxi = 3;
         var duzeTaxi = 6;
 
-        var dodatkoweOsoby = 0;
+        var dodatkoweOsoby = @GetValue("adds").Split(',').Count() || 0;
         var maxOsob = maleTaxi;
         var disabled = false;
+        var duzeTaxiChecked = false;
 
-        $('#bigTaxiCheckbox').change(function () {
+        $('input#IsBigTaxi').change(function () {
             if ($(this).is(":checked")) {
                 maxOsob = duzeTaxi;
+                duzeTaxiChecked = true;
                 refreshButton();
                 return;
             }
             maxOsob = maleTaxi;
+            duzeTaxiChecked = false;
             refreshButton();
             deleteInputs();
+        });
+
+        $('input#addPass').change(function () {
+            if ($(this).is(":checked")) {
+                maxOsob = duzeTaxiChecked ? duzeTaxi : maleTaxi;
+                $('#osobyButton').show();
+                refreshButton();
+                return;
+            }
+            $('.dodatkowaOsoba').remove();
+            $('form').validator('update');
+            dodatkoweOsoby = 0;
+            $('#osobyButton').hide()
+            deleteInputs();
+            refreshButton();
         });
 
         var refreshButton = function () {
@@ -149,6 +224,7 @@
         var deleteInputs = function () {
             if ($('.dodatkowaOsoba').length > maleTaxi) {
                 $('.dodatkowaOsoba:gt(' + (maleTaxi - 1) + ')').remove();
+                $('form').validator('update');
             }
         }
 
@@ -156,10 +232,12 @@
             if (!disabled) {
                 dodatkoweOsoby++;
                 $('#dodatkoweOsoby')
+                    .append("<div id=\"dodOsoba\" class=\"form-group\"></div>")
+                $('#dodatkoweOsoby > #dodOsoba:last')
                     .append("<div class=\"input-group dodatkowaOsoba\">" +
-                        "<input type=\"email\" class=\"form-control\" id=\"adds\" name=\"adds\" pattern=\".*pl\.sii\.eu\" data-pattern-error=\"Dopuszczalny tylko E-mail Sii!\" placeholder=\"E-mail\" required><span class=\"glyphicon form-control-feedback\" aria-hidden=\"true\"></span><div class=\"help-block with-errors\"></div>" +
+                        "<input type=\"email\" class=\"form-control\" id=\"adds\" name=\"adds\" pattern=\".*pl\.sii\.eu\" data-pattern-error=\"Dopuszczalny tylko E-mail Sii!\" placeholder=\"E-mail\" required><span class=\"glyphicon form-control-feedback\" aria-hidden=\"true\"></span></div><div class=\"help-block with-errors\"></div>" +
                         "");
-                $('#dodatkoweOsoby > .dodatkowaOsoba:last')
+                $('#dodatkoweOsoby > #dodOsoba:last > .dodatkowaOsoba:last')
                     .append("<span class=\"input-group-addon btn btn-danger deleteDiv\">Usuń</span></div>");
                 $(".deleteDiv")
                     .unbind()
@@ -168,9 +246,10 @@
                             $(this).parent().remove();
                             dodatkoweOsoby--;
                             refreshButton();
+                            $('form').validator('update');
                         });
             }
-
+            $('form').validator('update');
             refreshButton();
         };
     </script>

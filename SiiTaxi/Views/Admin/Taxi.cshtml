@@ -8,6 +8,11 @@
     <li role="presentation" class="active">@Html.ActionLink("Taxi", "Taxi", "Admin")</li>
     <li role="presentation">@Html.ActionLink("Approvers", "Index", "Approvers")</li>
     <li role="presentation">@Html.ActionLink("Zarządzaj kontem", "Index", "Manage")</li>
+    @using (Html.BeginForm("LogOff", "Account", new { area = "" }, FormMethod.Post, new { id = "logoutForm"}))
+    {
+    @Html.AntiForgeryToken()
+        <li><button class="btn btn-danger" onclick="javascript:sessionStorage.removeItem('accessToken');$('#logoutForm').submit();">Wyloguj</button></li>
+    }
 </ul>
 <br/>
 <div>
