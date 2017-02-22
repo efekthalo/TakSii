@@ -21,7 +21,7 @@
     </div>
     @if (Model.Taxis.Count() > 0)
     {
-    <table class="table table-hover table-responsive" style="font-size: 12px">
+    <table class="table table-hover table-responsive" style="text-align: center; font-size: 12px;">
         <thead>
             <tr class="thead-inverse">
                 <th>#</th>
@@ -31,15 +31,12 @@
                 <th>Pasażerowie</th>
                 <th>Numer tel.</th>
                 <th>Approver</th>
-                <th>Duża?</th>
-                <th>Potwierdzona?</th>
                 <th>Czy zamówić?</th>
-                <th>Zamówiona?</th>
                 <th>Kod Taxi</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var taxi in Model.Taxis)
+            @foreach (var taxi in Model.Taxis.Where(x => x.IsConfirmed && !x.IsOrdered))
             {
                 <tr>
                     <th scope="row">@taxi.TaxiId</th>
@@ -59,27 +56,11 @@
                     </td>
                     <td>@taxi.People.Phone</td>
                     <td>@taxi.Approvers.People.Name</td>
-                    <td style="text-align: center;">
+                    <td>
                         @if (taxi.IsBigTaxi)
                         {
-                            <span class="glyphicon glyphicon glyphicon-ok" aria-hidden="true" style="color: red"></span>
+                            <label>Duża, </label>
                         }
-                        else
-                        {
-                            <span class="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span>
-                        }
-                    </td>
-                    <td style="text-align: center;">
-                        @if (taxi.IsConfirmed)
-                        {
-                            <span class="glyphicon glyphicon glyphicon-ok" aria-hidden="true"></span>
-                        }
-                        else
-                        {
-                            <span class="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span>
-                        }
-                    </td>
-                    <td style="text-align: center;">
                         @if (taxi.Order)
                         {
                             <label>Do zamówienia</label>
@@ -89,22 +70,18 @@
                             <label>Sam kod</label>
                         }
                     </td>
-                    <td style="text-align: center;">
-                        @if (taxi.IsOrdered)
-                        {
-                            <span class="glyphicon glyphicon glyphicon-ok" aria-hidden="true"></span>
-                        }
-                        else
-                        {
-                            <span class="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span>
-                        }
-                    </td>
                     <td class="col-md-2">
                         <form name="codeForm" class="input-group" method="post" action="@Url.Action("SendCode", "Admin", new { id = taxi.TaxiId })">
                             <input type="text" class="form-control" name="code" id="taxicode" required>
                             <span class="input-group-btn">
-                                <button type="submit" name="action" value="Send" class="btn btn-success btn-search"><span class="glyphicon glyphicon glyphicon-send"></span></button>
-                                <button type="submit" name="action" value="Order" class="btn btn-success btn-search"><span class="glyphicon glyphicon glyphicon-phone"></span></button>
+                                @if (!taxi.Order)
+                                {
+                                    <button type="submit" name="action" value="Send" class="btn btn-success btn-search"><span class="glyphicon glyphicon glyphicon-send"></span></button>
+                                }
+                                else
+                                {
+                                    <button type="submit" name="action" value="Order" class="btn btn-success btn-search"><span class="glyphicon glyphicon glyphicon-phone"></span></button>
+                                }
                             </span>
                         </form>
                     </td>
