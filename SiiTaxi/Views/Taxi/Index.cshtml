@@ -45,7 +45,8 @@
                             <label>4</label>
                         }
                 </td>
-                @if (objUser.TaxiPeople.Where(x => x.IsConfirmed).Count() <= 2)
+                @if ((!@objUser.IsBigTaxi && objUser.TaxiPeople.Where(x => x.IsConfirmed).Count() <= 2) ||
+                    (@objUser.IsBigTaxi && objUser.TaxiPeople.Where(x => x.IsConfirmed).Count() <= 5))
                 {
                     <td>
                         <button type="button" class="btn btn-small btn-success" onclick="location.href = '@Url.Action("Join", "Taxi", new { id = objUser.TaxiId })';return false;">Dołącz</button>

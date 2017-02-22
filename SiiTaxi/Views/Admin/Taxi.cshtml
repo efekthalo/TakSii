@@ -21,7 +21,7 @@
     </div>
     @if (Model.Taxis.Count() > 0)
     {
-    <table class="table table-hover table-responsive">
+    <table class="table table-hover table-responsive" style="font-size: 12px">
         <thead>
             <tr class="thead-inverse">
                 <th>#</th>
@@ -29,6 +29,7 @@
                 <th>Cel</th>
                 <th>Godzina</th>
                 <th>Pasażerowie</th>
+                <th>Numer tel.</th>
                 <th>Approver</th>
                 <th>Duża?</th>
                 <th>Potwierdzona?</th>
@@ -46,15 +47,16 @@
                     <td>@taxi.Time.ToString("HH:mm")</td>
                     <td>
                         <ul class="list-group">
-                            <li class="list-group-item">
-                                @taxi.People.Name<span class="badge">owner</span>
+                            <li class="list-group-item" style="color: green">
+                                @taxi.People.Email
                             </li>
                             @for (var i = 0; i < taxi.TaxiPeople.Count; i++)
                             {
-                                <li class="list-group-item">@taxi.TaxiPeople.ElementAt(i).People.Name</li>
+                                <li class="list-group-item">@taxi.TaxiPeople.ElementAt(i).People.Email</li>
                             }
                         </ul>
                     </td>
+                    <td>@taxi.People.Phone</td>
                     <td>@taxi.Approvers.People.Name</td>
                     <td style="text-align: center;">
                         @if (taxi.IsBigTaxi)
