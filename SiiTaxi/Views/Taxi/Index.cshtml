@@ -29,7 +29,7 @@
         </tr>
         </thead>
         <tbody>
-        @foreach (var objUser in Model.Taxis.Where(x => x.IsConfirmed))
+        @foreach (var objUser in Model.Taxis.Where(x => x.IsConfirmed).OrderBy(x => x.Time))
         {
             <tr>
                 <th scope="row">@objUser.TaxiId.ToString()</th>
@@ -83,6 +83,7 @@
             $('#datetimepicker10')
                 .datetimepicker({
                     locale: 'pl',
+                    minDate: new Date(),
                     defaultDate: choosenDate,
                     viewMode: 'days',
                     format: 'DD/MM/YYYY'
