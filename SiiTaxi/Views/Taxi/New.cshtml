@@ -78,7 +78,7 @@
         <div class="form-check form-check-inline">
             <ul class="list-group">
                 <li class="list-group-item">
-                    Duża Taksówka
+                    Czy potrzebna duża taksówka?
                     <div class="material-switch pull-right">
                         @if (GetValue("IsBigTaxi") == "on")
                         {
@@ -93,7 +93,7 @@
                     </div>
                 </li>
                 <li class="list-group-item">
-                    Czy zamówić?
+                    Czy potrzebujesz sam kod?
                     <div class="material-switch pull-right">
                         @if (GetValue("order") == "on")
                         {
@@ -174,8 +174,8 @@ else
                 });
         });
 
-        var maleTaxi = 3;
-        var duzeTaxi = 6;
+        var maleTaxi = 4;
+        var duzeTaxi = 7;
 
         var dodatkoweOsoby = @GetValue("adds").Split(',').Count() || 0;
         var maxOsob = maleTaxi;
