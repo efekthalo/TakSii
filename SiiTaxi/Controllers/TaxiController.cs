@@ -70,11 +70,16 @@ namespace SiiTaxi.Controllers
                 {
                     foreach (var add in adds)
                     {
-                        var other = new People { Name = "", Email = add };
+                        var other = peopleModel.GetEntityBy<People>("Email", add);
+                        if (other == null)
+                        {
+                            other = peopleModel.UpdateEntity(null, new People { Name = "", Email = add });
+                        }
+
                         var taxiPeople = new TaxiPeople
                         {
                             TaxiId = taxi.TaxiId,
-                            PeopleId = peopleModel.UpdateEntityBy("Email", other).PeopleId,
+                            PeopleId = other.PeopleId,
                             IsConfirmed = true
                         };
                         taxiPeopleModel.UpdateEntity(null, taxiPeople);
