@@ -15,16 +15,7 @@
         <strong>Witam!</strong>
     </p>
     <p>
-        Kliknij w poniższy link aby potwierdzić taxi.
-    </p>
-    <p>
-        <a href="http://taksii.efekt.co.uk/Taxi/Confirm?id=<#= TaxiId #>&code=<#= ConfirmationString #>">Potwierdzam TAXI</a>
-    </p>
-	<p>
-        Aby zrezygnować z taksówki - użyj poniższego linka. <strong>UWAGA! Link nie zadziała gdy taksówka została już zamówiona!</strong>
-    </p>
-    <p>
-        <a href="http://taksii.efekt.co.uk/Taxi/Remove?id=<#= TaxiId #>&code=<#= ConfirmationString #>">Wypisuję się z TAXI</a>
+        Następujący użytkownik zrezygnował z przejazdu: <#= Joiner.People.Email #>
     </p>
 </body>
 </html>

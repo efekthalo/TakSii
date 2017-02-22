@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Potwierdzenie przejazdu";
+    ViewBag.Title = "Anulowanie przejazdu";
 }
 @section recaptcha {
     <script src="https://www.google.com/recaptcha/api.js"></script>
@@ -11,9 +11,6 @@
         <div class="panel-heading">Informacje na temat przejazdu:</div>
         <div class="panel-body">
             <label>Kontakt: </label> @Model.People.Email
-        </div>
-        <div class="panel-body">
-            <label>Approver: </label> @Model.Approvers.People.Name 
         </div>
         <div class="panel-body">
             <label>Miejsce początkowe: </label> @Model.From
@@ -29,10 +26,10 @@
         </div>
     </div>
 
-    <form method="post" action="@Url.Action("Confirm", "Taxi", new { id = Model.TaxiId, code=TempData["code"] })">
+    <form method="post" action="@Url.Action("Remove", "Taxi", new { id = Model.TaxiId, code=TempData["code"] })">
         <br/>
-        <button class="btn btn-success" type="submit">Potwierdź</button>
-        <button class="btn btn-danger" onclick="location.href = '@Url.Action("Index", "Taxi")'">Anuluj</button>
+        <button class="btn btn-danger" type="submit">Potwierdź</button>
+        <button class="btn btn-success" onclick="location.href = '@Url.Action("Index", "Taxi")'">Anuluj</button>
     </form>
 
 </div>

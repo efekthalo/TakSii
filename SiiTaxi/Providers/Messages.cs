@@ -53,6 +53,11 @@ namespace SiiTaxi.Providers
 
         public const string JoinedAlready = "Już jesteś pasażerem tego Taxi!";
 
+        public const string TaxiOrdered = "Taksówka już została zamówiona!";
+
+        public const string RemoveFailed = "Anulowanie przejazdu nie powiodło się!";
+
+        public const string RemoveSucceed = "Udało się anulować przejazd.";
     }
 
 }

@@ -71,6 +71,11 @@ namespace SiiTaxi.Models
         public virtual void Delete<T>(string propertyToSelectBy, object valueToSelectBy) where T : class
         {
             var entity = GetEntityBy<T>(propertyToSelectBy, valueToSelectBy);
+            Delete(entity);
+        }
+
+        public virtual void Delete<T>(T entity) where T : class
+        {
             if (entity != null)
             {
                 Context.Set<T>().Remove(entity);
@@ -79,7 +84,7 @@ namespace SiiTaxi.Models
             else
             {
                 throw new NotImplementedException();
-            }            
+            }
         }
     }
 
@@ -100,7 +105,6 @@ namespace SiiTaxi.Models
                     throw;
                 }
             }
-                
         }
     }
 }

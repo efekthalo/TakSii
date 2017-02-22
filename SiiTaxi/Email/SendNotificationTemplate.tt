@@ -12,19 +12,7 @@
 </head>
 <body style="width:100%; margin:0; padding:0; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%;">
     <p>
-        <strong>Witam!</strong>
-    </p>
-    <p>
-        Kliknij w poniższy link aby potwierdzić taxi.
-    </p>
-    <p>
-        <a href="http://taksii.efekt.co.uk/Taxi/Confirm?id=<#= TaxiId #>&code=<#= ConfirmationString #>">Potwierdzam TAXI</a>
-    </p>
-	<p>
-        Aby zrezygnować z taksówki - użyj poniższego linka. <strong>UWAGA! Link nie zadziała gdy taksówka została już zamówiona!</strong>
-    </p>
-    <p>
-        <a href="http://taksii.efekt.co.uk/Taxi/Remove?id=<#= TaxiId #>&code=<#= ConfirmationString #>">Wypisuję się z TAXI</a>
+        Została potwierdzona nowa taksówka, aby wysłać kod przejdź do <a href="http://taksii.efekt.co.uk/Admin/Taxi">ADMIN</a>
     </p>
 </body>
 </html>

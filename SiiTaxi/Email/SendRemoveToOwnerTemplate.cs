@@ -18,9 +18,9 @@ namespace SiiTaxi.Email
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmJoinTemplate.tt"
+    #line 1 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\SendRemoveToOwnerTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "14.0.0.0")]
-    public partial class ConfirmJoinTemplate : ConfirmJoinTemplateBase
+    public partial class SendRemoveToOwnerTemplate : SendRemoveToOwnerTemplateBase
     {
 #line hidden
         /// <summary>
@@ -40,40 +40,14 @@ namespace SiiTaxi.Email
         <strong>Witam!</strong>
     </p>
     <p>
-        Kliknij w poniższy link aby potwierdzić taxi.
-    </p>
-    <p>
-        <a href=""http://taksii.efekt.co.uk/Taxi/ConfirmJoin?id=");
+        Następujący użytkownik zrezygnował z przejazdu: ");
             
-            #line 21 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmJoinTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Id));
+            #line 18 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\SendRemoveToOwnerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Joiner.People.Email));
             
             #line default
             #line hidden
-            this.Write("&code=");
-            
-            #line 21 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmJoinTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(ConfirmationString));
-            
-            #line default
-            #line hidden
-            this.Write("\">Potwierdzam TAXI</a>\r\n    </p>\r\n\t<p>\r\n        Aby w dowolnym momencie wypisać s" +
-                    "ię z taksówki - użyj poniższego linka.\r\n    </p>\r\n    <p>\r\n        <a href=\"http" +
-                    "://taksii.efekt.co.uk/Taxi/Remove?id=");
-            
-            #line 27 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmJoinTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Id));
-            
-            #line default
-            #line hidden
-            this.Write("&code=");
-            
-            #line 27 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmJoinTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(ConfirmationString));
-            
-            #line default
-            #line hidden
-            this.Write("\">Wypisuję się z TAXI</a>\r\n    </p>\r\n</body>\r\n</html>\r\n");
+            this.Write("\r\n    </p>\r\n</body>\r\n</html>\r\n");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -85,7 +59,7 @@ namespace SiiTaxi.Email
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "14.0.0.0")]
-    public class ConfirmJoinTemplateBase
+    public class SendRemoveToOwnerTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

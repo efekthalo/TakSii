@@ -15,16 +15,13 @@
         <strong>Witam!</strong>
     </p>
     <p>
-        Kliknij w poniższy link aby potwierdzić taxi.
-    </p>
-    <p>
-        <a href="http://taksii.efekt.co.uk/Taxi/Confirm?id=<#= TaxiId #>&code=<#= ConfirmationString #>">Potwierdzam TAXI</a>
-    </p>
+        Niestety, ale taksówka została odwołana.<br />
+		Z <#= TaxiFrom #><br />
+		Do <#= TaxiTo #><br />
+		Data przejazdu: <#= TaxiTime #><br/>
+	</p>
 	<p>
-        Aby zrezygnować z taksówki - użyj poniższego linka. <strong>UWAGA! Link nie zadziała gdy taksówka została już zamówiona!</strong>
-    </p>
-    <p>
-        <a href="http://taksii.efekt.co.uk/Taxi/Remove?id=<#= TaxiId #>&code=<#= ConfirmationString #>">Wypisuję się z TAXI</a>
+		Taksówka musi zostać ponownie przez ciebie zamówiona, jeżeli chcesz kontynuować przejazd. <a href="http://taksii.efekt.co.uk/Taxi/New">LINK</a>
     </p>
 </body>
 </html>

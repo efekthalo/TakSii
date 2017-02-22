@@ -229,6 +229,21 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Email\SendRemoveToOwnerTemplate.cs">
+      <DependentUpon>SendRemoveToOwnerTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Email\SendRemoveToJoinersTemplate.cs">
+      <DependentUpon>SendRemoveToJoinersTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Email\SendNotificationTemplate.cs">
+      <DependentUpon>SendNotificationTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Email\SendCodeTemplate.cs">
       <DependentUpon>SendCodeTemplate.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -315,6 +330,18 @@
     <Content Include="Email\SendCodeAndOrderedTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>SendCodeAndOrderedTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Email\SendRemoveToOwnerTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>SendRemoveToOwnerTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Email\SendRemoveToJoinersTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>SendRemoveToJoinersTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Email\SendNotificationTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>SendNotificationTemplate.cs</LastGenOutput>
     </Content>
     <Content Include="Email\SendCodeTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
@@ -419,6 +446,7 @@
     <Content Include="Views\Taxi\Confirm.cshtml" />
     <Content Include="Views\Taxi\ConfirmJoin.cshtml" />
     <None Include="Properties\PublishProfiles\webio.pubxml" />
+    <Content Include="Views\Taxi\Remove.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
