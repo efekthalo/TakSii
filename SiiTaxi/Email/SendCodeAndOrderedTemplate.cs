@@ -40,7 +40,7 @@ namespace SiiTaxi.Email
         <strong>Witam!</strong>
     </p>
     <p>
-		<strong>Zamówiliśmy dla ciebie taksówkę. Proszę zapisz sobie kod gdyby był potrzebny.</strong></br>
+		<strong>Zamówiliśmy dla ciebie taksówkę. Proszę zapisz sobie kod gdyby był potrzebny.</strong><br/>
         TAXI z ");
             
             #line 19 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\SendCodeAndOrderedTemplate.tt"
@@ -48,7 +48,7 @@ namespace SiiTaxi.Email
             
             #line default
             #line hidden
-            this.Write(" do ");
+            this.Write(" --> do ");
             
             #line 19 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\SendCodeAndOrderedTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TaxiTo));
