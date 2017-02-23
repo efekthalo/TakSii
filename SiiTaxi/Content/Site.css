@@ -157,6 +157,14 @@ nav a.active {
     background: inherit;
     left: 20px;
 }
+a.navbar-brand-logo {
+    background: url(../logo.png) no-repeat top left;
+    background-size: 80px 50px;
+    width: 80px;
+    height: 50px;
+    text-indent: -9999px;
+    margin: 10px;
+}
 
 
 /*
