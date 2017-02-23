@@ -18,13 +18,21 @@
         Kliknij w poniższy link aby potwierdzić taxi.
     </p>
     <p>
-        <a href="http://taksii.efekt.co.uk/Taxi/Confirm?id=<#= TaxiId #>&code=<#= ConfirmationString #>">Potwierdzam TAXI</a>
+        <a href="http://taksii.efekt.co.uk/Taxi/Confirm?id=<#= Taxi.TaxiId #>&code=<#= Taxi.ConfirmCode #>">Potwierdzam TAXI</a>
     </p>
 	<p>
         Aby zrezygnować z taksówki - użyj poniższego linka. <strong>UWAGA! Link nie zadziała gdy taksówka została już zamówiona!</strong>
     </p>
     <p>
-        <a href="http://taksii.efekt.co.uk/Taxi/Remove?id=<#= TaxiId #>&code=<#= ConfirmationString #>">Wypisuję się z TAXI</a>
+        <a href="http://taksii.efekt.co.uk/Taxi/Remove?id=<#= Taxi.TaxiId #>&code=<#= Taxi.ConfirmCode #>">Wypisuję się z TAXI</a>
     </p>
+	<p>
+        Możesz również usunąć osoby, które zostały przez ciebie dodane do taksówki za pomocą linków:
+    </p>
+	<ul>
+    <# foreach (var passenger in Taxi.TaxiPeople) { #>
+		<li><#= passenger.People.Email #> - <a href="http://taksii.efekt.co.uk/Taxi/Remove?id=<#= passenger.Id #>&code=<#= passenger.ConfirmCode #>">Wypisz z TAXI</a></li>
+    <# } #>
+    </ul>
 </body>
 </html>

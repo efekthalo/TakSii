@@ -117,27 +117,50 @@ namespace SiiTaxi.Models
             }
         }
 
-        public bool SendConfirmEmail(int id)
+        public bool SendConfirmEmail(Taxi taxi)
         {
-            var entity = GetEntityBy<Taxi>("TaxiId", id);
-            if (entity != null)
-            {
-                var code = Guid.NewGuid().ToString();
-                entity.ConfirmCode = code;
-                UpdateEntityBy("TaxiId", entity);
+            var code = Guid.NewGuid().ToString();
+            taxi.ConfirmCode = code;
+            UpdateEntityBy("TaxiId", taxi);
 
-                var template = new ConfirmTemplate
+            var template = new ConfirmTemplate
+            {
+                Taxi = taxi
+            };
+
+            var body = template.TransformText();
+            var owner = GetEntityBy<People>("PeopleId", taxi.Owner).Email;
+            var approver = GetEntityBy<People>("PeopleId", taxi.Approver).Email;
+            if (owner != null && approver != null)
+            {
+                var client = new Emailer("taksii.test@gmail.com", owner, body, "Potwierdzenie taksówki - TakSii", approver);
+                client.SendEmail();
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool SendJoinEmail(TaxiPeople entity)
+        {
+            var code = Guid.NewGuid().ToString();
+            entity.ConfirmCode = code;
+            UpdateEntityBy("Id", entity);
+
+            if (entity.TaxiId != null)
+            {
+                var template = new ConfirmJoinTemplate
                 {
                     ConfirmationString = code,
-                    TaxiId = entity.TaxiId
+                    Id = entity.Id
                 };
 
                 var body = template.TransformText();
-                var owner = GetEntityBy<People>("PeopleId", entity.Owner).Email;
-                var approver = GetEntityBy<People>("PeopleId", entity.Approver).Email;
-                if (owner != null && approver != null)
+                var joiner = GetEntityBy<People>("PeopleId", entity.PeopleId).Email;
+                var owner = GetEntityBy<People>("PeopleId", entity.Taxi.Owner).Email;
+                if (joiner != null && owner != null)
                 {
-                    var client = new Emailer("taksii.test@gmail.com", owner, body, "Potwierdzenie taksówki - TakSii", approver);
+                    var client = new Emailer("taksii.test@gmail.com", joiner, body, "Potwierdzenie dołączenia - TakSii", owner);
                     client.SendEmail();
                     return true;
                 }
@@ -146,47 +169,15 @@ namespace SiiTaxi.Models
             return false;
         }
 
-        public bool SendJoinEmail(int id)
+        public void SendRemoveToJoiners(Taxi entity)
         {
-            var entity = GetEntityBy<TaxiPeople>("Id", id);
-            if (entity != null)
-            {
-                var code = Guid.NewGuid().ToString();
-                entity.ConfirmCode = code;
-                UpdateEntityBy("Id", entity);
-
-                if (entity.TaxiId != null)
-                {
-                    var template = new ConfirmJoinTemplate
-                    {
-                        ConfirmationString = code,
-                        Id = entity.Id
-                    };
-
-                    var body = template.TransformText();
-                    var joiner = GetEntityBy<People>("PeopleId", entity.PeopleId).Email;
-                    var owner = GetEntityBy<People>("PeopleId", entity.Taxi.Owner).Email;
-                    if (joiner != null && owner != null)
-                    {
-                        var client = new Emailer("taksii.test@gmail.com", joiner, body, "Potwierdzenie dołączenia - TakSii", owner);
-                        client.SendEmail();
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        }
-
-        public void SendRemoveToJoiners(Taxi taxi)
-        {
-            foreach (var taxiPeople in taxi.TaxiPeople)
+            foreach (var taxiPeople in entity.TaxiPeople)
             {
                 var codeTemplate = new SendRemoveToJoinersTemplate
                 {
-                    TaxiFrom = taxi.From,
-                    TaxiTo = taxi.To,
-                    TaxiTime = taxi.Time.ToString("HH:mm dd/MM/yyyy")
+                    TaxiFrom = entity.From,
+                    TaxiTo = entity.To,
+                    TaxiTime = entity.Time.ToString("HH:mm dd/MM/yyyy")
                 };
                 var body = codeTemplate.TransformText();
 
@@ -195,7 +186,7 @@ namespace SiiTaxi.Models
             }
         }
 
-        internal void ConfirmJoin(int id, string confirm)
+        public void ConfirmJoin(int id, string confirm)
         {
             var taxiPeople = GetEntityBy<TaxiPeople>("Id", id);
             if (taxiPeople.ConfirmCode == confirm)
