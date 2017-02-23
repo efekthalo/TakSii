@@ -4,6 +4,7 @@
     ViewBag.Title = "Administracja";
 }
 <h2>Administracja</h2>
+<hr />
 <ul class="nav nav-pills">
     <li role="presentation" class="active">@Html.ActionLink("Taxi", "Taxi", "Admin")</li>
     <li role="presentation">@Html.ActionLink("Approvers", "Index", "Approvers")</li>
@@ -40,7 +41,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var taxi in Model.Taxis.Where(x => x.IsConfirmed && !x.IsOrdered))
+            @foreach (var taxi in Model.Taxis.Where(x => x.IsConfirmed && !x.IsOrdered).OrderBy(x=>x.Time))
             {
                 <tr>
                     <th scope="row">@taxi.TaxiId</th>

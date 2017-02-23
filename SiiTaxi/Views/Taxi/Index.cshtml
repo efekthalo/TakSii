@@ -2,7 +2,8 @@
 @{
     ViewBag.Title = "Przejazdy";
 }
-<h2>Przejazdy</h2>
+<h3>Przejazdy</h3>
+<hr />
 <div class="form-group">
     <label for="datetimepicker10">Wybierz dzień:</label>
     <div class="input-group date" id="datetimepicker10">
@@ -28,7 +29,7 @@
         </tr>
         </thead>
         <tbody>
-        @foreach (var objUser in Model.Taxis.Where(x => x.IsConfirmed))
+        @foreach (var objUser in Model.Taxis.Where(x => x.IsConfirmed).OrderBy(x => x.Time))
         {
             <tr>
                 <th scope="row">@objUser.TaxiId.ToString()</th>
@@ -82,6 +83,7 @@
             $('#datetimepicker10')
                 .datetimepicker({
                     locale: 'pl',
+                    minDate: new Date(),
                     defaultDate: choosenDate,
                     viewMode: 'days',
                     format: 'DD/MM/YYYY'

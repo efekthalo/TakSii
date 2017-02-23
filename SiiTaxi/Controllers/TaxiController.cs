@@ -114,6 +114,11 @@ namespace SiiTaxi.Controllers
             var taxi = taxiModel.GetEntityBy<Taxi>("TaxiId", id);
             if (taxi != null)
             {
+                if (taxi.Time < DateTime.Now)
+                {
+                    TempData["errorMessage"] = Messages.TaxiExpired;
+                    return RedirectToAction("Index", "Taxi");
+                }
                 if (taxi.IsBigTaxi)
                     maxInTaxi = 6;
 
@@ -138,6 +143,11 @@ namespace SiiTaxi.Controllers
             var taxi = taxiModel.GetEntityBy<Taxi>("TaxiId", id);
             if (taxi.IsBigTaxi)
                 maxInTaxi = 6;
+            if (taxi.Time < DateTime.Now)
+            {
+                TempData["errorMessage"] = Messages.TaxiExpired;
+                return RedirectToAction("Index", "Taxi");
+            }
 
             TempData["formData"] = Request.Form;
             var encodedResponse = Request.Form["g-Recaptcha-Response"];
@@ -187,7 +197,7 @@ namespace SiiTaxi.Controllers
 
         public ActionResult Index(DateTime? date = null)
         {
-            return View(new TaxiViewModel(date ?? DateTime.Now));
+            return View(new TaxiViewModel(date == null || date <DateTime.Now ? DateTime.Now : (DateTime)date));
         }
 
         [HttpGet]
@@ -196,6 +206,11 @@ namespace SiiTaxi.Controllers
             var taxi = new TaxiViewModel().GetEntityBy<Taxi>("TaxiId", id);
             if (taxi != null && taxi.ConfirmCode == code)
             {
+                if (taxi.Time < DateTime.Now)
+                {
+                    TempData["errorMessage"] = Messages.TaxiExpired;
+                    return RedirectToAction("Index", "Taxi");
+                }
                 if (taxi.IsConfirmed)
                 {
                     TempData["errorMessage"] = Messages.TaxiConfirmed;

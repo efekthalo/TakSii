@@ -2,6 +2,7 @@
     ViewBag.Title = "Usuwanie approvera";
 }
 <h2>Administracja</h2>
+<hr />
 <ul class="nav nav-pills">
     <li role="presentation">@Html.ActionLink("Taxi", "Taxi", "Admin")</li>
     <li role="presentation" class="active">@Html.ActionLink("Approvers", "Index", "Approvers")</li>
@@ -9,6 +10,7 @@
 </ul>
 
 <h3>Edycja Approvera</h3>
+<hr />
 <div>
 
     <form method="post" action="@Url.Action("Update", "Approvers", new { id = Model.PeopleId })" data-toggle="validator">

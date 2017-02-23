@@ -49,6 +49,8 @@ namespace SiiTaxi.Providers
 
         public const string TaxiNotFound = "Nie znaleziono takiego przejazdu!";
 
+        public const string TaxiExpired = "Wybrane Taxi nie jest aktualne!";
+
         public const string TaxiFull = "Taxi jest już pełne!";
 
         public const string JoinedAlready = "Już jesteś pasażerem tego Taxi!";
