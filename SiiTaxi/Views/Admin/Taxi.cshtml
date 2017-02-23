@@ -9,11 +9,6 @@
     <li role="presentation" class="active">@Html.ActionLink("Taxi", "Taxi", "Admin")</li>
     <li role="presentation">@Html.ActionLink("Approvers", "Index", "Approvers")</li>
     <li role="presentation">@Html.ActionLink("Zarządzaj kontem", "Index", "Manage")</li>
-    @using (Html.BeginForm("LogOff", "Account", new { area = "" }, FormMethod.Post, new { id = "logoutForm"}))
-    {
-    @Html.AntiForgeryToken()
-        <li><button class="btn btn-danger" onclick="javascript:sessionStorage.removeItem('accessToken');$('#logoutForm').submit();">Wyloguj</button></li>
-    }
 </ul>
 <br/>
 <div>
@@ -27,80 +22,82 @@
     </div>
     @if (Model.Taxis.Any())
     {
-    <table class="table table-hover table-responsive" style="text-align: center; font-size: 12px;">
-        <thead>
-            <tr class="thead-inverse">
-                <th>#</th>
-                <th>Start</th>
-                <th>Cel</th>
-                <th>Godzina</th>
-                <th>Pasażerowie</th>
-                <th>Approver</th>
-                <th>Czy zamówić?</th>
-                <th>Kod Taxi</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var taxi in Model.Taxis.Where(x => x.IsConfirmed && !x.IsOrdered).OrderBy(x=>x.Time))
-            {
-                <tr>
-                    <th scope="row">@taxi.TaxiId</th>
-                    <td>@taxi.From</td>
-                    <td>@taxi.To</td>
-                    <td>@taxi.Time.ToString("HH:mm")</td>
-                    <td>
-                        <ul class="list-group">
-                            <li class="list-group-item" style="color: green">
-                                @taxi.People.Email @taxi.People.Phone
-                            </li>
-                            @foreach (var passenger in taxi.TaxiPeople.Where(x => x.IsConfirmed))
-                            {
-                                <li class="list-group-item">@passenger.People.Email @passenger.People.Phone</li>
-                            }
-                        </ul>
-                    </td>
-                    <td>@taxi.Approvers.People.Name</td>
-                    <td>
-                        @if (taxi.IsBigTaxi)
-                        {
-                            <label>Duża, </label>
-                        }
-                        @if (taxi.Order)
-                        {
-                            <label>Do zamówienia</label>
-                        }
-                        else
-                        {
-                            <label>Sam kod</label>
-                        }
-                    </td>
-                    <td class="col-md-2">
-                        <form name="codeForm" class="input-group" method="post" action="@Url.Action("SendCode", "Admin", new { id = taxi.TaxiId })">
-                            <input type="text" class="form-control" name="code" id="taxicode" required>
-                            <span class="input-group-btn">
-                                @if (!taxi.Order)
+        <div class="table-responsive">
+            <table class="table table-hover" style="text-align: center; font-size: 12px;">
+                <thead>
+                    <tr class="thead-inverse">
+                        <th>#</th>
+                        <th>Start</th>
+                        <th>Cel</th>
+                        <th>Godzina</th>
+                        <th>Pasażerowie</th>
+                        <th>Approver</th>
+                        <th>Czy zamówić?</th>
+                        <th>Kod Taxi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var taxi in Model.Taxis.Where(x => x.IsConfirmed && !x.IsOrdered).OrderBy(x => x.Time))
+                    {
+                        <tr>
+                            <th scope="row">@taxi.TaxiId</th>
+                            <td>@taxi.From</td>
+                            <td>@taxi.To</td>
+                            <td>@taxi.Time.ToString("HH:mm")</td>
+                            <td>
+                                <ul class="list-group">
+                                    <li class="list-group-item" style="color: green">
+                                        @taxi.People.Email @taxi.People.Phone
+                                    </li>
+                                    @foreach (var passenger in taxi.TaxiPeople.Where(x => x.IsConfirmed))
+                                    {
+                                        <li class="list-group-item">@passenger.People.Email @passenger.People.Phone</li>
+                                    }
+                                </ul>
+                            </td>
+                            <td>@taxi.Approvers.People.Name</td>
+                            <td>
+                                @if (taxi.IsBigTaxi)
                                 {
-                                    <button type="submit" name="action" value="Send" class="btn btn-success btn-search"><span class="glyphicon glyphicon glyphicon-send"></span></button>
+                                    <label>Duża, </label>
+                                }
+                                @if (taxi.Order)
+                                {
+                                    <label>Do zamówienia</label>
                                 }
                                 else
                                 {
-                                    <button type="submit" name="action" value="Order" class="btn btn-success btn-search"><span class="glyphicon glyphicon glyphicon-phone"></span></button>
+                                    <label>Sam kod</label>
                                 }
-                            </span>
-                        </form>
-                    </td>
-                </tr>
+                            </td>
+                            <td class="col-md-2">
+                                <form name="codeForm" class="input-group" method="post" action="@Url.Action("SendCode", "Admin", new { id = taxi.TaxiId })">
+                                    <input type="text" class="form-control" name="code" id="taxicode" required>
+                                    <span class="input-group-btn">
+                                        @if (!taxi.Order)
+                                        {
+                                            <button type="submit" name="action" value="Send" class="btn btn-success btn-search"><span class="glyphicon glyphicon glyphicon-send"></span></button>
+                                        }
+                                        else
+                                        {
+                                            <button type="submit" name="action" value="Order" class="btn btn-success btn-search"><span class="glyphicon glyphicon glyphicon-phone"></span></button>
+                                        }
+                                    </span>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            </div>
             }
-        </tbody>
-    </table>
-    }
-    else
-    {
-        <div class="alert alert-info">
-            <strong>Pusto!</strong> Brak przejazdów wybranego dnia.
+            else
+            {
+            <div class="alert alert-info">
+                <strong>Pusto!</strong> Brak przejazdów wybranego dnia.
+            </div>
+            }
         </div>
-    }
-</div>
 
 @section scripts {
     <script>

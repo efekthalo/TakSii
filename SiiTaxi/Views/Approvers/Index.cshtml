@@ -5,80 +5,80 @@
 }
 <h2>Administracja</h2>
 <hr />
-<div>
-<ul class="nav nav-pills">
-    <li role="presentation">@Html.ActionLink("Taxi", "Taxi", "Admin")</li>
-    <li role="presentation" class="active">@Html.ActionLink("Approvers", "Index", "Approvers")</li>
-    <li role="presentation">@Html.ActionLink("Zarządzaj kontem", "Index", "Manage")</li>
-</ul>
-
-<div>
-    <br />
-    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addApprover">Dodaj Approvera</button>
-    <table class="table table-hover table-responsive">
-        <thead>
-            <tr class="thead-inverse">
-                <th>#</th>
-                <th>Imię i nazwisko</th>
-                <th>E-mail</th>
-                <th>Telefon</th>
-                <th>Akcja</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var approver in Model.Approvers)
+    <ul class="nav nav-pills">
+        <li role="presentation">@Html.ActionLink("Taxi", "Taxi", "Admin")</li>
+        <li role="presentation" class="active">@Html.ActionLink("Approvers", "Index", "Approvers")</li>
+        <li role="presentation">@Html.ActionLink("Zarządzaj kontem", "Index", "Manage")</li>
+    </ul>
+    <div>
+        <br />
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addApprover">Dodaj Approvera</button>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr class="thead-inverse">
+                        <th>#</th>
+                        <th>Imię i nazwisko</th>
+                        <th>E-mail</th>
+                        <th>Telefon</th>
+                        <th>Akcja</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var approver in Model.Approvers)
             {
-                <tr>
-                    <th scope="row">@approver.PeopleId</th>
-                    <td>@approver.Name</td>
-                    <td>@approver.Email</td>
-                    <td>@approver.Phone</td>
-                    <td>
-                        <button type="button" class="btn btn-small btn-default" onclick="location.href = '@Url.Action("Update", "Approvers", new {id = approver.PeopleId})';return false;">Edytuj</button>
-                        <button type="button" class="btn btn-small btn-danger" onclick="location.href = '@Url.Action("Delete", "Approvers", new {id = approver.PeopleId})';return false;">Usuń</button>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
-</div>
+                        <tr>
+                            <th scope="row">@approver.PeopleId</th>
+                            <td>@approver.Name</td>
+                            <td>@approver.Email</td>
+                            <td>@approver.Phone</td>
+                            <td>
+                                <button type="button" class="btn btn-small btn-default" onclick="location.href = '@Url.Action("Update", "Approvers", new {id = approver.PeopleId})';return false;">Edytuj</button>
+                                <button type="button" class="btn btn-small btn-danger" onclick="location.href = '@Url.Action("Delete", "Approvers", new {id = approver.PeopleId})';return false;">Usuń</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
 
-<!-- Modal -->
-<div id="addApprover" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+    <!-- Modal -->
+    <div id="addApprover" class="modal fade" role="dialog">
+        <div class="modal-dialog">
 
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Nowy Approver</h4>
-            </div>
-            <div class="modal-body">
-                <form method="post" action="@Url.Action("Index", "Approvers")" data-toggle="validator">
-                    <div class="form-group has-feedback">
-                        <label for="name">Podaj imię i nazwisko: </label>
-                        <input class="form-control" id="name" name="name" type="text" placeholder="Imię i nazwisko" required/>
-            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-            <div class="help-block with-errors"></div>
-                    </div>
-                    <div class="form-group has-feedback">
-                        <label for="email">Podaj E-mail: </label>
-                        <input class="form-control" id="email" type="email" name="email" pattern=".*pl\.sii\.eu" data-pattern-error="Dopuszczalny tylko E-mail Sii!" placeholder="E-mail" required>
-                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                        <div class="help-block with-errors"></div>
-                    </div>
-                    <div class="form-group has-feedback">
-                        <label for="phone">Podaj numer telefonu: </label>
-                        <input class="form-control" id="phone" name="phone" type="tel" pattern="[\+]?\d{8,12}" data-pattern-error="Niepoprawny numer telefonu!" placeholder="Numer telefonu">    
-        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-        <div class="help-block with-errors"></div>
-                    </div>
-     
-                    <br />
-                    <button class="btn btn-primary" type="submit">Dodaj</button><button type="button" class="btn btn-default" data-dismiss="modal">Anuluj</button>
-                </form>
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Nowy Approver</h4>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="@Url.Action("Index", "Approvers")" data-toggle="validator">
+                        <div class="form-group has-feedback">
+                            <label for="name">Podaj imię i nazwisko: </label>
+                            <input class="form-control" id="name" name="name" type="text" placeholder="Imię i nazwisko" required />
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <label for="email">Podaj E-mail: </label>
+                            <input class="form-control" id="email" type="email" name="email" pattern=".*pl\.sii\.eu" data-pattern-error="Dopuszczalny tylko E-mail Sii!" placeholder="E-mail" required>
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <label for="phone">Podaj numer telefonu: </label>
+                            <input class="form-control" id="phone" name="phone" type="tel" pattern="[\+]?\d{8,12}" data-pattern-error="Niepoprawny numer telefonu!" placeholder="Numer telefonu">
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            <div class="help-block with-errors"></div>
+                        </div>
+
+                        <br />
+                        <button class="btn btn-primary" type="submit">Dodaj</button><button type="button" class="btn btn-default" data-dismiss="modal">Anuluj</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
