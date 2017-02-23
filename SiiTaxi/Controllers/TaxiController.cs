@@ -15,8 +15,8 @@ namespace SiiTaxi.Controllers
             string ownerEmail, string przejazdFrom, string przejazdTo, 
             List<string> adds, int approver, TaxiViewModel taxiModel, PeopleViewModel peopleModel, TaxiPeopleViewModel taxiPeopleModel)
         {
-            var isBigTaxi = Request.Form["IsBigTaxi"] == "on"? true : false;
-            var order = Request.Form["order"] == "on" ? false : true;
+            var isBigTaxi = Request.Form["IsBigTaxi"] == "on";
+            var order = Request.Form["order"] != "on";
             TempData["formData"] = Request.Form;
             var encodedResponse = Request.Form["g-Recaptcha-Response"];
             if (!Validators.IsCaptchaValid(encodedResponse))
@@ -83,13 +83,14 @@ namespace SiiTaxi.Controllers
                         {
                             TaxiId = taxi.TaxiId,
                             PeopleId = other.PeopleId,
+                            ConfirmCode = Guid.NewGuid().ToString(),
                             IsConfirmed = true
                         };
                         taxiPeopleModel.UpdateEntity(null, taxiPeople);
                     }
                 }
 
-                taxiModel.SendConfirmEmail(taxi.TaxiId);
+                taxiModel.SendConfirmEmail(taxi);
             }
             catch
             {
@@ -183,7 +184,7 @@ namespace SiiTaxi.Controllers
                 var taxiPeople = new TaxiPeople { TaxiId = id, PeopleId = peopleModel.UpdateEntityBy("Email", other).PeopleId };
                 taxiPeople = taxiPeopleModel.UpdateEntity(null, taxiPeople);
 
-                taxiModel.SendJoinEmail(taxiPeople.Id);
+                taxiModel.SendJoinEmail(taxiPeople);
             }
             catch
             {
