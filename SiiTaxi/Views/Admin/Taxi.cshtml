@@ -3,14 +3,7 @@
 @{
     ViewBag.Title = "Administracja";
 }
-<h2>Administracja</h2>
-<hr />
-<ul class="nav nav-pills">
-    <li role="presentation" class="active">@Html.ActionLink("Taxi", "Taxi", "Admin")</li>
-    <li role="presentation">@Html.ActionLink("Approvers", "Index", "Approvers")</li>
-    <li role="presentation">@Html.ActionLink("Zarządzaj kontem", "Index", "Manage")</li>
-</ul>
-<br/>
+@Html.Partial("_AdminNav", new ViewDataDictionary { { "name", "taxi" } }) 
 <div>
     <label for="datetimepicker10">Wybierz dzień:</label>
     <div class="input-group date" id="datetimepicker10">

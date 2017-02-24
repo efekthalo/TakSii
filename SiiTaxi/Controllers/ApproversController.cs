@@ -93,7 +93,7 @@ namespace SiiTaxi.Controllers
         public ActionResult Delete(int id, PeopleViewModel peopleModel)
         {
             var person = peopleModel.GetEntityBy<People>("PeopleId", id);
-            if (person != null)
+            if (person != null && person.Approvers.IsApprover)
             {
                 return View(person);
             }
@@ -118,11 +118,14 @@ namespace SiiTaxi.Controllers
             try
             {
                 var entity = peopleModel.GetEntityBy<People>("Email", email);
-                if (entity != null)
+                if (entity != null && entity.Approvers.IsApprover)
                 {
                     entity.Name = name;
                     entity.Phone = phone;
                     peopleModel.UpdateEntityBy("Email", entity);
+
+                    TempData["successMessage"] = Messages.UpdateApproverSucceed;
+                    return RedirectToAction("Index", "Approvers");
                 }
                 else
                 {
@@ -136,14 +139,14 @@ namespace SiiTaxi.Controllers
                 return View(peopleModel.GetEntityBy<People>("PeopleId", id));
             }
 
-            TempData["successMessage"] = Messages.UpdateApproverSucceed;
+            TempData["failedMessage"] = Messages.ApproverNotFound;
             return RedirectToAction("Index", "Approvers");
         }
 
         public ActionResult Update(int id, PeopleViewModel peopleModel)
         {
             var person = peopleModel.GetEntityBy<People>("PeopleId", id);
-            if (person != null)
+            if (person != null && person.Approvers.IsApprover)
             {
                 return View(person);
             }

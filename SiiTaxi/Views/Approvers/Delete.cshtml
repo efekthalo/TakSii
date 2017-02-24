@@ -3,15 +3,9 @@
 @{
     ViewBag.Title = "Usuwanie approvera";
 }
-<h2>Administracja</h2>
+@Html.Partial("_AdminNav", new ViewDataDictionary { { "name", "approvers" } }) 
+<h3>Usuwanie Approvera</h3>
 <hr />
-<div>
-<ul class="nav nav-pills">
-    <li role="presentation">@Html.ActionLink("Taxi", "Taxi", "Admin")</li>
-    <li role="presentation" class="active">@Html.ActionLink("Approvers", "Index", "Approvers")</li>
-    <li role="presentation">@Html.ActionLink("Zarządzaj kontem", "Index", "Manage")</li>
-</ul>
-<br />
 <div>
     <div class="panel panel-info">
         <div class="panel-heading">Czy na pewno chcesz usunąć Approvera?</div>
@@ -28,9 +22,5 @@
             <button type="submit" class="btn btn-small btn-danger">Usuń</button>
             <button type="button" class="btn btn-small btn-default" onclick="location.href = '@Url.Action("Index", "Approvers")';return false;">Anuluj</button>
           </form>
-            
-
-
 </div>
-    </div>
-    </div>
+</div>
