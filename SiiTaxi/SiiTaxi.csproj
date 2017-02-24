@@ -452,6 +452,7 @@
     <Content Include="Views\Taxi\ConfirmJoin.cshtml" />
     <None Include="Properties\PublishProfiles\webio.pubxml" />
     <Content Include="Views\Taxi\Remove.cshtml" />
+    <Content Include="Views\Shared\_AdminNav.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
