@@ -179,89 +179,136 @@
                     .on("click",
                         function () {
                             $(this).parent().parent().remove();
-                            dodatkoweOsoby--;
-                            refreshButton();
-                            $('form').validator('update');
+                            Taxi.deletePassenger();
                         });
         });
 
-        var maleTaxi = 3;
-        var duzeTaxi = 6;
+        var smallTaxi = 3;
+        var bigTaxi = 6;
 
-        var dodatkoweOsoby = $('input[name="adds"]').length || 0;
-        var maxOsob = maleTaxi;
-        var disabled = false;
-        var duzeTaxiChecked = false;
+        var Taxi = {
+
+            form: $('form'),
+            addPassengerButton: $('#osobyButton'),
+
+            additionalPeople: $('input[name="adds"]').length || 0,
+            maxPeople: smallTaxi,
+            
+            buttonDisabled: false,
+            bigTaxiChecked: false,
+            
+            switchToBigTaxi: function(){
+                this.bigTaxiChecked = true;
+                this.maxPeople = bigTaxi;
+                this.updateForm();
+            },
+
+            switchToSmallTaxi: function(){
+                this.bigTaxiChecked = false;
+                this.maxPeople = smallTaxi;
+                this.updateForm();
+            },
+
+            enablePassengers: function () {
+                this.addPassengerButton.show()
+                this.maxPeople = this.bigTaxiChecked? bigTaxi : smallTaxi;
+                this.updateForm();
+            },
+
+            disablePassengers: function () {
+                this.addPassengerButton.hide()
+                this.maxPeople = 0;
+                this.updateForm();
+            },
+
+            updateForm: function(){
+                this.deleteInputs();
+                this.refreshButton();
+                this.updateValidation();
+            },
+
+            addPassenger: function(){
+                if (this.additionalPeople < this.maxPeople){
+                    this.additionalPeople++;
+                    this.updateForm();
+                }
+            },
+
+
+            deletePassenger: function(){
+                if(this.additionalPeople > 0){
+                    this.additionalPeople--;
+                    this.updateForm();
+                }
+            },
+
+            deleteInputs: function () {
+                if (this.maxPeople == 0) {
+                    $('.add').remove();
+                    this.additionalPeople = 0;
+                }
+                else if (this.additionalPeople >= this.maxPeople) {
+                    $('.add:gt(' + (this.maxPeople - 1) + ')').remove();
+                    this.additionalPeople = this.maxPeople;
+                }
+            },
+
+            refreshButton: function () {
+                if (this.additionalPeople < this.maxPeople) {
+                    this.addPassengerButton.removeClass('disabled');
+                }
+                else {
+                    this.addPassengerButton.addClass('disabled');
+                }
+            },
+
+            updateValidation: function(){
+                this.form.validator('update');
+            }
+        }
+        
 
         $('input#IsBigTaxi').change(function () {
             if ($(this).is(":checked")) {
-                maxOsob = duzeTaxi;
-                duzeTaxiChecked = true;
-                refreshButton();
+                Taxi.switchToBigTaxi();
                 return;
             }
-            maxOsob = maleTaxi;
-            duzeTaxiChecked = false;
-            refreshButton();
-            deleteInputs();
+            Taxi.switchToSmallTaxi();
         });
+
 
         $('input#addPass').change(function () {
+
             if ($(this).is(":checked")) {
-                maxOsob = duzeTaxiChecked ? duzeTaxi : maleTaxi;
-                $('#osobyButton').show();
-                refreshButton();
+                Taxi.enablePassengers();
                 return;
             }
-            $('.dodatkowaOsoba').remove();
-            $('form').validator('update');
-            dodatkoweOsoby = 0;
-            $('#osobyButton').hide()
-            deleteInputs();
-            refreshButton();
+
+            Taxi.disablePassengers();
         });
 
-        var refreshButton = function () {
-            if (dodatkoweOsoby < maxOsob) {
-                disabled = false;
-                $('#osobyButton').removeClass('disabled');
-            }
-            else {
-                disabled = true;
-                $('#osobyButton').addClass('disabled');
-            }
-        }
-
-        var deleteInputs = function () {
-            if ($('.dodatkowaOsoba').length > maleTaxi) {
-                $('.dodatkowaOsoba:gt(' + (maleTaxi - 1) + ')').remove();
-                $('form').validator('update');
-            }
-        }
-
         var dodajOsobe = function () {
-            if (!disabled) {
-                dodatkoweOsoby++;
+            if (!Taxi.addPassengerButton.is('.disabled')) {
+                Taxi.addPassenger();
                 $('#dodatkoweOsoby')
-                    .append("<div id=\"dodOsoba\" class=\"form-group\"></div>")
-                $('#dodatkoweOsoby > #dodOsoba:last')
-                    .append("<div class=\"input-group dodatkowaOsoba\">" +
-                        "<input type=\"email\" class=\"form-control\" id=\"adds\" name=\"adds\" pattern=\".*pl\.sii\.eu\" data-pattern-error=\"Dopuszczalny tylko E-mail Sii!\" placeholder=\"E-mail\" required><span class=\"glyphicon form-control-feedback\" aria-hidden=\"true\"></span></div><div class=\"help-block with-errors\"></div>" +
-                        "");
-                $('#dodatkoweOsoby > #dodOsoba:last > .dodatkowaOsoba:last')
-                    .append("<span class=\"input-group-addon btn btn-danger deleteDiv\">Usuń</span></div>");
+                    .append('<div class="form-group add">'+
+                                '<div class="input-group">' +
+                                    '<input type="email" class="form-control" name="adds" pattern=".*pl\.sii\.eu" data-pattern-error="Dopuszczalny tylko E-mail Sii!" placeholder="E-mail" required>'+
+                                    '<span class="glyphicon form-control-feedback" aria-hidden="true"></span>' +
+                                    '<span class="input-group-addon btn btn-danger deleteDiv">Usuń</span>' +
+                                '</div>' +
+                                '<div class="help-block with-errors"></div>'+
+                            '</div>')
+
                 $(".deleteDiv")
                     .unbind()
                     .on("click",
                         function () {
                             $(this).parent().parent().remove();
-                            dodatkoweOsoby--;
-                            refreshButton();
-                            $('form').validator('update');
+                            Taxi.deletePassenger();
                         });
             }
-            $('form').validator('update');
-            refreshButton();
+            Taxi.updateForm();
         };
     </script>
 }

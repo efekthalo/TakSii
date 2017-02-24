@@ -78,14 +78,17 @@
     <script>
 
         $(function() {
-            var date = getParameterByName("date", window.location.href);
+            var dateURL = getParameterByName("date", window.location.href);
 
-            var choosenDate = date ? new Date(date) : new Date();
+            var choosenDate = dateURL ? new Date(dateURL) : new Date();
+
+            var d = new Date();
+            d.setHours(0, 0, 0, 0);
 
             $('#datetimepicker10')
                 .datetimepicker({
                     locale: 'pl',
-                    minDate: new Date(),
+                    minDate: d,
                     defaultDate: choosenDate,
                     viewMode: 'days',
                     format: 'DD/MM/YYYY'

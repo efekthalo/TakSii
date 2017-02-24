@@ -1,14 +1,7 @@
 ﻿@{
     ViewBag.Title = "Usuwanie approvera";
 }
-<h2>Administracja</h2>
-<hr />
-<ul class="nav nav-pills">
-    <li role="presentation">@Html.ActionLink("Taxi", "Taxi", "Admin")</li>
-    <li role="presentation" class="active">@Html.ActionLink("Approvers", "Index", "Approvers")</li>
-    <li role="presentation">@Html.ActionLink("Zarządzaj kontem", "Index", "Manage")</li>
-</ul>
-
+@Html.Partial("_AdminNav", new ViewDataDictionary { { "name", "approvers" } }) 
 <h3>Edycja Approvera</h3>
 <hr />
 <div>

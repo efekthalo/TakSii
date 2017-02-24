@@ -2,14 +2,7 @@
 @{
     ViewBag.Title = "Zarządzanie kontem";
 }
-<h2>Administracja</h2>
-<hr />
-<ul class="nav nav-pills">
-    <li role="presentation">@Html.ActionLink("Taxi", "Taxi", "Admin")</li>
-    <li role="presentation">@Html.ActionLink("Approvers", "Index", "Approvers")</li>
-    <li role="presentation" class="active">@Html.ActionLink("Zarządzaj kontem", "Index", "Manage")</li>
-</ul>
-<br />
+@Html.Partial("_AdminNav", new ViewDataDictionary { { "name", "manage" } }) 
 <div>
 <p class="text-success">@ViewBag.StatusMessage</p>
 <div>
