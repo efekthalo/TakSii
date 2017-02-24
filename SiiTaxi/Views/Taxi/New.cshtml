@@ -232,8 +232,8 @@ else
         }
 
         var deleteInputs = function () {
-            if ($('.dodatkowaOsoba').length > maleTaxi) {
-                $('.dodatkowaOsoba:gt(' + (maleTaxi - 1) + ')').remove();
+            if ($('.add').length > maleTaxi) {
+                $('.add:gt(' + (maleTaxi - 1) + ')').remove();
                 $('form').validator('update');
             }
         }
@@ -242,13 +242,15 @@ else
             if (!disabled) {
                 dodatkoweOsoby++;
                 $('#dodatkoweOsoby')
-                    .append("<div id=\"dodOsoba\" class=\"form-group\"></div>")
-                $('#dodatkoweOsoby > #dodOsoba:last')
-                    .append("<div class=\"input-group dodatkowaOsoba\">" +
-                        "<input type=\"email\" class=\"form-control\" id=\"adds\" name=\"adds\" pattern=\".*pl\.sii\.eu\" data-pattern-error=\"Dopuszczalny tylko E-mail Sii!\" placeholder=\"E-mail\" required><span class=\"glyphicon form-control-feedback\" aria-hidden=\"true\"></span></div><div class=\"help-block with-errors\"></div>" +
-                        "");
-                $('#dodatkoweOsoby > #dodOsoba:last > .dodatkowaOsoba:last')
-                    .append("<span class=\"input-group-addon btn btn-danger deleteDiv\">Usuń</span></div>");
+                    .append('<div class="form-group add">'+
+                                '<div class="input-group">' +
+                                    '<input type="email" class="form-control" name="adds" pattern=".*pl\.sii\.eu" data-pattern-error="Dopuszczalny tylko E-mail Sii!" placeholder="E-mail" required>'+
+                                    '<span class="glyphicon form-control-feedback" aria-hidden="true"></span>' +
+                                    '<span class="input-group-addon btn btn-danger deleteDiv">Usuń</span>' +
+                                '</div>' +
+                                '<div class="help-block with-errors"></div>'+
+                            '</div>')
+
                 $(".deleteDiv")
                     .unbind()
                     .on("click",
