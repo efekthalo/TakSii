@@ -37,7 +37,7 @@ namespace SiiTaxi.Providers
 
         public const string SendCodeSucceed = "Kod został wysłany.";
 
-        public const string UpdateApproverSucceed = "Pomyślnie zaaktualizwano dane Approvera.";
+        public const string UpdateApproverSucceed = "Pomyślnie zaktualizowano dane Approvera.";
 
         public const string UpdateApproverFailed = "Problem z aktualizacją danych Approvera.";
 

@@ -174,12 +174,21 @@
                     viewMode: 'days',
                     format: 'DD/MM/YYYY HH:mm'
                 });
+
+            $(".deleteDiv")
+                    .on("click",
+                        function () {
+                            $(this).parent().parent().remove();
+                            dodatkoweOsoby--;
+                            refreshButton();
+                            $('form').validator('update');
+                        });
         });
 
-        var maleTaxi = 4;
-        var duzeTaxi = 7;
+        var maleTaxi = 3;
+        var duzeTaxi = 6;
 
-        var dodatkoweOsoby = @GetValue("adds").Split(',').Count() || 0;
+        var dodatkoweOsoby = $('input[name="adds"]').length || 0;
         var maxOsob = maleTaxi;
         var disabled = false;
         var duzeTaxiChecked = false;
@@ -245,7 +254,7 @@
                     .unbind()
                     .on("click",
                         function () {
-                            $(this).parent().remove();
+                            $(this).parent().parent().remove();
                             dodatkoweOsoby--;
                             refreshButton();
                             $('form').validator('update');
