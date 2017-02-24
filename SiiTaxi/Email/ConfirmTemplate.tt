@@ -33,7 +33,7 @@
 		</p>
 		<ul>
 		<# foreach (var passenger in Taxi.TaxiPeople) { #>
-			<li><#= passenger.People.Email #> - <a href="http://taksii.efekt.co.uk/Taxi/Remove?id=<#= passenger.Id #>&code=<#= passenger.ConfirmCode #>">Wypisz z TAXI</a></li>
+			<li><#= passenger.People.Email #> - <a href="http://taksii.efekt.co.uk/Taxi/Remove?id=<#= Taxi.TaxiId #>&code=<#= passenger.ConfirmCode #>">Wypisz z TAXI</a></li>
 		<# } #>
 		</ul>
 	<# } #>

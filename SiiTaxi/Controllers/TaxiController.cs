@@ -60,7 +60,8 @@ namespace SiiTaxi.Controllers
                 Owner = peopleModel.UpdateEntityBy("Email", owner).PeopleId,
                 Approver = approver,
                 IsBigTaxi = isBigTaxi,
-                Order = !order
+                Order = !order,
+                ConfirmCode = Guid.NewGuid().ToString()
             };
 
             try
@@ -86,7 +87,9 @@ namespace SiiTaxi.Controllers
                             ConfirmCode = Guid.NewGuid().ToString(),
                             IsConfirmed = true
                         };
+
                         taxiPeopleModel.UpdateEntity(null, taxiPeople);
+                        taxiPeople.People = taxiPeopleModel.GetEntityBy<People>("PeopleId", taxiPeople.PeopleId);
                         taxi.TaxiPeople.Add(taxiPeople);
                     }
                 }

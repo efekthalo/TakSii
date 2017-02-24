@@ -54,24 +54,19 @@ namespace SiiTaxi.Models
                     throw new NotImplementedException();
 
                 var keyName = entityMetadata.KeyProperties[0].Name;
-                object keyValue = null;
 
                 foreach (var property in typeof(T).GetProperties())
                 {
                     if (property.Name.Contains(keyName))
-                    {
-                        keyValue = property.GetValue(update);
                         continue;
-                    }
 
                     var value = property.GetValue(update);
                     property.SetValue(entity, value);
                 }
 
                 Context.SaveChanges();
-                entity = GetEntityBy<T>(keyName, keyValue);
             }
-            
+
             return entity;
         }
 
