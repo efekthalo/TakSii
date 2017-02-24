@@ -43,28 +43,35 @@ namespace SiiTaxi.Models
             if (entity == null)
             {
                 entity = (T)Context.Set(typeof(T)).Add(update);
+                Context.SaveChanges();
             }
             else
             {
+                var metadata = ((IObjectContextAdapter)Context).ObjectContext.MetadataWorkspace;
+                var objectItemCollection = ((ObjectItemCollection)metadata.GetItemCollection(DataSpace.OSpace));
+                var entityMetadata = metadata.GetItems<EntityType>(DataSpace.OSpace).Single(e => objectItemCollection.GetClrType(e) == typeof(T));
+                if (entityMetadata.KeyProperties.Count > 1)
+                    throw new NotImplementedException();
+
+                var keyName = entityMetadata.KeyProperties[0].Name;
+                object keyValue = null;
+
                 foreach (var property in typeof(T).GetProperties())
                 {
-                    var metadata = ((IObjectContextAdapter)Context).ObjectContext.MetadataWorkspace;
-                    var objectItemCollection = ((ObjectItemCollection)metadata.GetItemCollection(DataSpace.OSpace));
-                    var entityMetadata = metadata.GetItems<EntityType>(DataSpace.OSpace).Single(e => objectItemCollection.GetClrType(e) == typeof(T));
-                    if (entityMetadata.KeyProperties.Count > 1)
-                        throw new NotImplementedException();
-
-                    var keyName = entityMetadata.KeyProperties[0].Name;
-
                     if (property.Name.Contains(keyName))
+                    {
+                        keyValue = property.GetValue(update);
                         continue;
+                    }
 
                     var value = property.GetValue(update);
                     property.SetValue(entity, value);
                 }
-            }
 
-            Context.SaveChanges();
+                Context.SaveChanges();
+                entity = GetEntityBy<T>(keyName, keyValue);
+            }
+            
             return entity;
         }
 

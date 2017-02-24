@@ -121,7 +121,7 @@ namespace SiiTaxi.Models
         {
             var code = Guid.NewGuid().ToString();
             taxi.ConfirmCode = code;
-            UpdateEntityBy("TaxiId", taxi);
+            taxi= UpdateEntityBy("TaxiId", taxi);
 
             var template = new ConfirmTemplate
             {

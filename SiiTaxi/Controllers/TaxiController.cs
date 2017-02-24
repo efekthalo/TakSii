@@ -87,6 +87,7 @@ namespace SiiTaxi.Controllers
                             IsConfirmed = true
                         };
                         taxiPeopleModel.UpdateEntity(null, taxiPeople);
+                        taxi.TaxiPeople.Add(taxiPeople);
                     }
                 }
 
