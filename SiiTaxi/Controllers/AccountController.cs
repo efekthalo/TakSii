@@ -418,7 +418,7 @@ namespace SiiTaxi.Controllers
         {
             if (Url.IsLocalUrl(returnUrl))
                 return Redirect(returnUrl);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Taxi", "Admin");
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult
