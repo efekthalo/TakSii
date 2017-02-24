@@ -13,6 +13,11 @@ namespace SiiTaxi.Controllers
             return View(new TaxiViewModel(date ?? DateTime.Now));
         }
 
+        public ActionResult AllTaxi()
+        {
+            return View(new TaxiViewModel());
+        }
+
         [HttpPost]
         public ActionResult SendCode(int id, string code, string action, TaxiViewModel taxiModel)
         {

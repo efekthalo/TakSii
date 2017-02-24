@@ -1,0 +1,119 @@
+﻿﻿@using SiiTaxi.Models;
+@model SiiTaxi.Models.TaxiViewModel
+@{
+    ViewBag.Title = "Administracja";
+}
+@Html.Partial("_AdminNav", new ViewDataDictionary { { "name", "allTaxi" } }) 
+<div>
+    @if (Model.Taxis.Any())
+    {
+        <div id="toolbar">
+            <select class="form-control">
+                <option value="">Export Basic</option>
+                <option value="all">Export All</option>
+                <option value="selected">Export Selected</option>
+            </select>
+        </div>
+
+        <div class="table-responsive">
+            <table id="table" class="table table-hover" style="text-align: center; font-size: 12px;" 
+                   data-toggle="table"
+                   data-pagination="true"
+                   data-search="true"
+                   data-locale="pl-PL"
+                   data-filter-control="true"
+                   data-toolbar="#toolbar"
+            data-show-export="true"
+               data-click-to-select="true">
+                <thead>
+                    <tr class="thead-inverse">
+                        <th data-field="state" data-checkbox="true"></th>
+                        <th>ID</th>
+                        <th data-sortable="true" data-searchable="true">Start</th>
+                        <th data-sortable="true" data-searchable="true">Cel</th>
+                        <th data-sortable="true">Data i Godzina</th>
+                        <th>Pasażerowie potwierdzeni</th>
+                        <th>Potiwerdzona</th>
+                        <th data-sortable="true" data-searchable="true">Approver</th>
+                        <th data-sortable="true" data-searchable="true">Rodzaj taxi</th>
+                        <th data-sortable="true" data-searchable="true">Kod Taxi</th>
+                        <th>Akcje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var taxi in Model.Taxis.OrderBy(x => x.Time))
+                    {
+                        <tr>
+                            <td></td>
+                            <td>@taxi.TaxiId</td>
+                            <td>@taxi.From</td>
+                            <td>@taxi.To</td>
+                            <td>@taxi.Time.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td>
+                                <ul class="list-group">
+                                    <li class="list-group-item" style="color: green">
+                                        @taxi.People.Email @taxi.People.Phone
+                                    </li>
+                                    @foreach (var passenger in taxi.TaxiPeople.Where(x => x.IsConfirmed))
+                                    {
+                                        <li class="list-group-item">@passenger.People.Email @passenger.People.Phone</li>
+                                    }
+                                    </ul>
+                            </td>
+                            <td>
+                                @if (taxi.IsConfirmed)
+                                {
+                                    <label>Tak</label>
+                                }
+                                else
+                                {
+                                    <label>Nie</label>
+                                }
+                            </td>
+                            <td>@taxi.Approvers.People.Name</td>
+                            <td>
+                                @if (taxi.IsBigTaxi)
+                                {
+                                    <label>Duża</label>
+                                }
+                                else
+                                {
+                                    <label>Mała</label>
+                                }
+                            </td>
+                            <td>
+                               <label>@taxi.TaxiCode</label>
+                            </td>
+                            <td class="col-md-2">
+                                <button name="action" value="Edytuj" class="btn btn-primary">Edytuj</button>
+                                <button name="action" value="Usuń" class="btn btn-primary">Usuń</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            </div>
+            }
+            else
+            {
+            <div class="alert alert-info">
+                <strong>Pusto!</strong> Brak przejazdów.
+            </div>
+            }
+        </div>
+
+@section scripts {
+    <script>
+
+        var $table = $('#table');
+        $(function () {
+            $('#toolbar').find('select').change(function () {
+                $table.bootstrapTable('destroy').bootstrapTable({
+                    exportDataType: $(this).val()
+                });
+            });
+        })
+
+
+    </script>
+}
