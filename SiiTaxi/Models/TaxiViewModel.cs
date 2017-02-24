@@ -119,15 +119,11 @@ namespace SiiTaxi.Models
 
         public bool SendConfirmEmail(Taxi taxi)
         {
-            var code = Guid.NewGuid().ToString();
-            taxi.ConfirmCode = code;
-            UpdateEntityBy("TaxiId", taxi);
-
             var template = new ConfirmTemplate
             {
                 Taxi = taxi
             };
-
+            
             var body = template.TransformText();
             var owner = GetEntityBy<People>("PeopleId", taxi.Owner).Email;
             var approver = GetEntityBy<People>("PeopleId", taxi.Approver).Email;

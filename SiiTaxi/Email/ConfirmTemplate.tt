@@ -26,13 +26,16 @@
     <p>
         <a href="http://taksii.efekt.co.uk/Taxi/Remove?id=<#= Taxi.TaxiId #>&code=<#= Taxi.ConfirmCode #>">Wypisuję się z TAXI</a>
     </p>
-	<p>
-        Możesz również usunąć osoby, które zostały przez ciebie dodane do taksówki za pomocą linków:
-    </p>
-	<ul>
-    <# foreach (var passenger in Taxi.TaxiPeople) { #>
-		<li><#= passenger.People.Email #> - <a href="http://taksii.efekt.co.uk/Taxi/Remove?id=<#= passenger.Id #>&code=<#= passenger.ConfirmCode #>">Wypisz z TAXI</a></li>
-    <# } #>
-    </ul>
+	
+	<# if(Taxi.TaxiPeople != null && Taxi.TaxiPeople.Count() > 0) { #>
+		<p>
+			Możesz również usunąć osoby, które zostały przez ciebie dodane do taksówki za pomocą linków:
+		</p>
+		<ul>
+		<# foreach (var passenger in Taxi.TaxiPeople) { #>
+			<li><#= passenger.People.Email #> - <a href="http://taksii.efekt.co.uk/Taxi/Remove?id=<#= Taxi.TaxiId #>&code=<#= passenger.ConfirmCode #>">Wypisz z TAXI</a></li>
+		<# } #>
+		</ul>
+	<# } #>
 </body>
 </html>
