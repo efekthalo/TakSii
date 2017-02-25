@@ -93,9 +93,12 @@ namespace SiiTaxi.Controllers
         public ActionResult Delete(int id, PeopleViewModel peopleModel)
         {
             var person = peopleModel.GetEntityBy<People>("PeopleId", id);
-            if (person != null && person.Approvers.IsApprover)
+            if (person != null && person.Approvers != null)
             {
-                return View(person);
+                if (person.Approvers.IsApprover)
+                {
+                    return View(person);
+                }
             }
             TempData["errorMessage"] = Messages.ApproverNotFound;
             return RedirectToAction("Index", "Approvers");
@@ -118,7 +121,7 @@ namespace SiiTaxi.Controllers
             try
             {
                 var entity = peopleModel.GetEntityBy<People>("Email", email);
-                if (entity != null && entity.Approvers.IsApprover)
+                if (entity != null && entity.Approvers != null)
                 {
                     entity.Name = name;
                     entity.Phone = phone;
@@ -129,7 +132,7 @@ namespace SiiTaxi.Controllers
                 }
                 else
                 {
-                    TempData["errorMessage"] = Messages.UpdateApproverFailed;
+                    TempData["errorMessage"] = Messages.ApproverNotFound;
                     return View(peopleModel.GetEntityBy<People>("PeopleId", id));
                 }                
             }
@@ -138,17 +141,17 @@ namespace SiiTaxi.Controllers
                 TempData["errorMessage"] = Messages.UpdateApproverFailed;
                 return View(peopleModel.GetEntityBy<People>("PeopleId", id));
             }
-
-            TempData["failedMessage"] = Messages.ApproverNotFound;
-            return RedirectToAction("Index", "Approvers");
         }
 
         public ActionResult Update(int id, PeopleViewModel peopleModel)
         {
             var person = peopleModel.GetEntityBy<People>("PeopleId", id);
-            if (person != null && person.Approvers.IsApprover)
-            {
-                return View(person);
+            if (person != null && person.Approvers != null)
+            { 
+                if (person.Approvers.IsApprover)
+                {
+                    return View(person);
+                }
             }
             TempData["errorMessage"] = Messages.ApproverNotFound;
             return RedirectToAction("Index", "Approvers");
