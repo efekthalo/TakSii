@@ -73,7 +73,9 @@
                                         }
                                         else
                                         {
-                                            <button type="button" id="confirm" value="Order" class="btn btn-success btn-search"><span class="glyphicon glyphicon glyphicon-phone"></span></button>
+                                            <input type="hidden" name="action" value="Order" hidden />
+                                            <button type="button" value="Order" class="btn btn-success btn-search confirm"><span class="glyphicon glyphicon glyphicon-phone"></span></button>
+                                            <button type="submit" hidden></button>
                                         }
                                     </span>
                                 </form>
@@ -128,8 +130,9 @@
             return decodeURIComponent(results[2].replace(/\+/g, " "));
         }
 
-        $("#confirm").click(function(){
+        $(".confirm").click(function(){
             var form = $(this).parents('form:first');
+            if (form[0].checkValidity()) {
                 bootbox.confirm({
                     message: "Czy Taxówka na pewno została zamówiona?",
                     buttons: {
@@ -148,6 +151,10 @@
                         }
                     }
                 });
+            }
+            else {
+                form.find(':submit').click()
+            }
             });
 
     </script>
