@@ -19,7 +19,7 @@
     </p>
     <p>
         <a href="http://taksii.efekt.co.uk/Taxi/ConfirmJoin?id=<#= Id #>&code=<#= ConfirmationString #>">Potwierdzam TAXI</a>
-    </p>
+    </p><br/><br/><br/><br/>
 	<p>
         Aby w dowolnym momencie wypisać się z taksówki - użyj poniższego linka.
     </p>

@@ -16,7 +16,7 @@ namespace SiiTaxi.Controllers
             List<string> adds, int approver, TaxiViewModel taxiModel, PeopleViewModel peopleModel, TaxiPeopleViewModel taxiPeopleModel)
         {
             var isBigTaxi = Request.Form["IsBigTaxi"] == "on";
-            var order = Request.Form["order"] != "on";
+            var order = Request.Form["order"] == "on";
             TempData["formData"] = Request.Form;
             var encodedResponse = Request.Form["g-Recaptcha-Response"];
             if (!Validators.IsCaptchaValid(encodedResponse))

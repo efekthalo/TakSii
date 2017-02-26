@@ -16,8 +16,8 @@
     </p>
     <p>
         Niestety, ale taksówka została odwołana.<br />
-		Z <#= TaxiFrom #><br />
-		Do <#= TaxiTo #><br />
+		Start: <#= TaxiFrom #><br/>
+		Stop:  <#= TaxiTo #><br/>
 		Data przejazdu: <#= TaxiTime #><br/>
 	</p>
 	<p>

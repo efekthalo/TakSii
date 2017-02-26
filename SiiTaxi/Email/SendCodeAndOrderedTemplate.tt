@@ -16,7 +16,10 @@
     </p>
     <p>
 		<strong>Zamówiliśmy dla ciebie taksówkę. Proszę zapisz sobie kod gdyby był potrzebny.</strong><br/>
-        TAXI z <#= TaxiFrom #> --> do <#= TaxiTo #>. Data przejazdu: <#= TaxiTime #>. Oto kod na przejazd:
+        Start: <#= TaxiFrom #><br/>
+		Stop:  <#= TaxiTo #><br/>
+		Data przejazdu: <#= TaxiTime #><br/>
+		Oto kod na przejazd:
     </p>
     <h1>
         <#= TaxiCodeString #>

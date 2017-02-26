@@ -58,7 +58,7 @@ namespace SiiTaxi.Email
             #line default
             #line hidden
             this.Write(@""">Potwierdzam TAXI</a>
-    </p>
+    </p><br/><br/><br/><br/>
 	<p>
         Aby zrezygnować z taksówki - użyj poniższego linka. <strong>UWAGA! Link nie zadziała gdy taksówka została już zamówiona!</strong>
     </p>

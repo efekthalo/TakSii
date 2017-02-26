@@ -57,9 +57,9 @@ namespace SiiTaxi.Email
             
             #line default
             #line hidden
-            this.Write("\">Potwierdzam TAXI</a>\r\n    </p>\r\n\t<p>\r\n        Aby w dowolnym momencie wypisać s" +
-                    "ię z taksówki - użyj poniższego linka.\r\n    </p>\r\n    <p>\r\n        <a href=\"http" +
-                    "://taksii.efekt.co.uk/Taxi/Remove?id=");
+            this.Write("\">Potwierdzam TAXI</a>\r\n    </p><br/><br/><br/><br/>\r\n\t<p>\r\n        Aby w dowolny" +
+                    "m momencie wypisać się z taksówki - użyj poniższego linka.\r\n    </p>\r\n    <p>\r\n " +
+                    "       <a href=\"http://taksii.efekt.co.uk/Taxi/Remove?id=");
             
             #line 27 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmJoinTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Id));
