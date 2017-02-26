@@ -18,7 +18,7 @@ namespace SiiTaxi.Email
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\SendCodeAndOrderedTemplate.tt"
+    #line 1 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\SendCodeAndOrderedTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "14.0.0.0")]
     public partial class SendCodeAndOrderedTemplate : SendCodeAndOrderedTemplateBase
     {
@@ -41,30 +41,30 @@ namespace SiiTaxi.Email
     </p>
     <p>
 		<strong>Zamówiliśmy dla ciebie taksówkę. Proszę zapisz sobie kod gdyby był potrzebny.</strong><br/>
-        TAXI z ");
+        Start: ");
             
-            #line 19 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\SendCodeAndOrderedTemplate.tt"
+            #line 19 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\SendCodeAndOrderedTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TaxiFrom));
             
             #line default
             #line hidden
-            this.Write(" --> do ");
+            this.Write("<br/>\r\n\t\tStop:  ");
             
-            #line 19 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\SendCodeAndOrderedTemplate.tt"
+            #line 20 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\SendCodeAndOrderedTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TaxiTo));
             
             #line default
             #line hidden
-            this.Write(". Data przejazdu: ");
+            this.Write("<br/>\r\n\t\tData przejazdu: ");
             
-            #line 19 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\SendCodeAndOrderedTemplate.tt"
+            #line 21 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\SendCodeAndOrderedTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TaxiTime));
             
             #line default
             #line hidden
-            this.Write(". Oto kod na przejazd:\r\n    </p>\r\n    <h1>\r\n        ");
+            this.Write("<br/>\r\n\t\tOto kod na przejazd:\r\n    </p>\r\n    <h1>\r\n        ");
             
-            #line 22 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\SendCodeAndOrderedTemplate.tt"
+            #line 25 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\SendCodeAndOrderedTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TaxiCodeString));
             
             #line default

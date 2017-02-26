@@ -41,21 +41,21 @@ namespace SiiTaxi.Email
     </p>
     <p>
         Niestety, ale taksówka została odwołana.<br />
-		Z ");
+		Start: ");
             
             #line 19 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\SendRemoveToJoinersTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TaxiFrom));
             
             #line default
             #line hidden
-            this.Write("<br />\r\n\t\tDo ");
+            this.Write("<br/>\r\n\t\tStop:  ");
             
             #line 20 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\SendRemoveToJoinersTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TaxiTo));
             
             #line default
             #line hidden
-            this.Write("<br />\r\n\t\tData przejazdu: ");
+            this.Write("<br/>\r\n\t\tData przejazdu: ");
             
             #line 21 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\SendRemoveToJoinersTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TaxiTime));
