@@ -153,7 +153,7 @@ namespace SiiTaxi.Models
 
                 var body = template.TransformText();
                 var joiner = GetEntityBy<People>("PeopleId", entity.PeopleId).Email;
-                var owner = GetEntityBy<People>("PeopleId", entity.Taxi.Owner).Email;
+                var owner = GetEntityBy<People>("PeopleId", GetEntityBy<Taxi>("TaxiId", entity.TaxiId).Owner).Email;
                 if (joiner != null && owner != null)
                 {
                     var client = new Emailer("taksii.test@gmail.com", joiner, body, "Potwierdzenie dołączenia - TakSii", owner);
