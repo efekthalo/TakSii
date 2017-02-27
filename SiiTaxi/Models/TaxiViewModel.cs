@@ -139,15 +139,11 @@ namespace SiiTaxi.Models
 
         public bool SendJoinEmail(TaxiPeople entity)
         {
-            var code = Guid.NewGuid().ToString();
-            entity.ConfirmCode = code;
-            UpdateEntityBy("Id", entity);
-
             if (entity.TaxiId != null)
             {
                 var template = new ConfirmJoinTemplate
                 {
-                    ConfirmationString = code,
+                    ConfirmationString = entity.ConfirmCode,
                     Id = entity.Id
                 };
 

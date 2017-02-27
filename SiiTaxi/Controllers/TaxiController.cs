@@ -184,8 +184,9 @@ namespace SiiTaxi.Controllers
 
             try
             {
+                var code = Guid.NewGuid().ToString();
                 var other = new People { Name = name, Email = email, Phone = phone };
-                var taxiPeople = new TaxiPeople { TaxiId = id, PeopleId = peopleModel.UpdateEntityBy("Email", other).PeopleId };
+                var taxiPeople = new TaxiPeople { TaxiId = id, PeopleId = peopleModel.UpdateEntityBy("Email", other).PeopleId, ConfirmCode = code };
                 taxiPeople = taxiPeopleModel.UpdateEntity(null, taxiPeople);
 
                 taxiModel.SendJoinEmail(taxiPeople);
