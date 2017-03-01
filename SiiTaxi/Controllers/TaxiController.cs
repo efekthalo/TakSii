@@ -5,26 +5,29 @@ using System.Globalization;
 using System.Web.Mvc;
 using SiiTaxi.Providers;
 using System.Linq;
+using SiiTaxi.Email;
 
 namespace SiiTaxi.Controllers
 {
     public class TaxiController : Controller
     {
+        private readonly SiiTaxiEntities _context = new SiiTaxiEntities();
+
         [HttpPost]
-        public ActionResult New(string ownerName, string ownerPhone, string time, 
-            string ownerEmail, string przejazdFrom, string przejazdTo, 
-            List<string> adds, int approver, TaxiViewModel taxiModel, PeopleViewModel peopleModel, TaxiPeopleViewModel taxiPeopleModel)
+        public ActionResult New(string ownerName, string ownerPhone, string time,
+            string ownerEmail, string przejazdFrom, string przejazdTo,
+            List<string> adds, int approver)
         {
             var isBigTaxi = Request.Form["IsBigTaxi"] == "on";
             var order = Request.Form["order"] == "on";
             TempData["formData"] = Request.Form;
+
             var encodedResponse = Request.Form["g-Recaptcha-Response"];
             if (!Validators.IsCaptchaValid(encodedResponse))
             {
                 TempData["errorMessage"] = Messages.NotValidCaptcha;
                 return View(new PeopleViewModel());
             }
-
             if (!Validators.IsEmailValid(ownerEmail, true))
             {
                 TempData["errorMessage"] = Messages.NotValidCompanyEmail;
@@ -45,19 +48,22 @@ namespace SiiTaxi.Controllers
                 return View(new PeopleViewModel());
             }
 
-            var owner = new People
+            var owner = _context.People.FirstOrDefault(x => x.Email == ownerEmail);
+            if (owner != null)
             {
-                Name = ownerName,
-                Email = ownerEmail,
-                Phone = ownerPhone
-            };
+                TryUpdateModel(owner);
+            }
+            else
+            {
+                owner = _context.People.Add(new People() { Name = ownerName, Phone = ownerPhone, Email = ownerEmail });
+            }
 
             var taxi = new Taxi
             {
                 From = przejazdFrom,
                 To = przejazdTo,
                 Time = parsedTime,
-                Owner = peopleModel.UpdateEntityBy("Email", owner).PeopleId,
+                Owner = owner.PeopleId,
                 Approver = approver,
                 IsBigTaxi = isBigTaxi,
                 Order = !order,
@@ -66,7 +72,7 @@ namespace SiiTaxi.Controllers
 
             try
             {
-                taxiModel.UpdateEntity(null, taxi);
+                taxi = _context.Taxi.Add(taxi);
 
                 if (adds != null)
                 {
@@ -76,9 +82,16 @@ namespace SiiTaxi.Controllers
                         {
                             continue;
                         }
-                        var other = peopleModel.GetEntityBy<People>("Email", add) ??
-                                    peopleModel.UpdateEntity(null, new People { Name = "", Email = add });
 
+                        var other = _context.People.FirstOrDefault(x => x.Email == add);
+                        if (other != null)
+                        {
+                            TryUpdateModel(other);
+                        }
+                        else
+                        {
+                            other = _context.People.Add(new People() { Name = "", Email = add });
+                        }
 
                         var taxiPeople = new TaxiPeople
                         {
@@ -88,13 +101,11 @@ namespace SiiTaxi.Controllers
                             IsConfirmed = true
                         };
 
-                        taxiPeopleModel.UpdateEntity(null, taxiPeople);
-                        taxiPeople.People = taxiPeopleModel.GetEntityBy<People>("PeopleId", taxiPeople.PeopleId);
-                        taxi.TaxiPeople.Add(taxiPeople);
+                        _context.TaxiPeople.Add(taxiPeople);
                     }
                 }
 
-                taxiModel.SendConfirmEmail(taxi);
+                SendConfirmEmail(taxi);
             }
             catch
             {
@@ -109,14 +120,15 @@ namespace SiiTaxi.Controllers
         [HttpGet]
         public ActionResult New()
         {
-            return View(new PeopleViewModel());
+            return View();
         }
 
-        public ActionResult Join(int id, TaxiViewModel taxiModel)
+        public ActionResult Join(int id)
         {
             var maxInTaxi = 3;
             TempData["formData"] = Request.Form;
-            var taxi = taxiModel.GetEntityBy<Taxi>("TaxiId", id);
+
+            var taxi = _context.Taxi.Find(id);
             if (taxi != null)
             {
                 if (taxi.Time < DateTime.Now)
@@ -124,30 +136,36 @@ namespace SiiTaxi.Controllers
                     TempData["errorMessage"] = Messages.TaxiExpired;
                     return RedirectToAction("Index", "Taxi");
                 }
+
                 if (taxi.IsBigTaxi)
                     maxInTaxi = 6;
 
                 if (taxi.TaxiPeople.Count <= maxInTaxi)
-                {
                     return View(taxi);
-                }
-                else
-                {
-                    TempData["errorMessage"] = Messages.TaxiFull;
-                    return RedirectToAction("Index", "Taxi");
-                }
+
+                TempData["errorMessage"] = Messages.TaxiFull;
+                return RedirectToAction("Index", "Taxi");
             }
+
             TempData["errorMessage"] = Messages.TaxiNotFound;
             return RedirectToAction("Index", "Taxi");
         }
 
         [HttpPost]
-        public ActionResult Join(int id, string name, string phone, string email, TaxiViewModel taxiModel, PeopleViewModel peopleModel, TaxiPeopleViewModel taxiPeopleModel)
+        public ActionResult Join(int id, string name, string phone, string email)
         {
             var maxInTaxi = 3;
-            var taxi = taxiModel.GetEntityBy<Taxi>("TaxiId", id);
+
+            var taxi = _context.Taxi.Find(id);
+            if (taxi == null)
+            {
+                TempData["errorMessage"] = Messages.TaxiNotFound;
+                return RedirectToAction("Index", "Taxi");
+            }
+
             if (taxi.IsBigTaxi)
                 maxInTaxi = 6;
+
             if (taxi.Time < DateTime.Now)
             {
                 TempData["errorMessage"] = Messages.TaxiExpired;
@@ -184,12 +202,20 @@ namespace SiiTaxi.Controllers
 
             try
             {
-                var code = Guid.NewGuid().ToString();
-                var other = new People { Name = name, Email = email, Phone = phone };
-                var taxiPeople = new TaxiPeople { TaxiId = id, PeopleId = peopleModel.UpdateEntityBy("Email", other).PeopleId, ConfirmCode = code };
-                taxiPeople = taxiPeopleModel.UpdateEntity(null, taxiPeople);
+                var other = _context.People.FirstOrDefault(x => x.Email == email);
+                if (other != null)
+                {
+                    TryUpdateModel(other);
+                }
+                else
+                {
+                    other = _context.People.Add(new People() { Name = "", Phone = phone, Email = email });
+                }
 
-                taxiModel.SendJoinEmail(taxiPeople);
+                var taxiPeople = new TaxiPeople { TaxiId = id, PeopleId = other.PeopleId, ConfirmCode = Guid.NewGuid().ToString() };
+                taxiPeople = _context.TaxiPeople.Add(taxiPeople);
+
+                SendJoinEmail(taxiPeople);
             }
             catch
             {
@@ -203,7 +229,9 @@ namespace SiiTaxi.Controllers
 
         public ActionResult Index(DateTime? date = null)
         {
-            return View(new TaxiViewModel(date == null || date <DateTime.Now ? DateTime.Now : (DateTime)date));
+            var localDate = (date == null || date < DateTime.Now ? DateTime.Now : (DateTime)date);
+            IQueryable<Taxi> taxis = _context.Taxi.Where(x => (x.Time.Year == localDate.Year) && (x.Time.Month == localDate.Month) && (x.Time.Day == localDate.Day));
+            return View(taxis);
         }
 
         [HttpGet]
@@ -230,7 +258,7 @@ namespace SiiTaxi.Controllers
         }
 
         [HttpPost]
-        public ActionResult Confirm(int id, string code, TaxiViewModel taxiModel)
+        public ActionResult Confirm(int id, string code)
         {
             try
             {
@@ -291,8 +319,8 @@ namespace SiiTaxi.Controllers
 
             if (name != null && description != null)
             {
-                var body = string.Format("<p>Zgłaszający: {0}</p><p>Opis błędu: {1}</p>", name, description);
-                var client = new Email.Emailer("taksii.test@gmail.com", "taksii.test@gmail.com", body, "Zgłoszenie błędu TakSii");
+                var body = $"<p>Zgłaszający: {name}</p><p>Opis błędu: {description}</p>";
+                var client = new Emailer("taksii.test@gmail.com", "taksii.test@gmail.com", body, "Zgłoszenie błędu TakSii");
                 client.SendEmail();
 
                 TempData["successMessage"] = Messages.BugReported;
@@ -324,7 +352,7 @@ namespace SiiTaxi.Controllers
         }
 
         [HttpPost]
-        public ActionResult Remove(int id, string code, TaxiViewModel taxiModel)
+        public ActionResult Remove(int id, string code)
         {
             try
             {
@@ -338,6 +366,50 @@ namespace SiiTaxi.Controllers
 
             TempData["successMessage"] = Messages.RemoveSucceed;
             return RedirectToAction("Index", "Taxi");
+        }
+
+        public bool SendConfirmEmail(Taxi taxi)
+        {
+            var template = new ConfirmTemplate
+            {
+                Taxi = taxi
+            };
+
+            var body = template.TransformText();
+            var owner = taxi.People.Email;
+            var approver = taxi.Approvers.People.Email;
+            if (owner != null && approver != null)
+            {
+                var client = new Emailer("taksii.test@gmail.com", owner, body, "Potwierdzenie taksówki - TakSii", approver);
+                client.SendEmail();
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool SendJoinEmail(TaxiPeople entity)
+        {
+            if (entity.TaxiId != null)
+            {
+                var template = new ConfirmJoinTemplate
+                {
+                    ConfirmationString = entity.ConfirmCode,
+                    Id = entity.Id
+                };
+
+                var body = template.TransformText();
+                var joiner = entity.People.Email;
+                var owner = entity.Taxi.People.Email;
+                if (joiner != null && owner != null)
+                {
+                    var client = new Emailer("taksii.test@gmail.com", joiner, body, "Potwierdzenie dołączenia - TakSii", owner);
+                    client.SendEmail();
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

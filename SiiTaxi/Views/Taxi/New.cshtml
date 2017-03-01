@@ -21,12 +21,12 @@
             <div class="help-block with-errors"></div>
         </div>
         <div class="form-group has-feedback">
-            <input type="email" class="form-control" id="ownerEmail" value="@GetValue("ownerEmail")" name="ownerEmail" pattern=".*pl\.sii\.eu" data-pattern-error="Dopuszczalny tylko E-mail Sii!" placeholder="E-mail" required>
+            <input type="email" class="form-control" id="ownerEmail" value="@GetValue("ownerEmail")" name="ownerEmail" data-pattern-error="Dopuszczalny tylko E-mail Sii!" placeholder="E-mail" required>
             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
             <div class="help-block with-errors"></div>
         </div>
         <div class="form-group has-feedback">
-            <input type="tel" class="form-control" id="ownerPhone" value="@GetValue("ownerPhone")" name="ownerPhone" pattern="[\+]?\d{8,12}" data-pattern-error="Niepoprawny numer telefonu!" placeholder="Numer telefonu">
+            <input type="tel" class="form-control" id="ownerPhone" value="@GetValue("ownerPhone")" name="ownerPhone" data-pattern-error="Niepoprawny numer telefonu!" placeholder="Numer telefonu">
             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
             <div class="help-block with-errors"></div>
         </div>
@@ -138,7 +138,7 @@
                 {
                     <div id="dodOsoba" class="form-group">
                         <div class="input-group dodatkowaOsoba">
-                            <input type="email" value="@add" class="form-control" id="adds" name="adds" pattern=".*pl\.sii\.eu" data-pattern-error="Dopuszczalny tylko E-mail Sii!" placeholder="E-mail" required><span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            <input type="email" value="@add" class="form-control" id="adds" name="adds" data-pattern-error="Dopuszczalny tylko E-mail Sii!" placeholder="E-mail" required><span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             <span class="input-group-addon btn btn-danger deleteDiv">Usuń</span>
                         </div><div class="help-block with-errors"></div>
                     </div>
@@ -193,17 +193,17 @@
 
             additionalPeople: $('input[name="adds"]').length || 0,
             maxPeople: smallTaxi,
-            
+
             buttonDisabled: false,
             bigTaxiChecked: false,
-            
-            switchToBigTaxi: function(){
+
+            switchToBigTaxi: function () {
                 this.bigTaxiChecked = true;
                 this.maxPeople = bigTaxi;
                 this.updateForm();
             },
 
-            switchToSmallTaxi: function(){
+            switchToSmallTaxi: function () {
                 this.bigTaxiChecked = false;
                 this.maxPeople = smallTaxi;
                 this.updateForm();
@@ -211,7 +211,7 @@
 
             enablePassengers: function () {
                 this.addPassengerButton.show()
-                this.maxPeople = this.bigTaxiChecked? bigTaxi : smallTaxi;
+                this.maxPeople = this.bigTaxiChecked ? bigTaxi : smallTaxi;
                 this.updateForm();
             },
 
@@ -221,22 +221,21 @@
                 this.updateForm();
             },
 
-            updateForm: function(){
+            updateForm: function () {
                 this.deleteInputs();
                 this.refreshButton();
                 this.updateValidation();
             },
 
-            addPassenger: function(){
-                if (this.additionalPeople < this.maxPeople){
+            addPassenger: function () {
+                if (this.additionalPeople < this.maxPeople) {
                     this.additionalPeople++;
                     this.updateForm();
                 }
             },
 
-
-            deletePassenger: function(){
-                if(this.additionalPeople > 0){
+            deletePassenger: function () {
+                if (this.additionalPeople > 0) {
                     this.additionalPeople--;
                     this.updateForm();
                 }
@@ -262,11 +261,11 @@
                 }
             },
 
-            updateValidation: function(){
+            updateValidation: function () {
                 this.form.validator('update');
             }
         }
-        
+
 
         $('input#IsBigTaxi').change(function () {
             if ($(this).is(":checked")) {
@@ -291,13 +290,13 @@
             if (!Taxi.addPassengerButton.is('.disabled')) {
                 Taxi.addPassenger();
                 $('#dodatkoweOsoby')
-                    .append('<div class="form-group add">'+
+                    .append('<div class="form-group add">' +
                                 '<div class="input-group">' +
-                                    '<input type="email" class="form-control" name="adds" pattern=".*pl\.sii\.eu" data-pattern-error="Dopuszczalny tylko E-mail Sii!" placeholder="E-mail" required>'+
+                                    '<input type="email" class="form-control" name="adds" data-pattern-error="Dopuszczalny tylko E-mail Sii!" placeholder="E-mail" required>' +
                                     '<span class="glyphicon form-control-feedback" aria-hidden="true"></span>' +
                                     '<span class="input-group-addon btn btn-danger deleteDiv">Usuń</span>' +
                                 '</div>' +
-                                '<div class="help-block with-errors"></div>'+
+                                '<div class="help-block with-errors"></div>' +
                             '</div>')
 
                 $(".deleteDiv")

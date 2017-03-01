@@ -1,20 +1,28 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using SiiTaxi.Models;
 using SiiTaxi.Providers;
+using System.Linq;
 
 namespace SiiTaxi.Controllers
 {
     [Authorize]
     public class ApproversController : Controller
     {
-        public ActionResult Index(PeopleViewModel peopleModel)
+        private readonly SiiTaxiEntities _context = new SiiTaxiEntities();
+
+        [HttpGet]
+        [ActionName("Index")]
+        public ActionResult IndexGet()
         {
-            return View(peopleModel);
+            IQueryable<Approvers> approvers = from a in _context.Approvers
+                                              where a.IsApprover
+                                              select a;
+            return View(approvers);
         }
 
         [HttpPost]
-        public ActionResult Index(string name, string phone, string email, PeopleViewModel peopleModel)
+        [ActionName("Index")]
+        public ActionResult IndexPost(string name, string phone, string email, PeopleViewModel peopleModel)
         {
             if (!Validators.IsEmailValid(email, true))
             {
@@ -29,39 +37,26 @@ namespace SiiTaxi.Controllers
 
             try
             {
-                var entity = peopleModel.GetEntityBy<People>("Email", email);
-                if (entity != null)
+                var approver = _context.People.FirstOrDefault(x => x.Email == email);
+                if (approver != null)
                 {
-                    entity.Name = name;
-                    entity.Phone = phone;
+                    TryUpdateModel(approver);
                 }
                 else
                 {
-                    entity = new People()
-                    {
-                        Name = name,
-                        Phone = phone,
-                        Email = email
-                    };
+                    approver = _context.People.Add(new People() { Name = name, Phone = phone, Email = email });
                 }
 
-                entity = peopleModel.UpdateEntityBy("Email", entity);
-
-                if (entity.Approvers == null)
+                if (approver.Approvers == null)
                 {
-                    var approver = new Approvers()
-                    {
-                        PeopleId = entity.PeopleId,
-                        IsApprover = true
-                    };
-
-                    peopleModel.UpdateEntity(null, approver);
+                    _context.Approvers.Add(new Approvers() { PeopleId = approver.PeopleId, IsApprover = true });
                 }
                 else
                 {
-                    entity.Approvers.IsApprover = true;
-                    peopleModel.UpdateEntityBy("Email", entity);
+                    approver.Approvers.IsApprover = true;
                 }
+
+                _context.SaveChanges();
             }
             catch
             {
@@ -75,84 +70,89 @@ namespace SiiTaxi.Controllers
 
         [HttpPost]
         [ActionName("Delete")]
-        public ActionResult DeletePost(int id, PeopleViewModel peopleModel)
+        public ActionResult DeletePost(int id)
         {
-            var person = peopleModel.GetEntityBy<People>("PeopleId", id);
+            var person = _context.People.Find(id);
             if (person != null)
             {
                 person.Approvers.IsApprover = false;
-                peopleModel.UpdateEntityBy("PeopleId", person);
+                _context.SaveChanges();
 
                 return RedirectToAction("Index", "Approvers");
             }
+
             TempData["errorMessage"] = Messages.ApproverNotFound;
             return RedirectToAction("Index", "Approvers");
         }
 
         [HttpGet]
-        public ActionResult Delete(int id, PeopleViewModel peopleModel)
+        [ActionName("Delete")]
+        public ActionResult DeleteGet(int id)
         {
-            var person = peopleModel.GetEntityBy<People>("PeopleId", id);
-            if (person != null && person.Approvers != null)
+            var person = _context.People.Find(id);
+            if (person?.Approvers != null)
             {
                 if (person.Approvers.IsApprover)
                 {
                     return View(person);
                 }
             }
+
             TempData["errorMessage"] = Messages.ApproverNotFound;
             return RedirectToAction("Index", "Approvers");
         }
 
         [HttpPost]
-        public ActionResult Update(int id, string name, string email, string phone, PeopleViewModel peopleModel)
+        [ActionName("Update")]
+        public ActionResult UpdatePost(int id, string name, string email, string phone)
         {
+            var person = _context.People.Find(id);
+
             if (!Validators.IsEmailValid(email, true))
             {
                 TempData["errorMessage"] = Messages.NotValidCompanyEmail;
-                return View(peopleModel.GetEntityBy<People>("PeopleId", id));
+                return View(person);
             }
             if (!Validators.IsPhoneValid(phone))
             {
                 TempData["errorMessage"] = Messages.NotValidPhone;
-                return View(peopleModel.GetEntityBy<People>("PeopleId", id));
+                return View(person);
             }
 
             try
             {
-                var entity = peopleModel.GetEntityBy<People>("Email", email);
-                if (entity != null && entity.Approvers != null)
+                if (person?.Approvers != null)
                 {
-                    entity.Name = name;
-                    entity.Phone = phone;
-                    peopleModel.UpdateEntityBy("Email", entity);
+                    TryUpdateModel(person);
+                    _context.SaveChanges();
 
                     TempData["successMessage"] = Messages.UpdateApproverSucceed;
                     return RedirectToAction("Index", "Approvers");
                 }
-                else
-                {
-                    TempData["errorMessage"] = Messages.ApproverNotFound;
-                    return View(peopleModel.GetEntityBy<People>("PeopleId", id));
-                }                
+
+                TempData["errorMessage"] = Messages.ApproverNotFound;
+                return View(person);
             }
             catch
             {
                 TempData["errorMessage"] = Messages.UpdateApproverFailed;
-                return View(peopleModel.GetEntityBy<People>("PeopleId", id));
+                return View(person);
             }
         }
 
-        public ActionResult Update(int id, PeopleViewModel peopleModel)
+        [HttpGet]
+        [ActionName("Update")]
+        public ActionResult UpdateGet(int id)
         {
-            var person = peopleModel.GetEntityBy<People>("PeopleId", id);
-            if (person != null && person.Approvers != null)
-            { 
+            var person = _context.People.Find(id);
+            if (person?.Approvers != null)
+            {
                 if (person.Approvers.IsApprover)
                 {
                     return View(person);
                 }
             }
+
             TempData["errorMessage"] = Messages.ApproverNotFound;
             return RedirectToAction("Index", "Approvers");
         }

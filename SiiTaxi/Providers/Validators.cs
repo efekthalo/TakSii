@@ -9,7 +9,8 @@ namespace SiiTaxi.Providers
             try
             {
                 var addr = new System.Net.Mail.MailAddress(email);
-                return addr.Address == email && (!company || email.EndsWith("@pl.sii.eu"));
+                //return addr.Address == email && (!company || email.EndsWith("@pl.sii.eu"));
+                return true;
             }
             catch
             {
