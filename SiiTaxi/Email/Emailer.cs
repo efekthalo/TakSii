@@ -29,31 +29,39 @@ namespace SiiTaxi.Email
         public string Subject { get; set; }
         public string Body { get; set; }
 
-        public void SendEmail()
+        public bool SendEmail()
         {
-            var client = new SmtpClient
+            try
             {
-                Port = 587,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false,
-                EnableSsl = true,
-                Credentials = new NetworkCredential("taksii.test@gmail.com", "testowehaslo"),
-                Host = "smtp.gmail.com"
-            };
+                var client = new SmtpClient
+                {
+                    Port = 587,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false,
+                    EnableSsl = true,
+                    Credentials = new NetworkCredential("taksii.test@gmail.com", "testowehaslo"),
+                    Host = "smtp.gmail.com"
+                };
 
-            var mail = new MailMessage(From, To)
-            {
-                Subject = Subject,
-                IsBodyHtml = true,
-                Body = Body
-            };
+                var mail = new MailMessage(From, To)
+                {
+                    Subject = Subject,
+                    IsBodyHtml = true,
+                    Body = Body
+                };
 
-            if (CC != null)
-            {
-                mail.CC.Add(CC);
+                if (CC != null)
+                {
+                    mail.CC.Add(CC);
+                }
+
+                client.Send(mail);
+                return true;
             }
-
-            client.Send(mail);
+            catch
+            {
+                return false;
+            }
         }
     }
 
