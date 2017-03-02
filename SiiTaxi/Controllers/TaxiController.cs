@@ -443,11 +443,6 @@ namespace SiiTaxi.Controllers
             return RedirectToAction("Index", "Taxi");
         }
 
-        public void Remove(Taxi taxi, string confirm)
-        {
-
-        }
-
         public bool SendConfirmEmail(Taxi taxi)
         {
             var template = new ConfirmTemplate

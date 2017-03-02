@@ -89,7 +89,7 @@ namespace SiiTaxi.Controllers
                         break;
                 }
 
-                var client = new Emailer("taksii.test@gmail.com", taxi.People.Email, body, "Kod na taksówke - TakSii");
+                var client = new Emailer("taksii.test@gmail.com", taxi.People.Email, body, "Kod na taksówke - TakSii", "taksii.test@gmail.com");
                 if (client.SendEmail())
                 {
                     // update taxi code and mark as ordered after the email has been sent
