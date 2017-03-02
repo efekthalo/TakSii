@@ -2,6 +2,7 @@
 using SiiTaxi.Models;
 using SiiTaxi.Providers;
 using System;
+using System.Configuration;
 using SiiTaxi.Email;
 using System.Linq;
 
@@ -89,7 +90,7 @@ namespace SiiTaxi.Controllers
                         break;
                 }
 
-                var client = new Emailer("taksii.test@gmail.com", taxi.People.Email, body, "Kod na taksówke - TakSii");
+                var client = new Emailer(ConfigurationManager.AppSettings["adminEmail"], taxi.People.Email, body, "Kod na taksówke - TakSii", ConfigurationManager.AppSettings["adminEmail"]);
                 if (client.SendEmail())
                 {
                     // update taxi code and mark as ordered after the email has been sent

@@ -1,6 +1,7 @@
 ﻿using SiiTaxi.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Globalization;
 using System.Web.Mvc;
 using SiiTaxi.Providers;
@@ -368,7 +369,7 @@ namespace SiiTaxi.Controllers
             if (name != null && description != null)
             {
                 var body = $"<p>Zgłaszający: {name}</p><p>Opis błędu: {description}</p>";
-                var client = new Emailer("taksii.test@gmail.com", "taksii.test@gmail.com", body, "Zgłoszenie błędu TakSii");
+                var client = new Emailer(ConfigurationManager.AppSettings["adminEmail"], ConfigurationManager.AppSettings["adminEmail"], body, "Zgłoszenie błędu TakSii");
                 client.SendEmail();
 
                 TempData["successMessage"] = Messages.BugReported;
@@ -386,12 +387,6 @@ namespace SiiTaxi.Controllers
             var taxi = _context.Taxi.Find(id);
             if (taxi != null)
             {
-                if (taxi.IsOrdered)
-                {
-                    TempData["errorMessage"] = Messages.TaxiOrdered;
-                    return RedirectToAction("Index", "Taxi");
-                }
-
                 TempData["code"] = code;
                 return View(taxi);
             }
@@ -409,7 +404,31 @@ namespace SiiTaxi.Controllers
             {
                 try
                 {
-                    Remove(taxi, code);
+                    var joiner = taxi.TaxiPeople.FirstOrDefault(x => x.ConfirmCode == code);
+
+                    if (taxi.ConfirmCode == code)
+                    {
+                        if (taxi.IsOrdered)
+                        {
+                            TempData["errorMessage"] = Messages.TaxiOrdered;
+                            return RedirectToAction("Index", "Taxi");
+                        }
+
+                        SendRemoveToJoiners(taxi);
+                        _context.Taxi.Remove(taxi);
+                    }
+                    else if (joiner != null)
+                    {
+                        SendRemoveToOwner(taxi, joiner);
+                        _context.TaxiPeople.Remove(joiner);
+                    }
+                    else
+                    {
+                        throw new NotImplementedException();
+                    }
+
+                    _context.SaveChanges();
+
                 }
                 catch
                 {
@@ -425,28 +444,6 @@ namespace SiiTaxi.Controllers
             return RedirectToAction("Index", "Taxi");
         }
 
-        public void Remove(Taxi taxi, string confirm)
-        {
-            var joiner = taxi.TaxiPeople.FirstOrDefault(x => x.ConfirmCode == confirm);
-
-            if (taxi.ConfirmCode == confirm)
-            {
-                SendRemoveToJoiners(taxi);
-                _context.Taxi.Remove(taxi);
-            }
-            else if (joiner != null)
-            {
-                SendRemoveToOwner(taxi, joiner);
-                _context.TaxiPeople.Remove(joiner);
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
-
-            _context.SaveChanges();
-        }
-
         public bool SendConfirmEmail(Taxi taxi)
         {
             var template = new ConfirmTemplate
@@ -459,7 +456,7 @@ namespace SiiTaxi.Controllers
             var approver = _context.Approvers.Find(taxi.Approver).People.Email;
             if (owner != null && approver != null)
             {
-                var client = new Emailer("taksii.test@gmail.com", owner, body, "Potwierdzenie taksówki - TakSii", approver);
+                var client = new Emailer(ConfigurationManager.AppSettings["adminEmail"], owner, body, "Potwierdzenie taksówki - TakSii", approver);
                 client.SendEmail();
                 return true;
             }
@@ -482,7 +479,7 @@ namespace SiiTaxi.Controllers
                 var owner = entity.Taxi.People.Email;
                 if (joiner != null && owner != null)
                 {
-                    var client = new Emailer("taksii.test@gmail.com", joiner, body, "Potwierdzenie dołączenia - TakSii", owner);
+                    var client = new Emailer(ConfigurationManager.AppSettings["adminEmail"], joiner, body, "Potwierdzenie dołączenia - TakSii", owner);
                     client.SendEmail();
                     return true;
                 }
@@ -503,7 +500,7 @@ namespace SiiTaxi.Controllers
                 };
                 var body = codeTemplate.TransformText();
 
-                var client = new Emailer("taksii.test@gmail.com", taxiPeople.People.Email, body, "Taksówka została odwołana - TakSii");
+                var client = new Emailer(ConfigurationManager.AppSettings["adminEmail"], taxiPeople.People.Email, body, "Taksówka została odwołana - TakSii");
                 client.SendEmail();
             }
         }
@@ -519,7 +516,7 @@ namespace SiiTaxi.Controllers
             };
             var body = codeTemplate.TransformText();
 
-            var client = new Emailer("taksii.test@gmail.com", taxi.People.Email, body, "Wypisano " + joiner.People.Email + " z taksówki - TakSii");
+            var client = new Emailer(ConfigurationManager.AppSettings["adminEmail"], taxi.People.Email, body, "Wypisano " + joiner.People.Email + " z taksówki - TakSii");
             client.SendEmail();
         }
 
@@ -533,7 +530,7 @@ namespace SiiTaxi.Controllers
             };
             var body = codeTemplate.TransformText();
 
-            var client = new Emailer("taksii.test@gmail.com", "aguja@pl.sii.eu", body, "Nowa potwierdzona taksówka - TakSii");
+            var client = new Emailer(ConfigurationManager.AppSettings["adminEmail"], "aguja@pl.sii.eu", body, "Nowa potwierdzona taksówka - TakSii");
             client.SendEmail();
         }
     }
