@@ -29,9 +29,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var taxi in Model.Where(x => x.IsConfirmed && !x.IsOrdered && x.Time > DateTime.Now).OrderBy(x => x.Time))
+                    @foreach (var taxi in Model.Where(x => x.IsConfirmed && !x.IsOrdered).OrderBy(x => x.Time))
                     {
-                        <tr>
+                        <tr @((taxi.Time - DateTime.Now).TotalHours<1? (taxi.Time - DateTime.Now).TotalHours < 0 ? new { @class = "danger" } : new { @class = "warning" }: null)>
                             <th scope="row">@taxi.TaxiId</th>
                             <td>@taxi.From</td>
                             <td>@taxi.To</td>
@@ -78,6 +78,14 @@
                                         }
                                     </span>
                                 </form>
+                                @if ((taxi.Time - DateTime.Now).TotalHours < 0)
+                                {
+                                    <span style="color: red; float:right;"><span class="glyphicon glyphicon-exclamation-sign"></span><b> Czas minął! </b> </span>
+                                }
+                                else if ((taxi.Time - DateTime.Now).TotalHours < 1)
+                                {
+                                    <span style="color: red; float:right;"><span class="glyphicon glyphicon glyphicon-bell"></span><b> Mało czasu! </b> </span>
+                                }
                             </td>
                         </tr>
                     }
