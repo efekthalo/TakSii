@@ -17,7 +17,6 @@ namespace SiiTaxi.Controllers
             IQueryable<Taxi> taxis;
             if (date != null)
             {
-
                 taxis =
                     _context.Taxi.Where(
                         x =>
@@ -33,17 +32,19 @@ namespace SiiTaxi.Controllers
         }
 
         [HttpPost]
-        public ActionResult Sen0dCode(int id, string code, string action)
+        public ActionResult SendCode(int id, string code, string action)
         {
             try
             {
                 var taxi = _context.Taxi.Find(id);
                 if (taxi != null && taxi.IsOrdered)
                 {
+                    // taxi has already been ordered, no need to send the code
                     TempData["errorMessage"] = Messages.TaxiOrdered;
                     return RedirectToAction("Taxi", "Admin");
                 }
 
+                // action is used for sending different emails
                 SendCode(taxi, code, action);
             }
             catch
