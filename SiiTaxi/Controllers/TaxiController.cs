@@ -18,6 +18,7 @@ namespace SiiTaxi.Controllers
             string ownerEmail, string przejazdFrom, string przejazdTo,
             List<string> adds, int approver)
         {
+            IQueryable<Approvers> approvers = _context.Approvers;
             var isBigTaxi = Request.Form["IsBigTaxi"] == "on";
             var order = Request.Form["order"] == "on";
             TempData["formData"] = Request.Form;
@@ -26,17 +27,17 @@ namespace SiiTaxi.Controllers
             if (!Validators.IsCaptchaValid(encodedResponse))
             {
                 TempData["errorMessage"] = Messages.NotValidCaptcha;
-                return View();
+                return View(approvers);
             }
             if (!Validators.IsEmailValid(ownerEmail, true))
             {
                 TempData["errorMessage"] = Messages.NotValidCompanyEmail;
-                return View();
+                return View(approvers);
             }
             if (!Validators.IsPhoneValid(ownerPhone))
             {
                 TempData["errorMessage"] = Messages.NotValidPhone;
-                return View();
+                return View(approvers);
             }
 
             DateTime parsedTime;
@@ -45,34 +46,36 @@ namespace SiiTaxi.Controllers
             if (parsedTime < DateTime.Now)
             {
                 TempData["errorMessage"] = Messages.NotValidDate;
-                return View();
+                return View(approvers);
             }
-
-            var owner = _context.People.FirstOrDefault(x => x.Email == ownerEmail);
-            if (owner != null)
-            {
-                TryUpdateModel(owner);
-            }
-            else
-            {
-                owner = _context.People.Add(new People() { Name = ownerName, Phone = ownerPhone, Email = ownerEmail });
-            }
-
-            var taxi = new Taxi
-            {
-                From = przejazdFrom,
-                To = przejazdTo,
-                Time = parsedTime,
-                Owner = owner.PeopleId,
-                Approver = approver,
-                IsBigTaxi = isBigTaxi,
-                Order = !order,
-                ConfirmCode = Guid.NewGuid().ToString()
-            };
 
             try
             {
+                var owner = _context.People.FirstOrDefault(x => x.Email == ownerEmail);
+                if (owner != null)
+                {
+                    TryUpdateModel(owner);
+                }
+                else
+                {
+                    owner = _context.People.Add(new People() { Name = ownerName, Phone = ownerPhone, Email = ownerEmail });
+                }
+                _context.SaveChanges();
+
+                var taxi = new Taxi
+                {
+                    From = przejazdFrom,
+                    To = przejazdTo,
+                    Time = parsedTime,
+                    Owner = owner.PeopleId,
+                    Approver = approver,
+                    IsBigTaxi = isBigTaxi,
+                    Order = !order,
+                    ConfirmCode = Guid.NewGuid().ToString()
+                };
+
                 taxi = _context.Taxi.Add(taxi);
+                _context.SaveChanges();
 
                 if (adds != null)
                 {
@@ -103,14 +106,16 @@ namespace SiiTaxi.Controllers
 
                         _context.TaxiPeople.Add(taxiPeople);
                     }
+
+                    _context.SaveChanges();
                 }
 
                 SendConfirmEmail(taxi);
             }
-            catch
+            catch (Exception e)
             {
                 TempData["errorMessage"] = Messages.DatabaseError;
-                return View();
+                return View(approvers);
             }
 
             TempData["successMessage"] = Messages.AddNewTaxiSuccess;
@@ -120,7 +125,8 @@ namespace SiiTaxi.Controllers
         [HttpGet]
         public ActionResult New()
         {
-            return View();
+            IQueryable<Approvers> approvers = _context.Approvers;
+            return View(approvers);
         }
 
         public ActionResult Join(int id)
@@ -211,9 +217,11 @@ namespace SiiTaxi.Controllers
                 {
                     other = _context.People.Add(new People() { Name = "", Phone = phone, Email = email });
                 }
+                _context.SaveChanges();
 
                 var taxiPeople = new TaxiPeople { TaxiId = id, PeopleId = other.PeopleId, ConfirmCode = Guid.NewGuid().ToString() };
                 taxiPeople = _context.TaxiPeople.Add(taxiPeople);
+                _context.SaveChanges();
 
                 SendJoinEmail(taxiPeople);
             }
@@ -235,7 +243,8 @@ namespace SiiTaxi.Controllers
         }
 
         [HttpGet]
-        public ActionResult Confirm(int id, string code)
+        [ActionName("Confirm")]
+        public ActionResult ConfirmGet(int id, string code)
         {
             var taxi = _context.Taxi.Find(id);
             if (taxi != null && taxi.ConfirmCode == code)
@@ -313,7 +322,7 @@ namespace SiiTaxi.Controllers
         }
 
         [HttpPost]
-        [ActionName("Confirm")]
+        [ActionName("ConfirmJoin")]
         public ActionResult ConfirmJoinPost(int id, string code)
         {
             var taxiPeople = _context.TaxiPeople.Find(id);
@@ -447,7 +456,7 @@ namespace SiiTaxi.Controllers
 
             var body = template.TransformText();
             var owner = taxi.People.Email;
-            var approver = taxi.Approvers.People.Email;
+            var approver = _context.Approvers.Find(taxi.Approver).People.Email;
             if (owner != null && approver != null)
             {
                 var client = new Emailer("taksii.test@gmail.com", owner, body, "Potwierdzenie taksówki - TakSii", approver);
