@@ -22,7 +22,7 @@ namespace SiiTaxi.Controllers
 
         [HttpPost]
         [ActionName("Index")]
-        public ActionResult IndexPost(string name, string phone, string email, PeopleViewModel peopleModel)
+        public ActionResult IndexPost(string name, string phone, string email)
         {
             if (!Validators.IsEmailValid(email, true))
             {

@@ -26,17 +26,17 @@ namespace SiiTaxi.Controllers
             if (!Validators.IsCaptchaValid(encodedResponse))
             {
                 TempData["errorMessage"] = Messages.NotValidCaptcha;
-                return View(new PeopleViewModel());
+                return View();
             }
             if (!Validators.IsEmailValid(ownerEmail, true))
             {
                 TempData["errorMessage"] = Messages.NotValidCompanyEmail;
-                return View(new PeopleViewModel());
+                return View();
             }
             if (!Validators.IsPhoneValid(ownerPhone))
             {
                 TempData["errorMessage"] = Messages.NotValidPhone;
-                return View(new PeopleViewModel());
+                return View();
             }
 
             DateTime parsedTime;
@@ -45,7 +45,7 @@ namespace SiiTaxi.Controllers
             if (parsedTime < DateTime.Now)
             {
                 TempData["errorMessage"] = Messages.NotValidDate;
-                return View(new PeopleViewModel());
+                return View();
             }
 
             var owner = _context.People.FirstOrDefault(x => x.Email == ownerEmail);
@@ -110,7 +110,7 @@ namespace SiiTaxi.Controllers
             catch
             {
                 TempData["errorMessage"] = Messages.DatabaseError;
-                return View(new PeopleViewModel());
+                return View();
             }
 
             TempData["successMessage"] = Messages.AddNewTaxiSuccess;
@@ -237,7 +237,7 @@ namespace SiiTaxi.Controllers
         [HttpGet]
         public ActionResult Confirm(int id, string code)
         {
-            var taxi = new TaxiViewModel().GetEntityBy<Taxi>("TaxiId", id);
+            var taxi = _context.Taxi.Find(id);
             if (taxi != null && taxi.ConfirmCode == code)
             {
                 if (taxi.Time < DateTime.Now)
@@ -258,25 +258,44 @@ namespace SiiTaxi.Controllers
         }
 
         [HttpPost]
-        public ActionResult Confirm(int id, string code)
+        [ActionName("Confirm")]
+        public ActionResult ConfirmPost(int id, string code)
         {
-            try
+            var taxi = _context.Taxi.Find(id);
+            if (taxi != null)
             {
-                taxiModel.Confirm(id, code);
+                try
+                {
+                    if (taxi.ConfirmCode == code)
+                    {
+                        taxi.IsConfirmed = true;
+                        _context.SaveChanges();
+                        SendNotification(taxi);
+                    }
+                    else
+                    {
+                        throw new NotImplementedException();
+                    }
+                }
+                catch
+                {
+                    TempData["errorMessage"] = Messages.ConfirmFailed;
+                    return View(taxi);
+                }
+
+                TempData["successMessage"] = Messages.ConfirmSucceed;
+                return RedirectToAction("Index", "Taxi");
             }
-            catch
-            {
-                TempData["errorMessage"] = Messages.ConfirmFailed;
-                return View(taxiModel.GetEntityBy<Taxi>("TaxiId", id));
-            }
-            TempData["successMessage"] = Messages.ConfirmSucceed;
+
+            TempData["successMessage"] = Messages.TaxiNotFound;
             return RedirectToAction("Index", "Taxi");
         }
 
         [HttpGet]
-        public ActionResult ConfirmJoin(int id, string code, TaxiViewModel taxiModel)
+        [ActionName("ConfirmJoin")]
+        public ActionResult ConfirmJoinGet(int id, string code)
         {
-            var taxiPeople = new TaxiViewModel().GetEntityBy<TaxiPeople>("Id", id);
+            var taxiPeople = _context.TaxiPeople.Find(id);
             if (taxiPeople != null && taxiPeople.ConfirmCode == code)
             {
                 if (taxiPeople.IsConfirmed)
@@ -284,30 +303,50 @@ namespace SiiTaxi.Controllers
                     TempData["errorMessage"] = Messages.TaxiConfirmed;
                     return RedirectToAction("Index", "Taxi");
                 }
+
                 TempData["code"] = code;
                 return View(taxiPeople);
             }
+
             TempData["errorMessage"] = Messages.TaxiNotFound;
             return RedirectToAction("Index", "Taxi");
         }
 
         [HttpPost]
-        public ActionResult ConfirmJoin(int id, string code)
+        [ActionName("Confirm")]
+        public ActionResult ConfirmJoinPost(int id, string code)
         {
-            try
+            var taxiPeople = _context.TaxiPeople.Find(id);
+            if (taxiPeople != null)
             {
-                new TaxiViewModel().ConfirmJoin(id, code);
+                try
+                {
+                    if (taxiPeople.ConfirmCode == code)
+                    {
+                        taxiPeople.IsConfirmed = true;
+                        _context.SaveChanges();
+                    }
+                    else
+                    {
+                        throw new NotImplementedException();
+                    }
+                }
+                catch
+                {
+                    TempData["errorMessage"] = Messages.ConfirmFailed;
+                    return View(taxiPeople);
+                }
+
+                TempData["successMessage"] = Messages.ConfirmSucceed;
+                return RedirectToAction("Index", "Taxi");
             }
-            catch
-            {
-                TempData["errorMessage"] = Messages.ConfirmFailed;
-                return View(new TaxiViewModel().GetEntityBy<TaxiPeople>("Id", id));
-            }
-            TempData["successMessage"] = Messages.ConfirmSucceed;
+
+            TempData["successMessage"] = Messages.TaxiPeopleNotFound;
             return RedirectToAction("Index", "Taxi");
         }
 
         [HttpPost]
+        [ActionName("BugReport")]
         public ActionResult BugReport(string name, string description)
         {
             var encodedResponse = Request.Form["g-Recaptcha-Response"];
@@ -332,9 +371,10 @@ namespace SiiTaxi.Controllers
         }
 
         [HttpGet]
-        public ActionResult Remove(int id, string code)
+        [ActionName("Remove")]
+        public ActionResult RemoveGet(int id, string code)
         {
-            var taxi = new TaxiViewModel().GetEntityBy<Taxi>("TaxiId", id);
+            var taxi = _context.Taxi.Find(id);
             if (taxi != null)
             {
                 if (taxi.IsOrdered)
@@ -352,20 +392,50 @@ namespace SiiTaxi.Controllers
         }
 
         [HttpPost]
-        public ActionResult Remove(int id, string code)
+        [ActionName("Remove")]
+        public ActionResult RemovePost(int id, string code)
         {
-            try
+            var taxi = _context.Taxi.Find(id);
+            if (taxi != null)
             {
-                taxiModel.Remove(id, code);
-            }
-            catch
-            {
-                TempData["errorMessage"] = Messages.RemoveFailed;
-                return View(taxiModel.GetEntityBy<Taxi>("TaxiId", id));
+                try
+                {
+                    Remove(taxi, code);
+                }
+                catch
+                {
+                    TempData["errorMessage"] = Messages.RemoveFailed;
+                    return View(taxi);
+                }
+
+                TempData["successMessage"] = Messages.RemoveSucceed;
+                return RedirectToAction("Index", "Taxi");
             }
 
-            TempData["successMessage"] = Messages.RemoveSucceed;
+            TempData["errorMessage"] = Messages.TaxiNotFound;
             return RedirectToAction("Index", "Taxi");
+        }
+
+        public void Remove(Taxi taxi, string confirm)
+        {
+            var joiner = taxi.TaxiPeople.FirstOrDefault(x => x.ConfirmCode == confirm);
+
+            if (taxi.ConfirmCode == confirm)
+            {
+                SendRemoveToJoiners(taxi);
+                _context.Taxi.Remove(taxi);
+            }
+            else if (joiner != null)
+            {
+                SendRemoveToOwner(taxi, joiner);
+                _context.TaxiPeople.Remove(joiner);
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+
+            _context.SaveChanges();
         }
 
         public bool SendConfirmEmail(Taxi taxi)
@@ -410,6 +480,52 @@ namespace SiiTaxi.Controllers
             }
 
             return false;
+        }
+
+        public void SendRemoveToJoiners(Taxi taxi)
+        {
+            foreach (var taxiPeople in taxi.TaxiPeople)
+            {
+                var codeTemplate = new SendRemoveToJoinersTemplate
+                {
+                    TaxiFrom = taxi.From,
+                    TaxiTo = taxi.To,
+                    TaxiTime = taxi.Time.ToString("HH:mm dd/MM/yyyy")
+                };
+                var body = codeTemplate.TransformText();
+
+                var client = new Emailer("taksii.test@gmail.com", taxiPeople.People.Email, body, "Taksówka została odwołana - TakSii");
+                client.SendEmail();
+            }
+        }
+
+        private void SendRemoveToOwner(Taxi taxi, TaxiPeople joiner)
+        {
+            var codeTemplate = new SendRemoveToOwnerTemplate
+            {
+                TaxiFrom = taxi.From,
+                TaxiTo = taxi.To,
+                TaxiTime = taxi.Time.ToString("HH:mm dd/MM/yyyy"),
+                Joiner = joiner
+            };
+            var body = codeTemplate.TransformText();
+
+            var client = new Emailer("taksii.test@gmail.com", taxi.People.Email, body, "Wypisano " + joiner.People.Email + " z taksówki - TakSii");
+            client.SendEmail();
+        }
+
+        private void SendNotification(Taxi taxi)
+        {
+            var codeTemplate = new SendNotificationTemplate
+            {
+                TaxiFrom = taxi.From,
+                TaxiTo = taxi.To,
+                TaxiTime = taxi.Time.ToString("HH:mm dd/MM/yyyy"),
+            };
+            var body = codeTemplate.TransformText();
+
+            var client = new Emailer("taksii.test@gmail.com", "aguja@pl.sii.eu", body, "Nowa potwierdzona taksówka - TakSii");
+            client.SendEmail();
         }
     }
 }

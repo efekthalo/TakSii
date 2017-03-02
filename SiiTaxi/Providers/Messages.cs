@@ -60,6 +60,8 @@ namespace SiiTaxi.Providers
         public const string RemoveFailed = "Anulowanie przejazdu nie powiodło się!";
 
         public const string RemoveSucceed = "Udało się anulować przejazd.";
+
+        public const string TaxiPeopleNotFound = "Nie znaleziono osoby.";
     }
 
 }
