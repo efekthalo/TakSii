@@ -386,12 +386,6 @@ namespace SiiTaxi.Controllers
             var taxi = _context.Taxi.Find(id);
             if (taxi != null)
             {
-                if (taxi.IsOrdered)
-                {
-                    TempData["errorMessage"] = Messages.TaxiOrdered;
-                    return RedirectToAction("Index", "Taxi");
-                }
-
                 TempData["code"] = code;
                 return View(taxi);
             }
@@ -409,7 +403,31 @@ namespace SiiTaxi.Controllers
             {
                 try
                 {
-                    Remove(taxi, code);
+                    var joiner = taxi.TaxiPeople.FirstOrDefault(x => x.ConfirmCode == code);
+
+                    if (taxi.ConfirmCode == code)
+                    {
+                        if (taxi.IsOrdered)
+                        {
+                            TempData["errorMessage"] = Messages.TaxiOrdered;
+                            return RedirectToAction("Index", "Taxi");
+                        }
+
+                        SendRemoveToJoiners(taxi);
+                        _context.Taxi.Remove(taxi);
+                    }
+                    else if (joiner != null)
+                    {
+                        SendRemoveToOwner(taxi, joiner);
+                        _context.TaxiPeople.Remove(joiner);
+                    }
+                    else
+                    {
+                        throw new NotImplementedException();
+                    }
+
+                    _context.SaveChanges();
+
                 }
                 catch
                 {
@@ -427,24 +445,7 @@ namespace SiiTaxi.Controllers
 
         public void Remove(Taxi taxi, string confirm)
         {
-            var joiner = taxi.TaxiPeople.FirstOrDefault(x => x.ConfirmCode == confirm);
 
-            if (taxi.ConfirmCode == confirm)
-            {
-                SendRemoveToJoiners(taxi);
-                _context.Taxi.Remove(taxi);
-            }
-            else if (joiner != null)
-            {
-                SendRemoveToOwner(taxi, joiner);
-                _context.TaxiPeople.Remove(joiner);
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
-
-            _context.SaveChanges();
         }
 
         public bool SendConfirmEmail(Taxi taxi)
