@@ -1,4 +1,5 @@
 ﻿@using System.Collections.Specialized
+@using System.Configuration;
 @model IQueryable<SiiTaxi.Models.Approvers>
 @{
     ViewBag.Title = "Nowy przejazd";
@@ -79,7 +80,7 @@
 
         <div class="form-check form-check-inline">
             <ul class="list-group">
-                <li class="list-group-item">
+                <li  data-toggle="tooltip" data-placement="top" title="Zaznacz, jeśli planujesz wziąć ze sobą więcej osób lub sprzętu."class="list-group-item">
                     Czy potrzebna duża taksówka?
                     <div class="material-switch pull-right">
                         @if (GetValue("IsBigTaxi") == "on")
@@ -94,7 +95,7 @@
                         <label for="IsBigTaxi" class="label-primary"></label>
                     </div>
                 </li>
-                <li class="list-group-item">
+                <li data-toggle="tooltip" data-placement="top" title="Zaznacz, jeśli chcesz otrzymać tylko kod i sam zamówić taksówkę." class="list-group-item">
                     Czy potrzebujesz sam kod?
                     <div class="material-switch pull-right">
                         @if (GetValue("order") == "on")
@@ -158,7 +159,7 @@
 
                 }
             </div>
-            <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
+            <div class="g-recaptcha" data-sitekey="@ConfigurationManager.AppSettings["recaptchaClient"]"></div>
         </div>
 
         <button type="submit" class="btn btn-default">Zamów</button>
@@ -168,6 +169,8 @@
 @section scripts {
     <script type="text/javascript">
         $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+
             $('#datetimepicker10')
                 .datetimepicker({
                     locale: 'pl',
