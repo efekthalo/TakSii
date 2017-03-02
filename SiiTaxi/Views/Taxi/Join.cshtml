@@ -38,13 +38,13 @@
         </div>
         <div class="form-group has-feedback">
             <label for="email">Wpisz swoj email: </label>
-            <input class="form-control" id="email" type="email" name="email" value="@GetValue("email")" data-pattern-error="Dopuszczalny tylko E-mail Sii!" placeholder="E-mail" required>
+            <input class="form-control" id="email" type="email" name="email" value="@GetValue("email")" pattern=".*pl\.sii\.eu" data-pattern-error="Dopuszczalny tylko E-mail Sii!" placeholder="E-mail" required>
             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
             <div class="help-block with-errors"></div>
         </div>
         <div class="form-group has-feedback">
             <label for="phone">Podaj swój numer telefonu: </label>
-            <input class="form-control" id="phone" name="phone" type="tel" value="@GetValue("phone")" data-pattern-error="Niepoprawny numer telefonu!" placeholder="Numer telefonu"/>
+            <input class="form-control" id="phone" name="phone" type="tel" value="@GetValue("phone")" pattern="[\+]?\d{8,12}" data-pattern-error="Niepoprawny numer telefonu!" placeholder="Numer telefonu"/>
             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
             <div class="help-block with-errors"></div>
         </div>

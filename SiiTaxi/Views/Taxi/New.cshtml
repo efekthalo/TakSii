@@ -22,12 +22,12 @@
             <div class="help-block with-errors"></div>
         </div>
         <div class="form-group has-feedback">
-            <input type="email" class="form-control" id="ownerEmail" value="@GetValue("ownerEmail")" name="ownerEmail" data-pattern-error="Dopuszczalny tylko E-mail Sii!" placeholder="E-mail" required>
+            <input type="email" class="form-control" id="ownerEmail" value="@GetValue("ownerEmail")" pattern=".*pl\.sii\.eu" name="ownerEmail" data-pattern-error="Dopuszczalny tylko E-mail Sii!" placeholder="E-mail" required>
             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
             <div class="help-block with-errors"></div>
         </div>
         <div class="form-group has-feedback">
-            <input type="tel" class="form-control" id="ownerPhone" value="@GetValue("ownerPhone")" name="ownerPhone" data-pattern-error="Niepoprawny numer telefonu!" placeholder="Numer telefonu">
+            <input type="tel" class="form-control" id="ownerPhone" value="@GetValue("ownerPhone")" pattern="[\+]?\d{8,12}" name="ownerPhone" data-pattern-error="Niepoprawny numer telefonu!" placeholder="Numer telefonu">
             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
             <div class="help-block with-errors"></div>
         </div>
@@ -139,7 +139,7 @@
                 {
                     <div id="dodOsoba" class="form-group add">
                         <div class="input-group dodatkowaOsoba">
-                            <input type="email" value="@add" class="form-control" id="adds" name="adds" data-pattern-error="Dopuszczalny tylko E-mail Sii!" placeholder="E-mail" required><span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            <input type="email" value="@add" class="form-control" id="adds" name="adds" pattern=".*pl\.sii\.eu" data-pattern-error="Dopuszczalny tylko E-mail Sii!" placeholder="E-mail" required><span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             <span class="input-group-addon btn btn-danger deleteDiv">Usuń</span>
                         </div><div class="help-block with-errors"></div>
                     </div>
@@ -293,7 +293,7 @@
                 $('#dodatkoweOsoby')
                     .append('<div class="form-group add">' +
                                 '<div class="input-group">' +
-                                    '<input type="email" class="form-control" name="adds" data-pattern-error="Dopuszczalny tylko E-mail Sii!" placeholder="E-mail" required>' +
+                                    '<input type="email" class="form-control" name="adds" pattern=".*pl\.sii\.eu" data-pattern-error="Dopuszczalny tylko E-mail Sii!" placeholder="E-mail" required>' +
                                     '<span class="glyphicon form-control-feedback" aria-hidden="true"></span>' +
                                     '<span class="input-group-addon btn btn-danger deleteDiv">Usuń</span>' +
                                 '</div>' +
