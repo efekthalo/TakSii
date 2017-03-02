@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Configuration;
 using System.Net;
 using System.Net.Mail;
-using System.Web;
 using SiiTaxi.Models;
 
 namespace SiiTaxi.Email
@@ -15,9 +12,7 @@ namespace SiiTaxi.Email
             From = new MailAddress(from);
             To = new MailAddress(to);
             if (cc != null)
-            {
                 CC = new MailAddress(cc);
-            }
             Body = body;
             Subject = subject;
         }
@@ -35,12 +30,14 @@ namespace SiiTaxi.Email
             {
                 var client = new SmtpClient
                 {
-                    Port = 587,
+                    Port = int.Parse(ConfigurationManager.AppSettings["smtpPort"]), //587,
                     DeliveryMethod = SmtpDeliveryMethod.Network,
                     UseDefaultCredentials = false,
                     EnableSsl = true,
-                    Credentials = new NetworkCredential("taksii.test@gmail.com", "testowehaslo"),
-                    Host = "smtp.gmail.com"
+                    Credentials =
+                        new NetworkCredential(ConfigurationManager.AppSettings["smtpLogin"],
+                            ConfigurationManager.AppSettings["smtpPassword"]),
+                    Host = ConfigurationManager.AppSettings["smtpHost"]
                 };
 
                 var mail = new MailMessage(From, To)
@@ -51,9 +48,7 @@ namespace SiiTaxi.Email
                 };
 
                 if (CC != null)
-                {
                     mail.CC.Add(CC);
-                }
 
                 client.Send(mail);
                 return true;

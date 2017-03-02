@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography.Pkcs;
-
-namespace SiiTaxi.Providers
+﻿namespace SiiTaxi.Providers
 {
     public class Messages
     {

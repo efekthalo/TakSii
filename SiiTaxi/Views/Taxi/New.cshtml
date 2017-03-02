@@ -211,13 +211,13 @@
             },
 
             enablePassengers: function () {
-                this.addPassengerButton.show()
+                this.addPassengerButton.show();
                 this.maxPeople = this.bigTaxiChecked ? bigTaxi : smallTaxi;
                 this.updateForm();
             },
 
             disablePassengers: function () {
-                this.addPassengerButton.hide()
+                this.addPassengerButton.hide();
                 this.maxPeople = 0;
                 this.updateForm();
             },
@@ -292,13 +292,13 @@
                 Taxi.addPassenger();
                 $('#dodatkoweOsoby')
                     .append('<div class="form-group add">' +
-                                '<div class="input-group">' +
-                                    '<input type="email" class="form-control" name="adds" pattern=".*pl\.sii\.eu" data-pattern-error="Dopuszczalny tylko E-mail Sii!" placeholder="E-mail" required>' +
-                                    '<span class="glyphicon form-control-feedback" aria-hidden="true"></span>' +
-                                    '<span class="input-group-addon btn btn-danger deleteDiv">Usuń</span>' +
-                                '</div>' +
-                                '<div class="help-block with-errors"></div>' +
-                            '</div>')
+                        '<div class="input-group">' +
+                        '<input type="email" class="form-control" name="adds" pattern=".*pl\.sii\.eu" data-pattern-error="Dopuszczalny tylko E-mail Sii!" placeholder="E-mail" required>' +
+                        '<span class="glyphicon form-control-feedback" aria-hidden="true"></span>' +
+                        '<span class="input-group-addon btn btn-danger deleteDiv">Usuń</span>' +
+                        '</div>' +
+                        '<div class="help-block with-errors"></div>' +
+                        '</div>');
 
                 $(".deleteDiv")
                     .unbind()
