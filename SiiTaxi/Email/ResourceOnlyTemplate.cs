@@ -18,9 +18,9 @@ namespace SiiTaxi.Email
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\SendNotificationTemplate.tt"
+    #line 1 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ResourceOnlyTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "14.0.0.0")]
-    public partial class SendNotificationTemplate : SendNotificationTemplateBase
+    public partial class ResourceOnlyTemplate : ResourceOnlyTemplateBase
     {
 #line hidden
         /// <summary>
@@ -37,30 +37,54 @@ namespace SiiTaxi.Email
 </head>
 <body style=""width:100%; margin:0; padding:0; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%;"">
     <p>
-        Została potwierdzona nowa taksówka, aby wysłać kod przejdź do <a href=""http://taksii.efekt.co.uk/Admin/Taxi"">ADMIN</a><br/><br/>
+        <strong>Witam!</strong>
+    </p>
+    <p>
+        <strong>Aby dołączyć coś do przejazdu skontaktuj się proszę z właścicielem taksówki.</strong><br/><br/>
 		Informacje dt. przejazdu:<br/>
 		Start: ");
             
-            #line 17 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\SendNotificationTemplate.tt"
+            #line 20 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ResourceOnlyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Taxi.From));
             
             #line default
             #line hidden
             this.Write("<br/>\r\n\t\tStop:  ");
             
-            #line 18 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\SendNotificationTemplate.tt"
+            #line 21 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ResourceOnlyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Taxi.To));
             
             #line default
             #line hidden
             this.Write("<br/>\r\n\t\tData przejazdu: ");
             
-            #line 19 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\SendNotificationTemplate.tt"
+            #line 22 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ResourceOnlyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Taxi.Time.ToString("HH:mm dd/MM/yyyy")));
             
             #line default
             #line hidden
-            this.Write("<br/>\r\n    </p>\r\n</body>\r\n</html>\r\n");
+            this.Write("<br/>\r\n\t\tWłaściciel: ");
+            
+            #line 23 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ResourceOnlyTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Taxi.People.Name));
+            
+            #line default
+            #line hidden
+            this.Write("<br/>\r\n\t\tE-mail: ");
+            
+            #line 24 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ResourceOnlyTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Taxi.People.Email));
+            
+            #line default
+            #line hidden
+            this.Write("<br/>\r\n\t\tTel.: ");
+            
+            #line 25 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ResourceOnlyTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Taxi.People.Phone));
+            
+            #line default
+            #line hidden
+            this.Write("<br/>\r\n\t</p>\r\n</body>\r\n</html>\r\n");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -72,7 +96,7 @@ namespace SiiTaxi.Email
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "14.0.0.0")]
-    public class SendNotificationTemplateBase
+    public class ResourceOnlyTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

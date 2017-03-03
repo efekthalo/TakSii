@@ -12,7 +12,11 @@
 </head>
 <body style="width:100%; margin:0; padding:0; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%;">
     <p>
-        Została potwierdzona nowa taksówka, aby wysłać kod przejdź do <a href="http://taksii.efekt.co.uk/Admin/Taxi">ADMIN</a>
+        Została potwierdzona nowa taksówka, aby wysłać kod przejdź do <a href="http://taksii.efekt.co.uk/Admin/Taxi">ADMIN</a><br/><br/>
+		Informacje dt. przejazdu:<br/>
+		Start: <#= Taxi.From #><br/>
+		Stop:  <#= Taxi.To #><br/>
+		Data przejazdu: <#= Taxi.Time.ToString("HH:mm dd/MM/yyyy") #><br/>
     </p>
 </body>
 </html>

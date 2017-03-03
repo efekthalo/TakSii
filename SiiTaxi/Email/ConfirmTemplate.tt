@@ -15,7 +15,11 @@
         <strong>Witam!</strong>
     </p>
     <p>
-        Kliknij w poniższy link aby potwierdzić taxi.
+        Kliknij w poniższy link aby potwierdzić taxi.<br/><br/>
+		Informacje dt. przejazdu:<br/>
+		Start: <#= Taxi.From #><br/>
+		Stop:  <#= Taxi.To #><br/>
+		Data przejazdu: <#= Taxi.Time.ToString("HH:mm dd/MM/yyyy") #><br/>
     </p>
     <p>
         <a href="http://taksii.efekt.co.uk/Taxi/Confirm?id=<#= Taxi.TaxiId #>&code=<#= Taxi.ConfirmCode #>">Potwierdzam TAXI</a>

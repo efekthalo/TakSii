@@ -37,7 +37,7 @@
                 <td>@objUser.From</td>
                 <td>@objUser.To</td>
                 <td>@objUser.Time.ToString("HH:mm")</td>
-                <td>@(objUser.TaxiPeople.Count(x => x.IsConfirmed) + 1) / 
+                <td>@(objUser.TaxiPeople.Count(x => x.IsConfirmed && !x.ResourceOnly) + 1) / 
                     @if (objUser.IsBigTaxi)
                         {
                             <label>7</label>
@@ -47,7 +47,7 @@
                             <label>4</label>
                         }
                 </td>
-                @if (objUser.TaxiPeople.Count(x => x.IsConfirmed) <= (objUser.IsBigTaxi? 5 : 2))
+                @if (objUser.TaxiPeople.Count(x => x.IsConfirmed && !x.ResourceOnly) <= (objUser.IsBigTaxi? 5 : 2))
                 {
                     <td>
                         <button type="button" class="btn btn-small btn-success" onclick="location.href = '@Url.Action("Join", "Taxi", new { id = objUser.TaxiId })';return false;">Dołącz</button>
@@ -82,9 +82,9 @@
     <script>
 
         $(function() {
-            var dateURL = getParameterByName("date", window.location.href);
+            var dateUrl = getParameterByName("date", window.location.href);
 
-            var choosenDate = dateURL ? new Date(dateURL) : new Date();
+            var choosenDate = dateUrl ? new Date(dateUrl) : new Date();
 
             var d = new Date();
             d.setHours(0, 0, 0, 0);

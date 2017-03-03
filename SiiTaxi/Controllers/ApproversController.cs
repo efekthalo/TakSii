@@ -14,9 +14,9 @@ namespace SiiTaxi.Controllers
         [ActionName("Index")]
         public ActionResult IndexGet()
         {
-            IQueryable<Approvers> approvers = from a in _context.Approvers
-                                              where a.IsApprover
-                                              select a;
+            IQueryable<Approvers> approvers = from approver in _context.Approvers
+                                              where approver.IsApprover
+                                              select approver;
             return View(approvers);
         }
 

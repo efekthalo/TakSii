@@ -40,25 +40,26 @@ namespace SiiTaxi.Email
         <strong>Witam!</strong>
     </p>
     <p>
-        Niestety, ale taksówka została odwołana.<br />
+        Niestety, ale taksówka została odwołana.<br/><br/>
+		Informacje dt. przejazdu:<br/>
 		Start: ");
             
-            #line 19 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\SendRemoveToJoinersTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(TaxiFrom));
+            #line 20 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\SendRemoveToJoinersTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Taxi.From));
             
             #line default
             #line hidden
             this.Write("<br/>\r\n\t\tStop:  ");
             
-            #line 20 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\SendRemoveToJoinersTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(TaxiTo));
+            #line 21 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\SendRemoveToJoinersTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Taxi.To));
             
             #line default
             #line hidden
             this.Write("<br/>\r\n\t\tData przejazdu: ");
             
-            #line 21 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\SendRemoveToJoinersTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(TaxiTime));
+            #line 22 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\SendRemoveToJoinersTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Taxi.Time.ToString("HH:mm dd/MM/yyyy")));
             
             #line default
             #line hidden

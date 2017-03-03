@@ -70,10 +70,7 @@ namespace SiiTaxi.Controllers
                     case "Send":
                         var codeTemplate = new SendCodeTemplate
                         {
-                            TaxiFrom = taxi.From,
-                            TaxiTo = taxi.To,
-                            TaxiTime = taxi.Time.ToString("HH:mm dd/MM/yyyy"),
-                            TaxiCodeString = code
+                            Taxi = taxi
                         };
                         body = codeTemplate.TransformText();
                         break;
@@ -81,10 +78,7 @@ namespace SiiTaxi.Controllers
                     case "Order":
                         var orderTemplate = new SendCodeAndOrderedTemplate
                         {
-                            TaxiFrom = taxi.From,
-                            TaxiTo = taxi.To,
-                            TaxiTime = taxi.Time.ToString("HH:mm dd/MM/yyyy"),
-                            TaxiCodeString = code
+                            Taxi = taxi
                         };
                         body = orderTemplate.TransformText();
                         break;

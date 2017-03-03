@@ -15,14 +15,15 @@
         <strong>Witam!</strong>
     </p>
     <p>
-        Oto kod do zamówionego przez Ciebie TAXI.<br/>
-		Start: <#= TaxiFrom #><br/>
-		Stop:  <#= TaxiTo #><br/>
-		Data przejazdu: <#= TaxiTime #><br/>
+        Oto kod do zamówionego przez Ciebie TAXI.<br/><br/>
+		Informacje dt. przejazdu:<br/>
+		Start: <#= Taxi.From #><br/>
+		Stop:  <#= Taxi.To #><br/>
+		Data przejazdu: <#= Taxi.Time.ToString("HH:mm dd/MM/yyyy") #><br/>
 		Aby zamówić taksówkę zadzwoń proszę pod numer Halo Taxi: 781 819 666 i podaj kod na infolinii:
     </p>
     <h1>
-        <#= TaxiCodeString #>
+        <#= Taxi.TaxiCode #>
     </h1>
 </body>
 </html>

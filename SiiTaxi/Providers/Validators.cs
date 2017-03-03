@@ -2,7 +2,7 @@
 
 namespace SiiTaxi.Providers
 {
-    public class Validators
+    public static class Validators
     {
         public static bool IsEmailValid(string email, bool company = false)
         {

@@ -15,14 +15,14 @@
         <strong>Witam!</strong>
     </p>
     <p>
-        Niestety, ale taksówka została odwołana.<br/><br/>
+        <strong>Aby dołączyć coś do przejazdu skontaktuj się proszę z właścicielem taksówki.</strong><br/><br/>
 		Informacje dt. przejazdu:<br/>
 		Start: <#= Taxi.From #><br/>
 		Stop:  <#= Taxi.To #><br/>
 		Data przejazdu: <#= Taxi.Time.ToString("HH:mm dd/MM/yyyy") #><br/>
+		Właściciel: <#= Taxi.People.Name #><br/>
+		E-mail: <#= Taxi.People.Email #><br/>
+		Tel.: <#= Taxi.People.Phone #><br/>
 	</p>
-	<p>
-		Taksówka musi zostać ponownie przez ciebie zamówiona, jeżeli chcesz kontynuować przejazd. <a href="http://taksii.efekt.co.uk/Taxi/New">LINK</a>
-    </p>
 </body>
 </html>

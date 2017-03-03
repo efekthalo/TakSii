@@ -40,20 +40,41 @@ namespace SiiTaxi.Email
         <strong>Witam!</strong>
     </p>
     <p>
-        Kliknij w poniższy link aby potwierdzić taxi.
-    </p>
-    <p>
-        <a href=""http://taksii.efekt.co.uk/Taxi/ConfirmJoin?id=");
+        Kliknij w poniższy link, aby potwierdzić taxi.<br/><br/>
+		Informacje dt. przejazdu:<br/>
+		Start: ");
+            
+            #line 20 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmJoinTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TaxiPeople.Taxi.From));
+            
+            #line default
+            #line hidden
+            this.Write("<br/>\r\n\t\tStop:  ");
             
             #line 21 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmJoinTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Id));
+            this.Write(this.ToStringHelper.ToStringWithCulture(TaxiPeople.Taxi.To));
+            
+            #line default
+            #line hidden
+            this.Write("<br/>\r\n\t\tData przejazdu: ");
+            
+            #line 22 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmJoinTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TaxiPeople.Taxi.Time.ToString("HH:mm dd/MM/yyyy")));
+            
+            #line default
+            #line hidden
+            this.Write("<br/>\r\n    </p>\r\n    <p>\r\n        <a href=\"http://taksii.efekt.co.uk/Taxi/Confirm" +
+                    "Join?id=");
+            
+            #line 25 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmJoinTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TaxiPeople.Id));
             
             #line default
             #line hidden
             this.Write("&code=");
             
-            #line 21 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmJoinTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(ConfirmationString));
+            #line 25 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmJoinTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TaxiPeople.ConfirmCode));
             
             #line default
             #line hidden
@@ -61,15 +82,15 @@ namespace SiiTaxi.Email
                     "m momencie wypisać się z taksówki - użyj poniższego linka.\r\n    </p>\r\n    <p>\r\n " +
                     "       <a href=\"http://taksii.efekt.co.uk/Taxi/Remove?id=");
             
-            #line 27 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmJoinTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Id));
+            #line 31 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmJoinTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TaxiPeople.Id));
             
             #line default
             #line hidden
             this.Write("&code=");
             
-            #line 27 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmJoinTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(ConfirmationString));
+            #line 31 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmJoinTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TaxiPeople.ConfirmCode));
             
             #line default
             #line hidden

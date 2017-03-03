@@ -40,19 +40,40 @@ namespace SiiTaxi.Email
         <strong>Witam!</strong>
     </p>
     <p>
-        Kliknij w poniższy link aby potwierdzić taxi.
-    </p>
-    <p>
-        <a href=""http://taksii.efekt.co.uk/Taxi/Confirm?id=");
+        Kliknij w poniższy link aby potwierdzić taxi.<br/><br/>
+		Informacje dt. przejazdu:<br/>
+		Start: ");
+            
+            #line 20 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Taxi.From));
+            
+            #line default
+            #line hidden
+            this.Write("<br/>\r\n\t\tStop:  ");
             
             #line 21 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Taxi.To));
+            
+            #line default
+            #line hidden
+            this.Write("<br/>\r\n\t\tData przejazdu: ");
+            
+            #line 22 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Taxi.Time.ToString("HH:mm dd/MM/yyyy")));
+            
+            #line default
+            #line hidden
+            this.Write("<br/>\r\n    </p>\r\n    <p>\r\n        <a href=\"http://taksii.efekt.co.uk/Taxi/Confirm" +
+                    "?id=");
+            
+            #line 25 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Taxi.TaxiId));
             
             #line default
             #line hidden
             this.Write("&code=");
             
-            #line 21 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmTemplate.tt"
+            #line 25 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Taxi.ConfirmCode));
             
             #line default
@@ -65,21 +86,21 @@ namespace SiiTaxi.Email
     <p>
         <a href=""http://taksii.efekt.co.uk/Taxi/Remove?id=");
             
-            #line 27 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmTemplate.tt"
+            #line 31 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Taxi.TaxiId));
             
             #line default
             #line hidden
             this.Write("&code=");
             
-            #line 27 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmTemplate.tt"
+            #line 31 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Taxi.ConfirmCode));
             
             #line default
             #line hidden
             this.Write("\">Wypisuję się z TAXI</a>\r\n    </p>\r\n\t\r\n\t");
             
-            #line 30 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmTemplate.tt"
+            #line 34 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmTemplate.tt"
  if(Taxi.TaxiPeople != null && Taxi.TaxiPeople.Count() > 0) { 
             
             #line default
@@ -87,42 +108,42 @@ namespace SiiTaxi.Email
             this.Write("\t\t<p>\r\n\t\t\tMożesz również usunąć osoby, które zostały przez ciebie dodane do taksó" +
                     "wki za pomocą linków:\r\n\t\t</p>\r\n\t\t<ul>\r\n\t\t");
             
-            #line 35 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmTemplate.tt"
+            #line 39 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmTemplate.tt"
  foreach (var passenger in Taxi.TaxiPeople) { 
             
             #line default
             #line hidden
             this.Write("\t\t\t<li>");
             
-            #line 36 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmTemplate.tt"
+            #line 40 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(passenger.People.Email));
             
             #line default
             #line hidden
             this.Write(" - <a href=\"http://taksii.efekt.co.uk/Taxi/Remove?id=");
             
-            #line 36 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmTemplate.tt"
+            #line 40 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Taxi.TaxiId));
             
             #line default
             #line hidden
             this.Write("&code=");
             
-            #line 36 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmTemplate.tt"
+            #line 40 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(passenger.ConfirmCode));
             
             #line default
             #line hidden
             this.Write("\">Wypisz z TAXI</a></li>\r\n\t\t");
             
-            #line 37 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmTemplate.tt"
+            #line 41 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmTemplate.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\t\t</ul>\r\n\t");
             
-            #line 39 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmTemplate.tt"
+            #line 43 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\ConfirmTemplate.tt"
  } 
             
             #line default

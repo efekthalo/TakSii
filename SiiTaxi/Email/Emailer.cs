@@ -12,17 +12,17 @@ namespace SiiTaxi.Email
             From = new MailAddress(from);
             To = new MailAddress(to);
             if (cc != null)
-                CC = new MailAddress(cc);
+                Cc = new MailAddress(cc);
             Body = body;
             Subject = subject;
         }
 
-        public MailAddress From { get; set; }
-        public MailAddress To { get; set; }
-        public MailAddress CC { get; set; }
+        private MailAddress From { get; }
+        private MailAddress To { get; }
+        private MailAddress Cc { get; }
 
-        public string Subject { get; set; }
-        public string Body { get; set; }
+        private string Subject { get; }
+        private string Body { get; }
 
         public bool SendEmail()
         {
@@ -47,8 +47,8 @@ namespace SiiTaxi.Email
                     Body = Body
                 };
 
-                if (CC != null)
-                    mail.CC.Add(CC);
+                if (Cc != null)
+                    mail.CC.Add(Cc);
 
                 client.Send(mail);
                 return true;
@@ -62,53 +62,42 @@ namespace SiiTaxi.Email
 
     public partial class ConfirmTemplate
     {
-        public Taxi Taxi { get; set; }
+        public Taxi Taxi { private get; set; }
     }
 
     public partial class ConfirmJoinTemplate
     {
-        public string ConfirmationString { get; set; }
-        public int Id { get; internal set; }
+        public TaxiPeople TaxiPeople { private get; set; }
+    }
+
+    public partial class ResourceOnlyTemplate
+    {
+        public Taxi Taxi { private get; set; }
     }
 
     public partial class SendCodeTemplate
     {
-        public string TaxiCodeString { get; set; }
-        public string TaxiFrom { get; set; }
-        public string TaxiTo { get; set; }
-        public string TaxiTime { get; set; }
+        public Taxi Taxi { private get; set; }
     }
 
     public partial class SendCodeAndOrderedTemplate
     {
-        public string TaxiCodeString { get; set; }
-        public string TaxiFrom { get; set; }
-        public string TaxiTo { get; set; }
-        public string TaxiTime { get; set; }
+        public Taxi Taxi { private get; set; }
     }
 
     public partial class SendNotificationTemplate
     {
-        public string TaxiCodeString { get; set; }
-        public string TaxiFrom { get; set; }
-        public string TaxiTo { get; set; }
-        public string TaxiTime { get; set; }
+        public Taxi Taxi { get; set; }
     }
 
     public partial class SendRemoveToOwnerTemplate
     {
-        public string TaxiCodeString { get; set; }
-        public string TaxiFrom { get; set; }
-        public string TaxiTo { get; set; }
-        public string TaxiTime { get; set; }
+        public Taxi Taxi { get; set; }
         public TaxiPeople Joiner { get; set; }
     }
 
     public partial class SendRemoveToJoinersTemplate
     {
-        public string TaxiCodeString { get; set; }
-        public string TaxiFrom { get; set; }
-        public string TaxiTo { get; set; }
-        public string TaxiTime { get; set; }
+        public Taxi Taxi { get; set; }
     }
 }
