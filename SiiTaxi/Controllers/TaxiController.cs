@@ -455,7 +455,7 @@ namespace SiiTaxi.Controllers
 
             var body = template.TransformText();
             var owner = taxi.People.Email;
-            var approver = _context.Approvers.Find(taxi.Approver).People.Email;
+            var approver = _context.Approvers.Find(taxi.Approver)?.People.Email;
             if (owner != null && approver != null)
             {
                 var client = new Emailer(ConfigurationManager.AppSettings["adminEmail"], owner, body, "Potwierdzenie taksówki - TakSii", approver);
@@ -470,14 +470,13 @@ namespace SiiTaxi.Controllers
         {
             if (entity.TaxiId != null)
             {
-                string body = "";
+                string body;
 
                 if (!confirmed)
                 {
                     var template = new ConfirmJoinTemplate
                     {
-                        ConfirmationString = entity.ConfirmCode,
-                        Id = entity.Id
+                        TaxiPeople = entity
                     };
 
                     body = template.TransformText();

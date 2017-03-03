@@ -6,6 +6,11 @@ namespace SiiTaxi.Providers
 {
     public class ReCaptcha
     {
+        public ReCaptcha(string success)
+        {
+            Success = success;
+        }
+
         public static string Validate(string encodedResponse)
         {
             var client = new System.Net.WebClient();
@@ -21,7 +26,7 @@ namespace SiiTaxi.Providers
         }
 
         [JsonProperty("success")]
-        private string Success { get; set; }
+        private string Success { get; }
 
         [JsonProperty("error-codes")]
         public List<string> ErrorCodes { get; set; }

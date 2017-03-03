@@ -15,8 +15,9 @@
         <strong>Witam!</strong>
     </p>
     <p>
-		<strong>Zamówiliśmy dla ciebie taksówkę. Proszę zapisz sobie kod gdyby był potrzebny.</strong><br/>
-        Start: <#= Taxi.From #><br/>
+		<strong>Zamówiliśmy dla ciebie taksówkę. Proszę zapisz sobie kod gdyby był potrzebny.</strong><br/><br/>
+		Informacje dt. przejazdu:<br/>
+		Start: <#= Taxi.From #><br/>
 		Stop:  <#= Taxi.To #><br/>
 		Data przejazdu: <#= Taxi.Time.ToString("HH:mm dd/MM/yyyy") #><br/>
 		Oto kod na przejazd:

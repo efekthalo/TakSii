@@ -67,23 +67,22 @@ namespace SiiTaxi.Email
 
     public partial class ConfirmJoinTemplate
     {
-        public string ConfirmationString { private get; set; }
-        public int Id { private get; set; }
+        public TaxiPeople TaxiPeople { private get; set; }
     }
 
     public partial class ResourceOnlyTemplate
     {
-        public Taxi Taxi { get; set; }
+        public Taxi Taxi { private get; set; }
     }
 
     public partial class SendCodeTemplate
     {
-        public Taxi Taxi { get; set; }
+        public Taxi Taxi { private get; set; }
     }
 
     public partial class SendCodeAndOrderedTemplate
     {
-        public Taxi Taxi { get; set; }
+        public Taxi Taxi { private get; set; }
     }
 
     public partial class SendNotificationTemplate

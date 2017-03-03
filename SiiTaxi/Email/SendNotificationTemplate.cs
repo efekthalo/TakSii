@@ -37,11 +37,30 @@ namespace SiiTaxi.Email
 </head>
 <body style=""width:100%; margin:0; padding:0; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%;"">
     <p>
-        Została potwierdzona nowa taksówka, aby wysłać kod przejdź do <a href=""http://taksii.efekt.co.uk/Admin/Taxi"">ADMIN</a>
-    </p>
-</body>
-</html>
-");
+        Została potwierdzona nowa taksówka, aby wysłać kod przejdź do <a href=""http://taksii.efekt.co.uk/Admin/Taxi"">ADMIN</a><br/><br/>
+		Informacje dt. przejazdu:<br/>
+		Start: ");
+            
+            #line 17 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\SendNotificationTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Taxi.From));
+            
+            #line default
+            #line hidden
+            this.Write("<br/>\r\n\t\tStop:  ");
+            
+            #line 18 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\SendNotificationTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Taxi.To));
+            
+            #line default
+            #line hidden
+            this.Write("<br/>\r\n\t\tData przejazdu: ");
+            
+            #line 19 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\SendNotificationTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Taxi.Time.ToString("HH:mm dd/MM/yyyy")));
+            
+            #line default
+            #line hidden
+            this.Write("<br/>\r\n    </p>\r\n</body>\r\n</html>\r\n");
             return this.GenerationEnvironment.ToString();
         }
     }

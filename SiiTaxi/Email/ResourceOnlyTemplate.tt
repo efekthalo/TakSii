@@ -15,8 +15,9 @@
         <strong>Witam!</strong>
     </p>
     <p>
-        <strong>Aby dołączyć coś do przejazdu skontaktuj się proszę z właścicielem taksówki.</strong><br/>
-        Start: <#= Taxi.From #><br/>
+        <strong>Aby dołączyć coś do przejazdu skontaktuj się proszę z właścicielem taksówki.</strong><br/><br/>
+		Informacje dt. przejazdu:<br/>
+		Start: <#= Taxi.From #><br/>
 		Stop:  <#= Taxi.To #><br/>
 		Data przejazdu: <#= Taxi.Time.ToString("HH:mm dd/MM/yyyy") #><br/>
 		Właściciel: <#= Taxi.People.Name #><br/>

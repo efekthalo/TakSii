@@ -18,7 +18,7 @@ namespace SiiTaxi.Email
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\SendCodeTemplate.tt"
+    #line 1 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\SendCodeTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "14.0.0.0")]
     public partial class SendCodeTemplate : SendCodeTemplateBase
     {
@@ -40,24 +40,25 @@ namespace SiiTaxi.Email
         <strong>Witam!</strong>
     </p>
     <p>
-        Oto kod do zamówionego przez Ciebie TAXI.<br/>
+        Oto kod do zamówionego przez Ciebie TAXI.<br/><br/>
+		Informacje dt. przejazdu:<br/>
 		Start: ");
             
-            #line 19 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\SendCodeTemplate.tt"
+            #line 20 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\SendCodeTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Taxi.From));
             
             #line default
             #line hidden
             this.Write("<br/>\r\n\t\tStop:  ");
             
-            #line 20 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\SendCodeTemplate.tt"
+            #line 21 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\SendCodeTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Taxi.To));
             
             #line default
             #line hidden
             this.Write("<br/>\r\n\t\tData przejazdu: ");
             
-            #line 21 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\SendCodeTemplate.tt"
+            #line 22 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\SendCodeTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Taxi.Time.ToString("HH:mm dd/MM/yyyy")));
             
             #line default
@@ -65,7 +66,7 @@ namespace SiiTaxi.Email
             this.Write("<br/>\r\n\t\tAby zamówić taksówkę zadzwoń proszę pod numer Halo Taxi: 781 819 666 i p" +
                     "odaj kod na infolinii:\r\n    </p>\r\n    <h1>\r\n        ");
             
-            #line 25 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\SendCodeTemplate.tt"
+            #line 26 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\SendCodeTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Taxi.TaxiCode));
             
             #line default

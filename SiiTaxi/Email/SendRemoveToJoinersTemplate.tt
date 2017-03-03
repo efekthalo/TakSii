@@ -15,7 +15,8 @@
         <strong>Witam!</strong>
     </p>
     <p>
-        Niestety, ale taksówka została odwołana.<br />
+        Niestety, ale taksówka została odwołana.<br/><br/>
+		Informacje dt. przejazdu:<br/>
 		Start: <#= Taxi.From #><br/>
 		Stop:  <#= Taxi.To #><br/>
 		Data przejazdu: <#= Taxi.Time.ToString("HH:mm dd/MM/yyyy") #><br/>

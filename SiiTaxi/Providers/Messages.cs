@@ -1,12 +1,12 @@
 ﻿namespace SiiTaxi.Providers
 {
-    public class Messages
+    public static class Messages
     {
         public const string NotValidCompanyEmail = "Podałeś niepoprawny adres e-mail!";
 
         public const string NotValidPhone = "Podałeś niepoprawny numer telefonu!";
 
-        public const string NotValidAltEmail = "Podałeś niepoprawny alternatywny adres e-mail!";
+        // public const string NotValidAltEmail = "Podałeś niepoprawny alternatywny adres e-mail!";
 
         public const string NotValidCaptcha = "Potwierdź, że nie jeseś robotem!";
 
