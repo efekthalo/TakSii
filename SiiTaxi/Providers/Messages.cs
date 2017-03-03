@@ -16,6 +16,8 @@
 
         public const string IncludeTaxiSuccess = "Pomyślnie dołączyłeś do przejazdu! Sprawdź swój e-mail by potwierdzić dołączenie.";
 
+        public const string IncludeResourcesSuccess = "Pomyślnie dołączyłeś przesyłkę do przejazdu! Sprawdź swój e-mail by potwierdzić dołączenie.";
+
         public const string NotValidDate = "Podałeś niepoprawną datę przejazdu!";
 
         public const string ConfirmFailed = "Nie udało się potwierdzić zamówienia! Skontaktuj się z recepcja-gdansk@pl.sii.eu";

@@ -100,4 +100,9 @@ namespace SiiTaxi.Email
     {
         public Taxi Taxi { get; set; }
     }
+
+    public partial class OwnerContactTemplate
+    {
+        public Taxi Taxi { get; set; }
+    }
 }

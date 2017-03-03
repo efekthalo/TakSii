@@ -147,11 +147,8 @@ namespace SiiTaxi.Controllers
                 if (taxi.IsBigTaxi)
                     maxInTaxi = 6;
 
-                if (taxi.TaxiPeople.Count <= maxInTaxi)
-                    return View(taxi);
-
-                TempData["errorMessage"] = Messages.TaxiFull;
-                return RedirectToAction("Index", "Taxi");
+                TempData["resources"] = taxi.TaxiPeople.Count(x => !x.ResourceOnly) >= maxInTaxi? true : false;
+                return View(taxi);
             }
 
             TempData["errorMessage"] = Messages.TaxiNotFound;
@@ -197,12 +194,12 @@ namespace SiiTaxi.Controllers
                 TempData["errorMessage"] = Messages.NotValidPhone;
                 return View(taxi);
             }
-            if (taxi.TaxiPeople.Count(x => !x.ResourceOnly) >= maxInTaxi)
+            if (taxi.TaxiPeople.Count(x => !x.ResourceOnly) >= maxInTaxi && !resourceOnly)
             {
                 TempData["errorMessage"] = Messages.TaxiFull;
                 return RedirectToAction("Index", "Taxi");
             }
-            if (email == taxi.People.Email || taxi.TaxiPeople.Any(x => x.People.Name == name))
+            if (email == taxi.People.Email || taxi.TaxiPeople.Any(x => x.People.Email == email))
             {
                 TempData["errorMessage"] = Messages.JoinedAlready;
                 return RedirectToAction("Index", "Taxi");
@@ -232,7 +229,11 @@ namespace SiiTaxi.Controllers
                 TempData["errorMessage"] = Messages.DatabaseError;
                 return View(taxi);
             }
-
+            if (resourceOnly)
+            {
+                TempData["successMessage"] = Messages.IncludeResourcesSuccess;
+                return RedirectToAction("Index", "Taxi");
+            }
             TempData["successMessage"] = Messages.IncludeTaxiSuccess;
             return RedirectToAction("Index", "Taxi");
         }
@@ -471,6 +472,7 @@ namespace SiiTaxi.Controllers
             if (entity.TaxiId != null)
             {
                 string body;
+                string subject;
 
                 if (!confirmed)
                 {
@@ -479,23 +481,34 @@ namespace SiiTaxi.Controllers
                         TaxiPeople = entity
                     };
 
+                    subject = "Potwierdzenie dołączenia - TakSii";
                     body = template.TransformText();
                 }
                 else
                 {
-                    var template = new ResourceOnlyTemplate
-                    {
-                        Taxi = entity.Taxi
-                    };
-
-                    body = template.TransformText();
+                    if (entity.ResourceOnly) {
+                        var template = new ResourceOnlyTemplate
+                        {
+                            Taxi = entity.Taxi
+                        };
+                        subject = "Kontakt do właściciela - TakSii";
+                        body = template.TransformText();
+                    }
+                    else {
+                        var template = new OwnerContactTemplate
+                        {
+                            Taxi = entity.Taxi
+                        };
+                        subject = "Kontakt do właściciela - TakSii";
+                        body = template.TransformText();
+                    }
                 }
 
                 var joiner = entity.People.Email;
                 var owner = entity.Taxi.People.Email;
                 if (joiner != null && owner != null)
                 {
-                    var client = new Emailer(ConfigurationManager.AppSettings["adminEmail"], joiner, body, "Potwierdzenie dołączenia - TakSii", owner);
+                    var client = new Emailer(ConfigurationManager.AppSettings["adminEmail"], joiner, body, subject, owner);
                     client.SendEmail();
                     return true;
                 }

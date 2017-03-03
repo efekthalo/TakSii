@@ -26,7 +26,7 @@
             <label>Godzina: </label> @Model.Taxi.Time.ToString("HH:mm")
         </div>
         <div class="panel-body">
-            <label>Potrzebuje jedynie coś przewieźć: </label> @Model.ResourceOnly
+            <label>Potrzebuje jedynie coś przewieźć: </label> @(Model.ResourceOnly? "Tak" : "Nie")
         </div>
     </div>
 

@@ -50,7 +50,7 @@
                 @if (objUser.TaxiPeople.Count(x => x.IsConfirmed && !x.ResourceOnly) <= (objUser.IsBigTaxi? 5 : 2))
                 {
                     <td>
-                        <button type="button" class="btn btn-small btn-success" onclick="location.href = '@Url.Action("Join", "Taxi", new { id = objUser.TaxiId })';return false;">Dołącz</button>
+                        <button data-toggle="tooltip" data-placement="top" title="Kliknij by dołączyć lub dodać przesyłkę." type="button" class="btn btn-small btn-success" onclick="location.href = '@Url.Action("Join", "Taxi", new { id = objUser.TaxiId })';return false;">Dołącz</button>
                         @if ((objUser.Time - DateTime.Now).TotalHours < 1)
                         {
                             <span style="color: red; float:right;"><span class="glyphicon glyphicon glyphicon-bell"></span><b> Mało czasu! </b> </span>
@@ -60,7 +60,7 @@
                 else
                 {
                     <td>
-                        <button type="button" class="btn btn-small btn-danger" disabled>Pełno</button>
+                        <button data-toggle="tooltip" data-placement="top" title="Taksówka pełna. Kliknij by dodać przesyłkę" type="button" class="btn btn-small btn-primary" onclick="location.href = '@Url.Action("Join", "Taxi", new { id = objUser.TaxiId })';return false;">Przesyłka</button>
                     </td>
                 }
 
@@ -82,6 +82,8 @@
     <script>
 
         $(function() {
+            $('[data-toggle="tooltip"]').tooltip();
+
             var dateUrl = getParameterByName("date", window.location.href);
 
             var choosenDate = dateUrl ? new Date(dateUrl) : new Date();

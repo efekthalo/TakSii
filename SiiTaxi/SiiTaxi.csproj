@@ -220,6 +220,11 @@
     <Compile Include="Controllers\TaxiController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MeController.cs" />
+    <Compile Include="Email\OwnerContactTemplate.cs">
+      <DependentUpon>OwnerContactTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Email\ResourceOnlyTemplate.cs">
       <DependentUpon>ResourceOnlyTemplate.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -323,6 +328,10 @@
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\Site.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Email\OwnerContactTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>OwnerContactTemplate.cs</LastGenOutput>
     </Content>
     <Content Include="Email\ResourceOnlyTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
