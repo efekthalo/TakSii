@@ -3,7 +3,7 @@
     ViewBag.Title = "Dołącz do przejazdu";
 }
 @functions {
-    public string GetValue(string name)
+    private string GetValue(string name)
     {
         var x = TempData["formData"] as NameValueCollection;
         return x != null ? x[name] : "";
@@ -32,7 +32,7 @@
     <form method="post" action="@Url.Action("Join", "Taxi", new { id = Model.TaxiId })" data-toggle="validator">
         <div class="form-group has-feedback">
             <label for="name">Podaj swoje imię i nazwisko: </label>
-            <input class="form-control" id="name" name="name" type="text" value="@GetValue("name")" placeholder="Imię i nazwisko" required/>
+            <input class="form-control" id="name" name="name" type="text" value="@GetValue("name")" placeholder="Imię i nazwisko" required />
             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
             <div class="help-block with-errors"></div>
         </div>
@@ -44,14 +44,21 @@
         </div>
         <div class="form-group has-feedback">
             <label for="phone">Podaj swój numer telefonu: </label>
-            <input class="form-control" id="phone" name="phone" type="tel" value="@GetValue("phone")" pattern="[\+]?\d{8,12}" data-pattern-error="Niepoprawny numer telefonu!" placeholder="Numer telefonu"/>
+            <input class="form-control" id="phone" name="phone" type="tel" value="@GetValue("phone")" pattern="[\+]?\d{8,12}" data-pattern-error="Niepoprawny numer telefonu!" placeholder="Numer telefonu" />
             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
             <div class="help-block with-errors"></div>
         </div>
-        <br/>
+        <div class="form-group has-feedback">
+            Czy chciałbyś tylko coś przewieźć tym kursem?
+            <div class="material-switch pull-right">
+                <input id="resourceOnly" name="resourceOnly" type="checkbox" />
+                <label for="resourceOnly" class="label-primary"></label>
+            </div>
+        </div>
+        <br />
         <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
 
-        <br/>
+        <br />
         <button class="btn btn-primary" type="submit">Dołącz</button>
         <button class="btn btn-danger" onclick="location.href = '@Url.Action("Index", "Taxi")'">Anuluj</button>
     </form>

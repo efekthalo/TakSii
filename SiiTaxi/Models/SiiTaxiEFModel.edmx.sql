@@ -168,7 +168,8 @@ CREATE TABLE [dbo].[TaxiPeople] (
     [PeopleId] int  NULL,
     [Id] int IDENTITY(1,1) NOT NULL,
     [ConfirmCode] nvarchar(max)  NULL,
-    [IsConfirmed] bit  NOT NULL
+    [IsConfirmed] BIT            NOT NULL DEFAULT 0,
+    [ResourceOnly] BIT			 NOT NULL DEFAULT 0, 
 );
 GO
 

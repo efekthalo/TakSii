@@ -18,9 +18,9 @@ namespace SiiTaxi.Email
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\SendCodeAndOrderedTemplate.tt"
+    #line 1 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\ResourceOnlyTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "14.0.0.0")]
-    public partial class SendCodeAndOrderedTemplate : SendCodeAndOrderedTemplateBase
+    public partial class ResourceOnlyTemplate : ResourceOnlyTemplateBase
     {
 #line hidden
         /// <summary>
@@ -40,36 +40,50 @@ namespace SiiTaxi.Email
         <strong>Witam!</strong>
     </p>
     <p>
-		<strong>Zamówiliśmy dla ciebie taksówkę. Proszę zapisz sobie kod gdyby był potrzebny.</strong><br/>
+        <strong>Aby dołączyć coś do przejazdu skontaktuj się proszę z właścicielem taksówki.</strong><br/>
         Start: ");
             
-            #line 19 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\SendCodeAndOrderedTemplate.tt"
+            #line 19 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\ResourceOnlyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Taxi.From));
             
             #line default
             #line hidden
             this.Write("<br/>\r\n\t\tStop:  ");
             
-            #line 20 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\SendCodeAndOrderedTemplate.tt"
+            #line 20 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\ResourceOnlyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Taxi.To));
             
             #line default
             #line hidden
             this.Write("<br/>\r\n\t\tData przejazdu: ");
             
-            #line 21 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\SendCodeAndOrderedTemplate.tt"
+            #line 21 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\ResourceOnlyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Taxi.Time.ToString("HH:mm dd/MM/yyyy")));
             
             #line default
             #line hidden
-            this.Write("<br/>\r\n\t\tOto kod na przejazd:\r\n    </p>\r\n    <h1>\r\n        ");
+            this.Write("<br/>\r\n\t\tWłaściciel: ");
             
-            #line 25 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\SendCodeAndOrderedTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Taxi.TaxiCode));
+            #line 22 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\ResourceOnlyTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Taxi.People.Name));
             
             #line default
             #line hidden
-            this.Write("\r\n    </h1>\r\n</body>\r\n</html>\r\n");
+            this.Write("<br/>\r\n\t\tE-mail: ");
+            
+            #line 23 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\ResourceOnlyTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Taxi.People.Email));
+            
+            #line default
+            #line hidden
+            this.Write("<br/>\r\n\t\tTel.: ");
+            
+            #line 24 "C:\Users\adamg\Source\Repos\SiiTaxi\SiiTaxi\Email\ResourceOnlyTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Taxi.People.Phone));
+            
+            #line default
+            #line hidden
+            this.Write("<br/>\r\n\t</p>\r\n</body>\r\n</html>\r\n");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -81,7 +95,7 @@ namespace SiiTaxi.Email
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "14.0.0.0")]
-    public class SendCodeAndOrderedTemplateBase
+    public class ResourceOnlyTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

@@ -161,6 +161,7 @@ namespace SiiTaxi.Controllers
         [HttpPost]
         public ActionResult Join(int id, string name, string phone, string email)
         {
+            var resourceOnly = Request.Form["resourceOnly"] == "on";
             var maxInTaxi = 3;
 
             var taxi = _context.Taxi.Find(id);
@@ -196,7 +197,7 @@ namespace SiiTaxi.Controllers
                 TempData["errorMessage"] = Messages.NotValidPhone;
                 return View(taxi);
             }
-            if (taxi.TaxiPeople.Count >= maxInTaxi)
+            if (taxi.TaxiPeople.Count(x => !x.ResourceOnly) >= maxInTaxi)
             {
                 TempData["errorMessage"] = Messages.TaxiFull;
                 return RedirectToAction("Index", "Taxi");
@@ -220,11 +221,11 @@ namespace SiiTaxi.Controllers
                 }
                 _context.SaveChanges();
 
-                var taxiPeople = new TaxiPeople { TaxiId = id, PeopleId = other.PeopleId, ConfirmCode = Guid.NewGuid().ToString() };
+                var taxiPeople = new TaxiPeople { TaxiId = id, PeopleId = other.PeopleId, ConfirmCode = Guid.NewGuid().ToString(), ResourceOnly = resourceOnly };
                 taxiPeople = _context.TaxiPeople.Add(taxiPeople);
                 _context.SaveChanges();
 
-                SendJoinEmail(taxiPeople);
+                SendJoinEmail(taxiPeople, false);
             }
             catch
             {
@@ -335,6 +336,7 @@ namespace SiiTaxi.Controllers
                     {
                         taxiPeople.IsConfirmed = true;
                         _context.SaveChanges();
+                        SendJoinEmail(taxiPeople, true);
                     }
                     else
                     {
@@ -464,17 +466,32 @@ namespace SiiTaxi.Controllers
             return false;
         }
 
-        public bool SendJoinEmail(TaxiPeople entity)
+        public bool SendJoinEmail(TaxiPeople entity, bool confirmed)
         {
             if (entity.TaxiId != null)
             {
-                var template = new ConfirmJoinTemplate
-                {
-                    ConfirmationString = entity.ConfirmCode,
-                    Id = entity.Id
-                };
+                string body = "";
 
-                var body = template.TransformText();
+                if (!confirmed)
+                {
+                    var template = new ConfirmJoinTemplate
+                    {
+                        ConfirmationString = entity.ConfirmCode,
+                        Id = entity.Id
+                    };
+
+                    body = template.TransformText();
+                }
+                else
+                {
+                    var template = new ResourceOnlyTemplate
+                    {
+                        Taxi = entity.Taxi
+                    };
+
+                    body = template.TransformText();
+                }
+
                 var joiner = entity.People.Email;
                 var owner = entity.Taxi.People.Email;
                 if (joiner != null && owner != null)
@@ -494,9 +511,7 @@ namespace SiiTaxi.Controllers
             {
                 var codeTemplate = new SendRemoveToJoinersTemplate
                 {
-                    TaxiFrom = taxi.From,
-                    TaxiTo = taxi.To,
-                    TaxiTime = taxi.Time.ToString("HH:mm dd/MM/yyyy")
+                    Taxi = taxi
                 };
                 var body = codeTemplate.TransformText();
 
@@ -509,9 +524,7 @@ namespace SiiTaxi.Controllers
         {
             var codeTemplate = new SendRemoveToOwnerTemplate
             {
-                TaxiFrom = taxi.From,
-                TaxiTo = taxi.To,
-                TaxiTime = taxi.Time.ToString("HH:mm dd/MM/yyyy"),
+                Taxi = taxi,
                 Joiner = joiner
             };
             var body = codeTemplate.TransformText();
@@ -524,9 +537,7 @@ namespace SiiTaxi.Controllers
         {
             var codeTemplate = new SendNotificationTemplate
             {
-                TaxiFrom = taxi.From,
-                TaxiTo = taxi.To,
-                TaxiTime = taxi.Time.ToString("HH:mm dd/MM/yyyy"),
+                Taxi = taxi,
             };
             var body = codeTemplate.TransformText();
 

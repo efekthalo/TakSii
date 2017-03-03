@@ -16,9 +16,9 @@
     </p>
     <p>
         Niestety, ale taksówka została odwołana.<br />
-		Start: <#= TaxiFrom #><br/>
-		Stop:  <#= TaxiTo #><br/>
-		Data przejazdu: <#= TaxiTime #><br/>
+		Start: <#= Taxi.From #><br/>
+		Stop:  <#= Taxi.To #><br/>
+		Data przejazdu: <#= Taxi.Time.ToString("HH:mm dd/MM/yyyy") #><br/>
 	</p>
 	<p>
 		Taksówka musi zostać ponownie przez ciebie zamówiona, jeżeli chcesz kontynuować przejazd. <a href="http://taksii.efekt.co.uk/Taxi/New">LINK</a>
