@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Configuration;
 
 namespace SiiTaxi.Providers
 {
@@ -9,7 +10,7 @@ namespace SiiTaxi.Providers
         {
             var client = new System.Net.WebClient();
 
-            const string privateKey = "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe";
+            var privateKey = ConfigurationManager.AppSettings["recaptchaServer"];
 
             var googleReply = client.DownloadString(
                 $"https://www.google.com/recaptcha/api/siteverify?secret={privateKey}&response={encodedResponse}");
