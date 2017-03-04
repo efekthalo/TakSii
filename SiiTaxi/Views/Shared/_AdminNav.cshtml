@@ -6,7 +6,8 @@
 <hr />
 <div>
     <ul class="nav nav-pills">
-        <li role="presentation" @(name == "taxi" ? new { @class = "active" } : null)>@Html.ActionLink("Taxi", "Taxi", "Admin")</li>
+        <li role="presentation" @(name == "taxi" ? new { @class = "active" } : null)>@Html.ActionLink("Oczekujące Taxi", "Taxi", "Admin")</li>
+        <li role="presentation" @(name == "allTaxi" ? new { @class = "active" } : null)>@Html.ActionLink(" Wszystkie Taxi", "AllTaxi", "Admin")</li>
         <li role="presentation" @(name == "approvers" ? new { @class = "active" } : null)>@Html.ActionLink("Approvers", "Index", "Approvers")</li>
         <li role="presentation" @(name == "manage" ? new { @class = "active" } : null)>@Html.ActionLink("Zarządzaj kontem", "Index", "Manage")</li>
     </ul>

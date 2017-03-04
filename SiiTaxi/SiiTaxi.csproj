@@ -323,6 +323,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap-datetimepicker-standalone.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
+    <Content Include="Content\bootstrap-table.min.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\jquery-ui.css" />
@@ -386,6 +387,10 @@
     <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
+    <Content Include="Scripts\bootstrap-table-export.min.js" />
+    <Content Include="Scripts\bootstrap-table-filter.min.js" />
+    <Content Include="Scripts\bootstrap-table-locale-all.min.js" />
+    <Content Include="Scripts\bootstrap-table.min.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -466,6 +471,8 @@
     <None Include="Properties\PublishProfiles\webio.pubxml" />
     <Content Include="Views\Taxi\Remove.cshtml" />
     <Content Include="Views\Shared\_AdminNav.cshtml" />
+    <Content Include="Views\Admin\AllTaxi.cshtml" />
+    <Content Include="Views\Admin\DeleteTaxi.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

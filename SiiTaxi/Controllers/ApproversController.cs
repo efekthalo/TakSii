@@ -78,6 +78,7 @@ namespace SiiTaxi.Controllers
                 person.Approvers.IsApprover = false;
                 _context.SaveChanges();
 
+                TempData["successMessage"] = Messages.DeleteApproverSucceed;
                 return RedirectToAction("Index", "Approvers");
             }
 
