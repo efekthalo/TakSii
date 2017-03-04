@@ -49,13 +49,26 @@
             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
             <div class="help-block with-errors"></div>
         </div>
-        <div class="form-group has-feedback" title="Zaznacz, jeśli chcesz otrzymać jedynie informacje o właścicielu taksówki, aby przesłać coś kursem. Nie zostaniesz dołączony jako osoba do przejazdu.">
+@if ((bool)TempData["resources"])
+{
+        <div class="form-group has-feedback" data-toggle="tooltip" data-placement="top" title="Wszystkie miejsca są zajęte. Możesz dołączyć do przejazdu jedynię przesyłkę. Wysyłająć formularz otrzymasz informację o właścicielu taksówki.">
             Czy chciałbyś <strong>tylko</strong> dodać przesyłkę do kursu?
             <div class="material-switch pull-right">
-                <input id="resourceOnly" name="resourceOnly" type="checkbox" />
+                    <input id="resourceOnly" name="resourceOnly" type="checkbox" checked />
                 <label for="resourceOnly" class="label-primary"></label>
             </div>
         </div>
+}
+else
+{
+    <div class="form-group has-feedback" data-toggle="tooltip" data-placement="top" title="Zaznacz, jeśli chcesz otrzymać jedynie informacje o właścicielu taksówki, aby przesłać coś kursem. Nie zostaniesz dołączony jako osoba do przejazdu.">
+        Czy chciałbyś <strong>tylko</strong> dodać przesyłkę do kursu?
+        <div class="material-switch pull-right">
+            <input id="resourceOnly" name="resourceOnly" type="checkbox" />
+            <label for="resourceOnly" class="label-primary"></label>
+        </div>
+    </div>
+}
         <br/>
         <div class="g-recaptcha" data-sitekey="@ConfigurationManager.AppSettings["recaptchaClient"]"></div>
 
@@ -65,3 +78,11 @@
     </form>
 
 </div>
+
+@section scripts {
+    <script type="text/javascript">
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    })()
+    </script>
+}
