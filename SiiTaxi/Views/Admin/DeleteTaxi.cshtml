@@ -1,0 +1,53 @@
+﻿﻿@using SiiTaxi.Models;
+@model SiiTaxi.Models.Taxi
+@{
+    ViewBag.Title = "Usuwanie przejazdu";
+}
+@Html.Partial("_AdminNav", new ViewDataDictionary { { "name", "allTaxi" } }) 
+<h3>Usuwanie przejazdu</h3>
+<hr />
+<div>
+    <div class="panel panel-info">
+        <div class="panel-heading">Czy na pewno chcesz usunąć przejazd?</div>
+        <div class="panel-body">
+            <label>Data przejazdu: </label> @Model.Time.ToString("HH:mm dd/MM/yyyy")
+        </div>
+        <div class="panel-body">
+            <label>Miejsce początkowe: </label> @Model.From
+        </div>
+        <div class="panel-body">
+            <label>Miejsce końcowe: </label> @Model.To
+        </div>
+        <div class="panel-body">
+            <label>Właściciel przejazdu: </label> @Model.People.Name, Email: @Model.People.Email, tel.: @(Model.People.Phone ?? "nie podano")
+        </div>
+        <div class="panel-body">
+            <label>Approver: </label> @Model.Approvers.People.Name, Email: @Model.Approvers.People.Email, tel.: @(Model.Approvers.People.Phone ?? "nie podano")
+        </div>
+        
+        <div class="panel-body">
+            <label>Pasażerowie przejazdu: </label>
+            @if (Model.TaxiPeople.Count > 0)
+            {
+                foreach (var passenger in Model.TaxiPeople)
+                {
+                    <p>@passenger.People.Email @(passenger.ResourceOnly ? "- tylko przesyłka" : null) @(passenger.IsConfirmed ? ": przejazd potwierdzony" : ":przejazd nie potwierdzony")</p>
+                }
+            }
+            else
+            {
+                <p>Brak pasażerów oraz przesyłek</p>
+            }
+        </div>
+        <div class="panel-body">
+            <label>Szczegóły taksówki: </label> @(Model.IsBigTaxi? "Duża" : "Zwykła"), @(Model.IsConfirmed? "potwierdzona" : "nie potwierdzona"), @( Model.Order ? Model.IsOrdered? "zamówiona" : "do zamówienia" : "sam kod")
+        </div>
+        <div class="panel-body">
+            <label>Kod taksówki: </label> @(Model.TaxiCode ?? "Brak kodu")
+        </div>
+        <form method="post" action="@Url.Action("DeleteTaxi", "Admin", new { id = Model.TaxiId })">
+            <button type="submit" class="btn btn-small btn-danger">Usuń</button>
+            <button type="button" class="btn btn-small btn-default" onclick="location.href = '@Url.Action("AllTaxi", "Admin")';return false;">Anuluj</button>
+          </form>
+</div>
+</div>

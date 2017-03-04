@@ -34,7 +34,8 @@ namespace SiiTaxi.Controllers
 
         public ActionResult AllTaxi()
         {
-            return View(new TaxiViewModel());
+            IQueryable<Taxi> taxis = _context.Taxi;
+            return View(taxis);
         }
 
         [HttpPost]
@@ -108,6 +109,50 @@ namespace SiiTaxi.Controllers
             {
                 throw new NotImplementedException();
             }
+        }
+
+        [HttpGet]
+        [ActionName("DeleteTaxi")]
+        public ActionResult DeleteTaxiGet(int id)
+        {
+            var taxi = _context.Taxi.Find(id);
+            if (taxi != null)
+            {
+                return View(taxi);
+            }
+
+            TempData["errorMessage"] = Messages.TaxiNotFound;
+            return RedirectToAction("AllTaxi", "Admin");
+        }
+
+        [HttpPost]
+        [ActionName("DeleteTaxi")]
+        public ActionResult DeleteTaxiPost(int id)
+        {
+            var taxi = _context.Taxi.Find(id);
+            if (taxi != null)
+            {
+                try
+                {
+                    var taxiPeople = _context.TaxiPeople.Where(x => x.TaxiId == id);
+                    _context.TaxiPeople.RemoveRange(taxiPeople);
+                    _context.Taxi.Remove(taxi);
+                    _context.SaveChanges();
+
+                    TempData["successMessage"] = Messages.DeleteTaxiSucceed;
+                    return RedirectToAction("AllTaxi", "Admin");
+                }
+                catch
+                {
+                    TempData["errorMessage"] = Messages.DeleteTaxiFailed;
+                    return RedirectToAction("AllTaxi", "Admin");
+                }
+
+                
+            }
+
+            TempData["errorMessage"] = Messages.TaxiNotFound;
+            return RedirectToAction("AllTaxi", "Admin");
         }
     }
 }

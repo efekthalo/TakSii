@@ -472,6 +472,7 @@
     <Content Include="Views\Taxi\Remove.cshtml" />
     <Content Include="Views\Shared\_AdminNav.cshtml" />
     <Content Include="Views\Admin\AllTaxi.cshtml" />
+    <Content Include="Views\Admin\DeleteTaxi.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

@@ -1,20 +1,12 @@
-﻿﻿@using SiiTaxi.Models;
-@model SiiTaxi.Models.TaxiViewModel
+﻿@using SiiTaxi.Models
+@model IQueryable<Taxi>
 @{
     ViewBag.Title = "Administracja";
 }
 @Html.Partial("_AdminNav", new ViewDataDictionary { { "name", "allTaxi" } }) 
 <div>
-    @if (Model.Taxis.Any())
+    @if (Model.Any())
     {
-        <div id="toolbar">
-            <select class="form-control">
-                <option value="">Export Basic</option>
-                <option value="all">Export All</option>
-                <option value="selected">Export Selected</option>
-            </select>
-        </div>
-
         <div class="table-responsive">
             <table id="table" class="table table-hover" style="text-align: center; font-size: 12px;" 
                    data-toggle="table"
@@ -22,12 +14,10 @@
                    data-search="true"
                    data-locale="pl-PL"
                    data-filter-control="true"
-                   data-toolbar="#toolbar"
-            data-show-export="true"
-               data-click-to-select="true">
+                    data-show-export="true"
+                >
                 <thead>
                     <tr class="thead-inverse">
-                        <th data-field="state" data-checkbox="true"></th>
                         <th>ID</th>
                         <th data-sortable="true" data-searchable="true">Start</th>
                         <th data-sortable="true" data-searchable="true">Cel</th>
@@ -41,10 +31,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var taxi in Model.Taxis.OrderBy(x => x.Time))
+                    @foreach (var taxi in Model.OrderBy(x => x.Time))
                     {
                         <tr>
-                            <td></td>
                             <td>@taxi.TaxiId</td>
                             <td>@taxi.From</td>
                             <td>@taxi.To</td>
@@ -72,21 +61,14 @@
                             </td>
                             <td>@taxi.Approvers.People.Name</td>
                             <td>
-                                @if (taxi.IsBigTaxi)
-                                {
-                                    <label>Duża</label>
-                                }
-                                else
-                                {
-                                    <label>Mała</label>
-                                }
+                                <label>@(taxi.IsBigTaxi ? "Duża" : "Zwykła"), @( taxi.Order ? taxi.IsOrdered ? "Zamówiona" : "Do zamówienia" : "Sam kod")</label>
                             </td>
                             <td>
                                <label>@taxi.TaxiCode</label>
                             </td>
                             <td class="col-md-2">
-                                <button name="action" value="Edytuj" class="btn btn-primary">Edytuj</button>
-                                <button name="action" value="Usuń" class="btn btn-primary">Usuń</button>
+                                <button name="action" title="Edytuj" value="Edytuj" class="btn btn-primary" onclick="location.href = '@Url.Action("EditTaxi", "Admin", new { id = taxi.TaxiId })';return false;"><span class="glyphicon glyphicon-edit"></span></button>
+                                <button name="action" title="Usuń" value="Usuń" class="btn btn-danger" onclick="location.href = '@Url.Action("DeleteTaxi", "Admin", new { id = taxi.TaxiId })';return false;"><span class="glyphicon glyphicon-remove"></span></button>
                             </td>
                         </tr>
                     }
@@ -103,17 +85,9 @@
         </div>
 
 @section scripts {
+    <script src="//rawgit.com/hhurz/tableExport.jquery.plugin/master/tableExport.js"></script>
     <script>
 
         var $table = $('#table');
-        $(function () {
-            $('#toolbar').find('select').change(function () {
-                $table.bootstrapTable('destroy').bootstrapTable({
-                    exportDataType: $(this).val()
-                });
-            });
-        })
-
-
     </script>
 }

@@ -36,6 +36,8 @@
 
         public const string UpdateApproverSucceed = "Pomyślnie zaktualizowano dane osoby potwierdzającej.";
 
+        public const string DeleteApproverSucceed = "Pomyślnie usunięto osobę potwierdzającą.";
+
         public const string UpdateApproverFailed = "Problem z aktualizacją danych osoby potwierdzającej. Skontaktuj się z recepcja-gdansk@pl.sii.eu";
 
         public const string AddNewApproverSucceed = "Pomyślnie dodano nową osobe potwierdzającą.";
@@ -47,6 +49,10 @@
         public const string TaxiNotFound = "Nie znaleziono takiego przejazdu! Skontaktuj się z recepcja-gdansk@pl.sii.eu";
 
         public const string TaxiExpired = "Wybrany przejazd nie jest aktualny! Skontaktuj się z recepcja-gdansk@pl.sii.eu";
+
+        public const string DeleteTaxiSucceed = "Pomyślnie usunięto przejazd taxi.";
+
+        public const string DeleteTaxiFailed = "Nie udało się usunąć przejazdu z bazy.";
 
         public const string TaxiFull = "Przejazd jest już pełny!";
 
