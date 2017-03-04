@@ -15,14 +15,20 @@
         <strong>Witam!</strong>
     </p>
     <p>
-        Niestety, ale taksówka została odwołana.<br/><br/>
+        <strong>Pomyślnie dołączyłeś do taksówki, oto  jej szczegóły oraz dane kontaktowe właściciela:</strong><br/><br/>
 		Informacje dt. przejazdu:<br/>
 		Start: <#= Taxi.From #><br/>
 		Stop:  <#= Taxi.To #><br/>
 		Data przejazdu: <#= Taxi.Time.ToString("HH:mm dd/MM/yyyy") #><br/>
+		Właściciel: <#= Taxi.People.Name #><br/>
+		E-mail: <#= Taxi.People.Email #><br/>
+		Tel.: <#= Taxi.People.Phone #><br/>
 	</p>
 	<p>
-		Taksówka musi zostać ponownie przez ciebie zamówiona, jeżeli chcesz kontynuować przejazd. <a href="http://taksii.efekt.co.uk/Taxi/New">LINK</a>
+        Aby zrezygnować z taksówki - użyj poniższego linka. <strong>UWAGA! Link nie zadziała gdy taksówka została już zamówiona!</strong>
+    </p>
+    <p>
+        <a href="http://taksii.efekt.co.uk/Taxi/Remove?id=<#= Taxi.TaxiId #>&code=<#= Taxi.ConfirmCode #>">Wypisuję się z TAXI</a>
     </p>
 </body>
 </html>

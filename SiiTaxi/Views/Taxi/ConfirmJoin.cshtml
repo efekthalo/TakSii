@@ -25,6 +25,9 @@
         <div class="panel-body">
             <label>Godzina: </label> @Model.Taxi.Time.ToString("HH:mm")
         </div>
+        <div class="panel-body">
+            <label>Potrzebuje jedynie dodać przesyłkę do przejazdu: </label> @(Model.ResourceOnly? "Tak" : "Nie")
+        </div>
     </div>
 
     <form method="post" action="@Url.Action("ConfirmJoin", "Taxi", new { id = Model.Id, code=TempData["code"] })">

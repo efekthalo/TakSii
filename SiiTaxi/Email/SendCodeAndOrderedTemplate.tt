@@ -15,11 +15,15 @@
         <strong>Witam!</strong>
     </p>
     <p>
-		<strong>Zamówiliśmy dla ciebie taksówkę. Proszę zapisz sobie kod gdyby był potrzebny.</strong><br/>
-        TAXI z <#= TaxiFrom #> --> do <#= TaxiTo #>. Data przejazdu: <#= TaxiTime #>. Oto kod na przejazd:
+		<strong>Zamówiliśmy dla ciebie taksówkę. Proszę zapisz sobie kod gdyby był potrzebny.</strong><br/><br/>
+		Informacje dt. przejazdu:<br/>
+		Start: <#= Taxi.From #><br/>
+		Stop:  <#= Taxi.To #><br/>
+		Data przejazdu: <#= Taxi.Time.ToString("HH:mm dd/MM/yyyy") #><br/>
+		Oto kod na przejazd:
     </p>
     <h1>
-        <#= TaxiCodeString #>
+        <#= Taxi.TaxiCode #>
     </h1>
 </body>
 </html>

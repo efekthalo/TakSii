@@ -19,6 +19,7 @@ namespace SiiTaxi.Models
         public int Id { get; set; }
         public string ConfirmCode { get; set; }
         public bool IsConfirmed { get; set; }
+        public bool ResourceOnly { get; set; }
     
         public virtual People People { get; set; }
         public virtual Taxi Taxi { get; set; }

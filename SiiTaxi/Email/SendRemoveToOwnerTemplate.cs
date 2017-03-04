@@ -47,7 +47,28 @@ namespace SiiTaxi.Email
             
             #line default
             #line hidden
-            this.Write("\r\n    </p>\r\n</body>\r\n</html>\r\n");
+            this.Write("<br/><br/>\r\n\t\tInformacje dt. przejazdu:<br/>\r\n\t\tStart: ");
+            
+            #line 20 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\SendRemoveToOwnerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Taxi.From));
+            
+            #line default
+            #line hidden
+            this.Write("<br/>\r\n\t\tStop:  ");
+            
+            #line 21 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\SendRemoveToOwnerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Taxi.To));
+            
+            #line default
+            #line hidden
+            this.Write("<br/>\r\n\t\tData przejazdu: ");
+            
+            #line 22 "C:\Users\adamg\documents\visual studio 2015\Projects\SiiTaxi\SiiTaxi\Email\SendRemoveToOwnerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Taxi.Time.ToString("HH:mm dd/MM/yyyy")));
+            
+            #line default
+            #line hidden
+            this.Write("<br/>\r\n    </p>\r\n</body>\r\n</html>\r\n");
             return this.GenerationEnvironment.ToString();
         }
     }

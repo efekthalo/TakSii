@@ -1,4 +1,4 @@
-﻿@model SiiTaxi.Models.TaxiViewModel
+﻿@model IQueryable <SiiTaxi.Models.Taxi>
 @{
     ViewBag.Title = "Przejazdy";
 }
@@ -15,7 +15,7 @@
     </div>
 </div>
 <div>
-@if (Model.Taxis.Any())
+@if (Model.Any(x => x.IsConfirmed && x.Time > DateTime.Now))
 {
     <div class="table-responsive">
     <table class="table table-hover">
@@ -30,15 +30,15 @@
         </tr>
         </thead>
         <tbody>
-        @foreach (var objUser in Model.Taxis.Where(x => x.IsConfirmed).OrderBy(x => x.Time))
+        @foreach (var objUser in Model.Where(x => x.IsConfirmed && x.Time > DateTime.Now).OrderBy(x => x.Time))
         {
-            <tr>
+            <tr @((objUser.Time - DateTime.Now).TotalHours<1? new { @class = "warning" }: null)>
                 <th scope="row">@objUser.TaxiId.ToString()</th>
                 <td>@objUser.From</td>
                 <td>@objUser.To</td>
                 <td>@objUser.Time.ToString("HH:mm")</td>
-                <td>@(objUser.TaxiPeople.Where(x => x.IsConfirmed).Count() + 1) / 
-                    @if (@objUser.IsBigTaxi)
+                <td>@(objUser.TaxiPeople.Count(x => x.IsConfirmed && !x.ResourceOnly) + 1) / 
+                    @if (objUser.IsBigTaxi)
                         {
                             <label>7</label>
                         }
@@ -47,16 +47,20 @@
                             <label>4</label>
                         }
                 </td>
-                @if (objUser.TaxiPeople.Where(x => x.IsConfirmed).Count() <= (objUser.IsBigTaxi? 5 : 2))
+                @if (objUser.TaxiPeople.Count(x => x.IsConfirmed && !x.ResourceOnly) <= (objUser.IsBigTaxi? 5 : 2))
                 {
                     <td>
-                        <button type="button" class="btn btn-small btn-success" onclick="location.href = '@Url.Action("Join", "Taxi", new { id = objUser.TaxiId })';return false;">Dołącz</button>
+                        <button data-toggle="tooltip" data-placement="top" title="Kliknij by dołączyć lub dodać przesyłkę." type="button" class="btn btn-small btn-success" onclick="location.href = '@Url.Action("Join", "Taxi", new { id = objUser.TaxiId })';return false;">Dołącz</button>
+                        @if ((objUser.Time - DateTime.Now).TotalHours < 1)
+                        {
+                            <span style="color: red; float:right;"><span class="glyphicon glyphicon glyphicon-bell"></span><b> Mało czasu! </b> </span>
+                        }
                     </td>
                 }
                 else
                 {
                     <td>
-                        <button type="button" class="btn btn-small btn-danger" disabled>Pełno</button>
+                        <button data-toggle="tooltip" data-placement="top" title="Taksówka pełna. Kliknij by dodać przesyłkę" type="button" class="btn btn-small btn-primary" onclick="location.href = '@Url.Action("Join", "Taxi", new { id = objUser.TaxiId })';return false;">Przesyłka</button>
                     </td>
                 }
 
@@ -78,9 +82,11 @@
     <script>
 
         $(function() {
-            var dateURL = getParameterByName("date", window.location.href);
+            $('[data-toggle="tooltip"]').tooltip();
 
-            var choosenDate = dateURL ? new Date(dateURL) : new Date();
+            var dateUrl = getParameterByName("date", window.location.href);
+
+            var choosenDate = dateUrl ? new Date(dateUrl) : new Date();
 
             var d = new Date();
             d.setHours(0, 0, 0, 0);

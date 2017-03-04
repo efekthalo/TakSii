@@ -15,16 +15,20 @@
         <strong>Witam!</strong>
     </p>
     <p>
-        Kliknij w poniższy link aby potwierdzić taxi.
+        Kliknij w poniższy link, aby potwierdzić taxi.<br/><br/>
+		Informacje dt. przejazdu:<br/>
+		Start: <#= TaxiPeople.Taxi.From #><br/>
+		Stop:  <#= TaxiPeople.Taxi.To #><br/>
+		Data przejazdu: <#= TaxiPeople.Taxi.Time.ToString("HH:mm dd/MM/yyyy") #><br/>
     </p>
     <p>
-        <a href="http://taksii.efekt.co.uk/Taxi/ConfirmJoin?id=<#= Id #>&code=<#= ConfirmationString #>">Potwierdzam TAXI</a>
-    </p>
+        <a href="http://taksii.efekt.co.uk/Taxi/ConfirmJoin?id=<#= TaxiPeople.Id #>&code=<#= TaxiPeople.ConfirmCode #>">Potwierdzam TAXI</a>
+    </p><br/><br/><br/><br/>
 	<p>
         Aby w dowolnym momencie wypisać się z taksówki - użyj poniższego linka.
     </p>
     <p>
-        <a href="http://taksii.efekt.co.uk/Taxi/Remove?id=<#= Id #>&code=<#= ConfirmationString #>">Wypisuję się z TAXI</a>
+        <a href="http://taksii.efekt.co.uk/Taxi/Remove?id=<#= TaxiPeople.Id #>&code=<#= TaxiPeople.ConfirmCode #>">Wypisuję się z TAXI</a>
     </p>
 </body>
 </html>

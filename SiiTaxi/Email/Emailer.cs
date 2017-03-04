@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Configuration;
 using System.Net;
 using System.Net.Mail;
-using System.Web;
 using SiiTaxi.Models;
 
 namespace SiiTaxi.Email
@@ -15,91 +12,97 @@ namespace SiiTaxi.Email
             From = new MailAddress(from);
             To = new MailAddress(to);
             if (cc != null)
-            {
-                CC = new MailAddress(cc);
-            }
+                Cc = new MailAddress(cc);
             Body = body;
             Subject = subject;
         }
 
-        public MailAddress From { get; set; }
-        public MailAddress To { get; set; }
-        public MailAddress CC { get; set; }
+        private MailAddress From { get; }
+        private MailAddress To { get; }
+        private MailAddress Cc { get; }
 
-        public string Subject { get; set; }
-        public string Body { get; set; }
+        private string Subject { get; }
+        private string Body { get; }
 
-        public void SendEmail()
+        public bool SendEmail()
         {
-            var client = new SmtpClient();
-            client.Port = 587;
-            client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            client.UseDefaultCredentials = false;
-            client.EnableSsl = true;
-            client.Credentials = new NetworkCredential("taksii.test@gmail.com", "testowehaslo");
-            client.Host = "smtp.gmail.com";
-
-            var mail = new MailMessage(From, To);
-            mail.Subject = Subject;
-            mail.IsBodyHtml = true;
-            if (CC != null)
+            try
             {
-                mail.CC.Add(CC);
+                var client = new SmtpClient
+                {
+                    Port = int.Parse(ConfigurationManager.AppSettings["smtpPort"]), //587,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false,
+                    EnableSsl = true,
+                    Credentials =
+                        new NetworkCredential(ConfigurationManager.AppSettings["smtpLogin"],
+                            ConfigurationManager.AppSettings["smtpPassword"]),
+                    Host = ConfigurationManager.AppSettings["smtpHost"]
+                };
+
+                var mail = new MailMessage(From, To)
+                {
+                    Subject = Subject,
+                    IsBodyHtml = true,
+                    Body = Body
+                };
+
+                if (Cc != null)
+                    mail.CC.Add(Cc);
+
+                client.Send(mail);
+                return true;
             }
-            mail.Body = Body;
-            client.Send(mail);
+            catch
+            {
+                return false;
+            }
         }
     }
 
     public partial class ConfirmTemplate
     {
-        public Taxi Taxi { get; set; }
+        public Taxi Taxi { private get; set; }
     }
 
     public partial class ConfirmJoinTemplate
     {
-        public string ConfirmationString { get; set; }
-        public int Id { get; internal set; }
+        public TaxiPeople TaxiPeople { private get; set; }
+    }
+
+    public partial class ResourceOnlyTemplate
+    {
+        public Taxi Taxi { private get; set; }
     }
 
     public partial class SendCodeTemplate
     {
-        public string TaxiCodeString { get; set; }
-        public string TaxiFrom { get; set; }
-        public string TaxiTo { get; set; }
-        public string TaxiTime { get; set; }
+        public Taxi Taxi { private get; set; }
     }
 
     public partial class SendCodeAndOrderedTemplate
     {
-        public string TaxiCodeString { get; set; }
-        public string TaxiFrom { get; set; }
-        public string TaxiTo { get; set; }
-        public string TaxiTime { get; set; }
+        public Taxi Taxi { private get; set; }
     }
 
     public partial class SendNotificationTemplate
     {
-        public string TaxiCodeString { get; set; }
-        public string TaxiFrom { get; set; }
-        public string TaxiTo { get; set; }
-        public string TaxiTime { get; set; }
+        public Taxi Taxi { get; set; }
     }
 
     public partial class SendRemoveToOwnerTemplate
     {
-        public string TaxiCodeString { get; set; }
-        public string TaxiFrom { get; set; }
-        public string TaxiTo { get; set; }
-        public string TaxiTime { get; set; }
+        public Taxi Taxi { get; set; }
         public TaxiPeople Joiner { get; set; }
     }
 
     public partial class SendRemoveToJoinersTemplate
     {
-        public string TaxiCodeString { get; set; }
-        public string TaxiFrom { get; set; }
-        public string TaxiTo { get; set; }
-        public string TaxiTime { get; set; }
+        public Taxi Taxi { get; set; }
+    }
+
+    public partial class OwnerContactTemplate
+    {
+        public Taxi Taxi { get; set; }
     }
 }

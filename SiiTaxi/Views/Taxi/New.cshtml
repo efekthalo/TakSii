@@ -1,4 +1,6 @@
 ﻿@using System.Collections.Specialized
+@using System.Configuration;
+@model IQueryable<SiiTaxi.Models.Approvers>
 @{
     ViewBag.Title = "Nowy przejazd";
 }
@@ -21,12 +23,12 @@
             <div class="help-block with-errors"></div>
         </div>
         <div class="form-group has-feedback">
-            <input type="email" class="form-control" id="ownerEmail" value="@GetValue("ownerEmail")" name="ownerEmail" pattern=".*pl\.sii\.eu" data-pattern-error="Dopuszczalny tylko E-mail Sii!" placeholder="E-mail" required>
+            <input type="email" class="form-control" id="ownerEmail" value="@GetValue("ownerEmail")" pattern=".*pl\.sii\.eu" name="ownerEmail" data-pattern-error="Dopuszczalny tylko E-mail Sii!" placeholder="E-mail" required>
             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
             <div class="help-block with-errors"></div>
         </div>
         <div class="form-group has-feedback">
-            <input type="tel" class="form-control" id="ownerPhone" value="@GetValue("ownerPhone")" name="ownerPhone" pattern="[\+]?\d{8,12}" data-pattern-error="Niepoprawny numer telefonu!" placeholder="Numer telefonu">
+            <input type="tel" class="form-control" id="ownerPhone" value="@GetValue("ownerPhone")" pattern="[\+]?\d{8,12}" name="ownerPhone" data-pattern-error="Niepoprawny numer telefonu!" placeholder="Numer telefonu">
             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
             <div class="help-block with-errors"></div>
         </div>
@@ -60,15 +62,15 @@
             <label for="exampleSelect1">Wybierz approvera:</label>
             <select class="form-control" name="approver" id="exampleSelect1" required>
                 <option disabled selected> -- Wybierz Approvera -- </option>
-                @foreach (var approver in Model.Approvers)
+                @foreach (var approver in Model)
             {
                 if (GetValue("approver") == approver.PeopleId.ToString())
                 {
-                        <option value="@approver.PeopleId" selected="selected">@approver.Name</option>
+                        <option value="@approver.PeopleId" selected="selected">@approver.People.Name</option>
                     }
                     else
                     {
-                        <option value="@approver.PeopleId">@approver.Name</option>
+                        <option value="@approver.PeopleId">@approver.People.Name</option>
                     }
                 }
             </select>
@@ -78,12 +80,12 @@
 
         <div class="form-check form-check-inline">
             <ul class="list-group">
-                <li class="list-group-item">
+                <li  data-toggle="tooltip" data-placement="top" title="Zaznacz, jeśli planujesz wziąć ze sobą więcej osób lub sprzętu."class="list-group-item">
                     Czy potrzebna duża taksówka?
                     <div class="material-switch pull-right">
                         @if (GetValue("IsBigTaxi") == "on")
                         {
-                            <input id="IsBigTaxi" name="IsBigTaxi" type="checkbox" checked/>
+                            <input id="IsBigTaxi" name="IsBigTaxi" type="checkbox" checked />
                         }
                         else
                         {
@@ -93,12 +95,12 @@
                         <label for="IsBigTaxi" class="label-primary"></label>
                     </div>
                 </li>
-                <li class="list-group-item">
+                <li data-toggle="tooltip" data-placement="top" title="Zaznacz, jeśli chcesz otrzymać tylko kod i sam zamówić taksówkę." class="list-group-item">
                     Czy potrzebujesz sam kod?
                     <div class="material-switch pull-right">
                         @if (GetValue("order") == "on")
                         {
-                            <input id="order" name="order" type="checkbox" checked/>
+                            <input id="order" name="order" type="checkbox" checked />
                         }
                         else
                         {
@@ -121,7 +123,7 @@
                         }
                         else
                         {
-                            <input id="addPass" name="addPass" type="checkbox" checked/>
+                            <input id="addPass" name="addPass" type="checkbox" checked />
                         }
                         <label for="addPass" class="label-primary"></label>
                     </div>
@@ -130,33 +132,34 @@
         </div>
 
         <div class="form-group has-feedback" id="dodatkoweOsoby">
-           @if (GetValue("adds") != "")
-           {
-               var adds = GetValue("adds").Split(',');
-               foreach (var add in adds)
-               {
-                <div id="dodOsoba" class="form-group">
-                    <div class="input-group dodatkowaOsoba">
-                        <input type="email" value="@add" class="form-control" id="adds" name="adds" pattern=".*pl\.sii\.eu" data-pattern-error="Dopuszczalny tylko E-mail Sii!" placeholder="E-mail" required><span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                        <span class="input-group-addon btn btn-danger deleteDiv">Usuń</span>
-                    </div><div class="help-block with-errors"></div>
-                </div>
-               }
-           }
+            @if (GetValue("adds") != "" && GetValue("adds") != null)
+            {
+                var allAdds = GetValue("adds");
+                var adds = allAdds.Split(',');
+                foreach (var add in adds)
+                {
+                    <div id="dodOsoba" class="form-group add">
+                        <div class="input-group dodatkowaOsoba">
+                            <input type="email" value="@add" class="form-control" id="adds" name="adds" pattern=".*pl\.sii\.eu" data-pattern-error="Dopuszczalny tylko E-mail Sii!" placeholder="E-mail" required><span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            <span class="input-group-addon btn btn-danger deleteDiv">Usuń</span>
+                        </div><div class="help-block with-errors"></div>
+                    </div>
+                }
+            }
         </div>
         <div class="form-group">
             <div class="form-group">
-@if (GetValue("adds") != "")
-{
-                <span class="btn btn-default" id="osobyButton" onclick="dodajOsobe()"><span class="glyphicon glyphicon glyphicon-plus"></span></span>
-}
-else
-{
-    <span style="display: none;" class="btn btn-default" id="osobyButton" onclick="dodajOsobe()"><span class="glyphicon glyphicon glyphicon-plus"></span></span>
+                @if (GetValue("adds") != "")
+                {
+                    <span class="btn btn-default" id="osobyButton" onclick="dodajOsobe()"><span class="glyphicon glyphicon glyphicon-plus"></span></span>
+                }
+                else
+                {
+                    <span style="display: none;" class="btn btn-default" id="osobyButton" onclick="dodajOsobe()"><span class="glyphicon glyphicon glyphicon-plus"></span></span>
 
-}
+                }
             </div>
-            <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
+            <div class="g-recaptcha" data-sitekey="@ConfigurationManager.AppSettings["recaptchaClient"]"></div>
         </div>
 
         <button type="submit" class="btn btn-default">Zamów</button>
@@ -166,6 +169,8 @@ else
 @section scripts {
     <script type="text/javascript">
         $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+
             $('#datetimepicker10')
                 .datetimepicker({
                     locale: 'pl',
@@ -192,50 +197,49 @@ else
 
             additionalPeople: $('input[name="adds"]').length || 0,
             maxPeople: smallTaxi,
-            
+
             buttonDisabled: false,
             bigTaxiChecked: false,
-            
-            switchToBigTaxi: function(){
+
+            switchToBigTaxi: function () {
                 this.bigTaxiChecked = true;
                 this.maxPeople = bigTaxi;
                 this.updateForm();
             },
 
-            switchToSmallTaxi: function(){
+            switchToSmallTaxi: function () {
                 this.bigTaxiChecked = false;
                 this.maxPeople = smallTaxi;
                 this.updateForm();
             },
 
             enablePassengers: function () {
-                this.addPassengerButton.show()
-                this.maxPeople = this.bigTaxiChecked? bigTaxi : smallTaxi;
+                this.addPassengerButton.show();
+                this.maxPeople = this.bigTaxiChecked ? bigTaxi : smallTaxi;
                 this.updateForm();
             },
 
             disablePassengers: function () {
-                this.addPassengerButton.hide()
+                this.addPassengerButton.hide();
                 this.maxPeople = 0;
                 this.updateForm();
             },
 
-            updateForm: function(){
+            updateForm: function () {
                 this.deleteInputs();
                 this.refreshButton();
                 this.updateValidation();
             },
 
-            addPassenger: function(){
-                if (this.additionalPeople < this.maxPeople){
+            addPassenger: function () {
+                if (this.additionalPeople < this.maxPeople) {
                     this.additionalPeople++;
                     this.updateForm();
                 }
             },
 
-
-            deletePassenger: function(){
-                if(this.additionalPeople > 0){
+            deletePassenger: function () {
+                if (this.additionalPeople > 0) {
                     this.additionalPeople--;
                     this.updateForm();
                 }
@@ -261,11 +265,11 @@ else
                 }
             },
 
-            updateValidation: function(){
+            updateValidation: function () {
                 this.form.validator('update');
             }
         }
-        
+
 
         $('input#IsBigTaxi').change(function () {
             if ($(this).is(":checked")) {
@@ -290,14 +294,14 @@ else
             if (!Taxi.addPassengerButton.is('.disabled')) {
                 Taxi.addPassenger();
                 $('#dodatkoweOsoby')
-                    .append('<div class="form-group add">'+
-                                '<div class="input-group">' +
-                                    '<input type="email" class="form-control" name="adds" pattern=".*pl\.sii\.eu" data-pattern-error="Dopuszczalny tylko E-mail Sii!" placeholder="E-mail" required>'+
-                                    '<span class="glyphicon form-control-feedback" aria-hidden="true"></span>' +
-                                    '<span class="input-group-addon btn btn-danger deleteDiv">Usuń</span>' +
-                                '</div>' +
-                                '<div class="help-block with-errors"></div>'+
-                            '</div>')
+                    .append('<div class="form-group add">' +
+                        '<div class="input-group">' +
+                        '<input type="email" class="form-control" name="adds" pattern=".*pl\.sii\.eu" data-pattern-error="Dopuszczalny tylko E-mail Sii!" placeholder="E-mail" required>' +
+                        '<span class="glyphicon form-control-feedback" aria-hidden="true"></span>' +
+                        '<span class="input-group-addon btn btn-danger deleteDiv">Usuń</span>' +
+                        '</div>' +
+                        '<div class="help-block with-errors"></div>' +
+                        '</div>');
 
                 $(".deleteDiv")
                     .unbind()

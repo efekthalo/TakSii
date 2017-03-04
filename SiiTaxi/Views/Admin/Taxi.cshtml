@@ -1,5 +1,4 @@
-﻿﻿@using SiiTaxi.Models;
-@model SiiTaxi.Models.TaxiViewModel
+﻿@model IQueryable<SiiTaxi.Models.Taxi>
 @{
     ViewBag.Title = "Administracja";
 }
@@ -13,7 +12,7 @@
             </span>
         </span>
     </div>
-    @if (Model.Taxis.Any())
+    @if (Model.Any(x => x.IsConfirmed && !x.IsOrdered && x.Time > DateTime.Now))
     {
         <div class="table-responsive">
             <table class="table table-hover" style="text-align: center; font-size: 12px;">
@@ -30,9 +29,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var taxi in Model.Taxis.Where(x => x.IsConfirmed && !x.IsOrdered).OrderBy(x => x.Time))
+                    @foreach (var taxi in Model.Where(x => x.IsConfirmed && !x.IsOrdered).OrderBy(x => x.Time))
                     {
-                        <tr>
+                        <tr @((taxi.Time - DateTime.Now).TotalHours<1? (taxi.Time - DateTime.Now).TotalHours < 0 ? new { @class = "danger" } : new { @class = "warning" }: null)>
                             <th scope="row">@taxi.TaxiId</th>
                             <td>@taxi.From</td>
                             <td>@taxi.To</td>
@@ -73,10 +72,20 @@
                                         }
                                         else
                                         {
-                                            <button type="submit" name="action" value="Order" class="btn btn-success btn-search"><span class="glyphicon glyphicon glyphicon-phone"></span></button>
+                                            <input type="hidden" name="action" value="Order" hidden />
+                                            <button type="button" value="Order" class="btn btn-success btn-search confirm"><span class="glyphicon glyphicon glyphicon-phone"></span></button>
+                                            <button type="submit" hidden></button>
                                         }
                                     </span>
                                 </form>
+                                @if ((taxi.Time - DateTime.Now).TotalHours < 0)
+                                {
+                                    <span style="color: red; float:right;"><span class="glyphicon glyphicon-exclamation-sign"></span><b> Czas minął! </b> </span>
+                                }
+                                else if ((taxi.Time - DateTime.Now).TotalHours < 1)
+                                {
+                                    <span style="color: red; float:right;"><span class="glyphicon glyphicon glyphicon-bell"></span><b> Mało czasu! </b> </span>
+                                }
                             </td>
                         </tr>
                     }
@@ -127,6 +136,33 @@
             if (!results[2]) return '';
             return decodeURIComponent(results[2].replace(/\+/g, " "));
         }
+
+        $(".confirm").click(function(){
+            var form = $(this).parents('form:first');
+            if (form[0].checkValidity()) {
+                bootbox.confirm({
+                    message: "Czy Taxówka na pewno została zamówiona?",
+                    buttons: {
+                        confirm: {
+                            label: 'Tak',
+                            className: 'btn-success'
+                        },
+                        cancel: {
+                            label: 'Nie',
+                            className: 'btn-danger'
+                        }
+                    },
+                    callback: function (result) {
+                        if (result) {
+                            form.submit();
+                        }
+                    }
+                });
+            }
+            else {
+                form.find(':submit').click();
+            }
+            });
 
     </script>
 }

@@ -15,24 +15,31 @@
         <strong>Witam!</strong>
     </p>
     <p>
-        Kliknij w poniższy link aby potwierdzić taxi.
+        Kliknij w poniższy link aby potwierdzić taxi.<br/><br/>
+		Informacje dt. przejazdu:<br/>
+		Start: <#= Taxi.From #><br/>
+		Stop:  <#= Taxi.To #><br/>
+		Data przejazdu: <#= Taxi.Time.ToString("HH:mm dd/MM/yyyy") #><br/>
     </p>
     <p>
         <a href="http://taksii.efekt.co.uk/Taxi/Confirm?id=<#= Taxi.TaxiId #>&code=<#= Taxi.ConfirmCode #>">Potwierdzam TAXI</a>
-    </p>
+    </p><br/><br/><br/><br/>
 	<p>
         Aby zrezygnować z taksówki - użyj poniższego linka. <strong>UWAGA! Link nie zadziała gdy taksówka została już zamówiona!</strong>
     </p>
     <p>
         <a href="http://taksii.efekt.co.uk/Taxi/Remove?id=<#= Taxi.TaxiId #>&code=<#= Taxi.ConfirmCode #>">Wypisuję się z TAXI</a>
     </p>
-	<p>
-        Możesz również usunąć osoby, które zostały przez ciebie dodane do taksówki za pomocą linków:
-    </p>
-	<ul>
-    <# foreach (var passenger in Taxi.TaxiPeople) { #>
-		<li><#= passenger.People.Email #> - <a href="http://taksii.efekt.co.uk/Taxi/Remove?id=<#= passenger.Id #>&code=<#= passenger.ConfirmCode #>">Wypisz z TAXI</a></li>
-    <# } #>
-    </ul>
+	
+	<# if(Taxi.TaxiPeople != null && Taxi.TaxiPeople.Count() > 0) { #>
+		<p>
+			Możesz również usunąć osoby, które zostały przez ciebie dodane do taksówki za pomocą linków:
+		</p>
+		<ul>
+		<# foreach (var passenger in Taxi.TaxiPeople) { #>
+			<li><#= passenger.People.Email #> - <a href="http://taksii.efekt.co.uk/Taxi/Remove?id=<#= Taxi.TaxiId #>&code=<#= passenger.ConfirmCode #>">Wypisz z TAXI</a></li>
+		<# } #>
+		</ul>
+	<# } #>
 </body>
 </html>

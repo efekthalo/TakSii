@@ -15,7 +15,11 @@
         <strong>Witam!</strong>
     </p>
     <p>
-        Następujący użytkownik zrezygnował z przejazdu: <#= Joiner.People.Email #>
+        Następujący użytkownik zrezygnował z przejazdu: <#= Joiner.People.Email #><br/><br/>
+		Informacje dt. przejazdu:<br/>
+		Start: <#= Taxi.From #><br/>
+		Stop:  <#= Taxi.To #><br/>
+		Data przejazdu: <#= Taxi.Time.ToString("HH:mm dd/MM/yyyy") #><br/>
     </p>
 </body>
 </html>
