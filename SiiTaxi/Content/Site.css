@@ -166,6 +166,15 @@ a.navbar-brand-logo {
     margin: 10px;
 }
 
+.table > tbody > tr > td
+ {
+     vertical-align: middle;
+}
+.table > tbody > tr > th
+ {
+     vertical-align: middle;
+}
+
 
 /*
 Copyright 2016 Google Inc. All Rights Reserved.
