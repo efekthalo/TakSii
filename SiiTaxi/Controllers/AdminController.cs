@@ -27,7 +27,10 @@ namespace SiiTaxi.Controllers
             }
             else
             {
-                taxis = _context.Taxi;
+                taxis = _context.Taxi.Where(
+                    x=> x.Time.Year == DateTime.Now.Year 
+                    && x.Time.Month == DateTime.Now.Month 
+                    && x.Time.Day == DateTime.Now.Day);
             }
             return View(taxis);
         }

@@ -33,7 +33,7 @@
         @foreach (var objUser in Model.Where(x => x.IsConfirmed && x.Time > DateTime.Now).OrderBy(x => x.Time))
         {
             <tr @((objUser.Time - DateTime.Now).TotalHours<1? new { @class = "warning" }: null)>
-                <th scope="row">@objUser.TaxiId.ToString()</th>
+                <th>@objUser.TaxiId.ToString()</th>
                 <td>@objUser.From</td>
                 <td>@objUser.To</td>
                 <td>@objUser.Time.ToString("HH:mm")</td>

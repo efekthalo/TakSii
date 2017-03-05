@@ -7,14 +7,20 @@
 <div>
     @if (Model.Any())
     {
+        <div id="toolbar">
+            <button id="button" class="btn btn-default">Export Excel</button>
+        </div>
         <div class="table-responsive">
             <table id="table" class="table table-hover" style="text-align: center; font-size: 12px;" 
                    data-toggle="table"
                    data-pagination="true"
                    data-search="true"
+                   data-advanced-search="true"
+                   data-id-table="advancedTable"
                    data-locale="pl-PL"
-                   data-filter-control="true"
-                    data-show-export="true"
+                   data-show-pagination-switch="true"
+                   data-toolbar="#toolbar"
+       data-show-columns="true"
                 >
                 <thead>
                     <tr class="thead-inverse">
@@ -23,7 +29,7 @@
                         <th data-sortable="true" data-searchable="true">Cel</th>
                         <th data-sortable="true">Data i Godzina</th>
                         <th>Pasażerowie potwierdzeni</th>
-                        <th>Potiwerdzona</th>
+                        <th>Potwierdzona</th>
                         <th data-sortable="true" data-searchable="true">Approver</th>
                         <th data-sortable="true" data-searchable="true">Rodzaj taxi</th>
                         <th data-sortable="true" data-searchable="true">Kod Taxi</th>
@@ -67,8 +73,7 @@
                                <label>@taxi.TaxiCode</label>
                             </td>
                             <td class="col-md-2">
-                                <button name="action" title="Edytuj" value="Edytuj" class="btn btn-primary" onclick="location.href = '@Url.Action("EditTaxi", "Admin", new { id = taxi.TaxiId })';return false;"><span class="glyphicon glyphicon-edit"></span></button>
-                                <button name="action" title="Usuń" value="Usuń" class="btn btn-danger" onclick="location.href = '@Url.Action("DeleteTaxi", "Admin", new { id = taxi.TaxiId })';return false;"><span class="glyphicon glyphicon-remove"></span></button>
+                                <button name="action" title="Usuń" value="Usuń" class="btn btn-danger" onclick="location.href = '@Url.Action("DeleteTaxi", "Admin", new { id = taxi.TaxiId })';return false;"><span class="glyphicon glyphicon-remove"></span> Usuń </button>
                             </td>
                         </tr>
                     }
@@ -89,5 +94,14 @@
     <script>
 
         var $table = $('#table');
+        var $button = $('#button');
+
+        $button.click(function () {
+            $table.tableExport({
+                type: 'excel',
+                ignoreColumn: [$('#table tr:nth-child(1) td:last').index()],
+                fileName: "Przejazdy-export-"+new Date().toISOString().substring(0, 16)
+            });
+        });
     </script>
 }
