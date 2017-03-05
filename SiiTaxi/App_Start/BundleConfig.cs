@@ -34,12 +34,13 @@ namespace SiiTaxi
                  "~/Content/Site.css"));
 
             bundles.Add(new StyleBundle("~/Content/table").Include(
-                 "~/Content/bootstrap-table.min.css"));
+                 "~/Content/bootstrap-table.min.css",
+                 "~/Content/bootstrap-table-filter-control.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/table").Include(
                 "~/Scripts/bootstrap-table.min.js",
                 "~/Scripts/bootstrap-table-locale-all.min.js",
-                "~/Scripts/bootstrap-table-filter.min.js",
+                "~/Scripts/bootstrap-table-toolbar.min.js",
                 "~/Scripts/bootstrap-table-export.min.js"));
         }
     }
