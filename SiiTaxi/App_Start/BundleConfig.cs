@@ -34,8 +34,7 @@ namespace SiiTaxi
                  "~/Content/Site.css"));
 
             bundles.Add(new StyleBundle("~/Content/table").Include(
-                 "~/Content/bootstrap-table.min.css",
-                 "~/Content/bootstrap-table-filter-control.css"));
+                 "~/Content/bootstrap-table.min.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/table").Include(
                 "~/Scripts/bootstrap-table.min.js",
