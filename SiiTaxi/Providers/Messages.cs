@@ -22,6 +22,8 @@
 
         public const string ConfirmFailed = "Nie udało się potwierdzić zamówienia! Skontaktuj się z recepcja-gdansk@pl.sii.eu";
 
+        public const string IncorrectCode = "Nie udało się potwierdzić zamówienia! Nieprawidłowy kod.";
+
         public const string ConfirmSucceed = "Potwierdziłeś swoje zamówienie!";
 
         public const string BugReported = "Dziękujemy za zgłoszenie błędu!";

@@ -80,7 +80,7 @@ namespace SiiTaxi.Email
             this.Write("<br/>\r\n\t\tTel.: ");
             
             #line 25 "C:\Users\Tomek\Desktop\SiiTaxi\SiiTaxi\Email\OwnerContactTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Taxi.People.Phone));
+            this.Write(this.ToStringHelper.ToStringWithCulture(Taxi.People.Phone?? "nie podano"));
             
             #line default
             #line hidden
