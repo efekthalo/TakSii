@@ -341,7 +341,8 @@ namespace SiiTaxi.Controllers
                     }
                     else
                     {
-                        throw new NotImplementedException();
+                        TempData["errorMessage"] = Messages.IncorrectCode;
+                        return View(taxiPeople);
                     }
                 }
                 catch

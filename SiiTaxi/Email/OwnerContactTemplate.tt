@@ -22,7 +22,7 @@
 		Data przejazdu: <#= Taxi.Time.ToString("HH:mm dd/MM/yyyy") #><br/>
 		Właściciel: <#= Taxi.People.Name #><br/>
 		E-mail: <#= Taxi.People.Email #><br/>
-		Tel.: <#= Taxi.People.Phone #><br/>
+		Tel.: <#= Taxi.People.Phone?? "nie podano" #><br/>
 	</p>
 	<p>
         Aby zrezygnować z taksówki - użyj poniższego linka. <strong>UWAGA! Link nie zadziała gdy taksówka została już zamówiona!</strong>
