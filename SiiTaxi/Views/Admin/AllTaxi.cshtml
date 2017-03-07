@@ -14,26 +14,31 @@
             <table id="table" class="table table-hover" style="text-align: center; font-size: 12px;" 
                    data-toggle="table"
                    data-pagination="true"
+                   data-show-pagination-switch="true"
+                   
+                   data-cookie="true"
+                   data-cookie-id-table="saveId"
+
                    data-search="true"
                    data-advanced-search="true"
                    data-id-table="advancedTable"
                    data-locale="pl-PL"
-                   data-show-pagination-switch="true"
+
                    data-toolbar="#toolbar"
-       data-show-columns="true"
+                   data-show-columns="true"
                 >
                 <thead>
                     <tr class="thead-inverse">
-                        <th>ID</th>
-                        <th data-sortable="true" data-searchable="true">Start</th>
-                        <th data-sortable="true" data-searchable="true">Cel</th>
-                        <th data-sortable="true">Data i Godzina</th>
-                        <th>Pasażerowie potwierdzeni</th>
-                        <th>Potwierdzona</th>
-                        <th data-sortable="true" data-searchable="true">Approver</th>
-                        <th data-sortable="true" data-searchable="true">Rodzaj taxi</th>
-                        <th data-sortable="true" data-searchable="true">Kod Taxi</th>
-                        <th>Akcje</th>
+                        <th data-field="id">ID</th>
+                        <th data-field="start" data-sortable="true" data-searchable="true">Start</th>
+                        <th data-field="cel" data-sortable="true" data-searchable="true">Cel</th>
+                        <th data-field="time" data-sortable="true">Data i Godzina</th>
+                        <th data-field="passengers">Pasażerowie potwierdzeni</th>
+                        <th data-field="confirmed">Potwierdzona</th>
+                        <th data-field="approver" data-sortable="true" data-searchable="true">Approver</th>
+                        <th data-field="taxi" data-sortable="true" data-searchable="true">Rodzaj taxi</th>
+                        <th data-field="code" data-sortable="true" data-searchable="true">Kod Taxi</th>
+                        <th data-field="actions">Akcje</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -104,7 +109,7 @@
         $button.click(function () {
             $table.tableExport({
                 type: 'excel',
-                ignoreColumn: [$('#table tr:nth-child(1) td:last').index()],
+                ignoreColumn: ["actions"],
                 fileName: "Przejazdy-export-"+new Date().toISOString().substring(0, 16)
             });
         });

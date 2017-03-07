@@ -40,7 +40,8 @@ namespace SiiTaxi
                 "~/Scripts/bootstrap-table.min.js",
                 "~/Scripts/bootstrap-table-locale-all.min.js",
                 "~/Scripts/bootstrap-table-toolbar.min.js",
-                "~/Scripts/bootstrap-table-export.min.js"));
+                "~/Scripts/bootstrap-table-export.min.js",
+                "~/Scripts/bootstrap-table-cookie.min.js"));
         }
     }
 }
