@@ -37,15 +37,12 @@
                 <td>@objUser.From</td>
                 <td>@objUser.To</td>
                 <td>@objUser.Time.ToString("HH:mm")</td>
-                <td>@(objUser.TaxiPeople.Count(x => x.IsConfirmed && !x.ResourceOnly) + 1) / 
-                    @if (objUser.IsBigTaxi)
-                        {
-                            <label>7</label>
-                        }
-                        else
-                        {
-                            <label>4</label>
-                        }
+                <td>@(objUser.TaxiPeople.Count(x => x.IsConfirmed && !x.ResourceOnly) + 1) / <label>@(objUser.IsBigTaxi? "7" : "4")</label> 
+                
+                @if (objUser.TaxiPeople.Any(x => x.ResourceOnly))
+                {
+                    <span title="Ilość zapytań o możliwość przewiezienia tylko przesyłki">+ @objUser.TaxiPeople.Where(x => x.ResourceOnly).Count() <span class="glyphicon glyphicon-lock"></span></span>
+                }
                 </td>
                 @if (objUser.TaxiPeople.Count(x => x.IsConfirmed && !x.ResourceOnly) <= (objUser.IsBigTaxi? 5 : 2))
                 {
