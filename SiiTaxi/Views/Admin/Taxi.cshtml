@@ -43,7 +43,13 @@
                                     </li>
                                     @foreach (var passenger in taxi.TaxiPeople.Where(x => x.IsConfirmed))
                                     {
-                                        <li class="list-group-item">@passenger.People.Email @passenger.People.Phone</li>
+                                        <li class="list-group-item">@passenger.People.Email @passenger.People.Phone
+                                        @if (passenger.ResourceOnly)
+                                        {
+                                            <span title="Tylko przesyłka" class="glyphicon glyphicon-lock"></span>
+                                        }
+                                    </li>
+                                        
                                     }
                                 </ul>
                             </td>

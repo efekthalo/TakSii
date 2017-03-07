@@ -54,6 +54,8 @@ namespace SiiTaxi.Controllers
                     return RedirectToAction("Taxi", "Admin");
                 }
 
+                taxi.TaxiCode = code;
+                _context.SaveChanges();
                 // action is used for sending different emails
                 SendCode(taxi, code, action);
             }
